@@ -1,3 +1,4 @@
+
 import { Button } from '@/components/ui/button';
 import { ArrowRight } from 'lucide-react';
 import Image from 'next/image';
@@ -9,8 +10,8 @@ export function HeroSection() {
          <Image 
             src="https://placehold.co/1920x1080.png" 
             alt="Abstract data stream background" 
-            layout="fill"
-            objectFit="cover"
+            fill
+            className="object-cover"
             data-ai-hint="data stream network"
             priority
           />

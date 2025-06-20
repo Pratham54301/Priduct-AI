@@ -1,3 +1,4 @@
+
 import Image from 'next/image';
 import { Card } from '@/components/ui/card';
 
@@ -11,8 +12,8 @@ export function AdvertisingBannerSection() {
               <Image 
                 src="https://placehold.co/728x90.png" 
                 alt="Advertisement 1" 
-                layout="fill"
-                objectFit="contain"
+                fill
+                className="object-contain"
                 data-ai-hint="advertisement banner"
               />
               <span className="absolute top-2 left-2 text-xs bg-background/70 px-2 py-1 rounded text-muted-foreground">Ad</span>
@@ -23,8 +24,8 @@ export function AdvertisingBannerSection() {
               <Image 
                 src="https://placehold.co/728x90.png" 
                 alt="Advertisement 2" 
-                layout="fill"
-                objectFit="contain"
+                fill
+                className="object-contain"
                 data-ai-hint="sponsored content"
               />
               <span className="absolute top-2 left-2 text-xs bg-background/70 px-2 py-1 rounded text-muted-foreground">Ad</span>

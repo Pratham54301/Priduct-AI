@@ -1,3 +1,4 @@
+
 import Image from 'next/image';
 import { Card, CardContent } from '@/components/ui/card';
 import { Target, Users, Zap, TrendingUp } from 'lucide-react';
@@ -39,10 +40,9 @@ export function AboutUsSection() {
             <Image
               src="https://placehold.co/600x400.png"
               alt="PriductAI Vision Team or Office"
-              layout="fill"
-              objectFit="cover"
+              fill
+              className="object-cover transform hover:scale-105 transition-transform duration-500"
               data-ai-hint="team meeting"
-              className="transform hover:scale-105 transition-transform duration-500"
             />
           </div>
         </div>

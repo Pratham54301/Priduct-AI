@@ -1,3 +1,4 @@
+
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { PlayCircle, BookOpen, GraduationCap, Users } from 'lucide-react';
@@ -52,8 +53,8 @@ export function LearningHubSection() {
                 <Image 
                   src={category.imageSrc} 
                   alt={category.title} 
-                  layout="fill" 
-                  objectFit="cover"
+                  fill 
+                  className="object-cover"
                   data-ai-hint={category.imageHint} 
                 />
               </div>
