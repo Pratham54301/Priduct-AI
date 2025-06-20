@@ -5,7 +5,6 @@ import * as React from 'react';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import { AiPredictionMachineSection } from '@/components/landing/AiPredictionMachineSection';
-import { HeroSection } from '@/components/landing/HeroSection';
 import { MarketOverviewSection } from '@/components/landing/MarketOverviewSection';
 import { TestimonialsSection } from '@/components/landing/TestimonialsSection';
 import { AboutUsSection } from '@/components/landing/AboutUsSection';
@@ -26,7 +25,6 @@ export default function Home() {
       <Header />
       <main className="flex-grow">
         <AiPredictionMachineSection />
-        <HeroSection />
         <MarketOverviewSection />
         <TestimonialsSection />
         <AboutUsSection />
