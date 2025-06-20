@@ -46,19 +46,19 @@ const ItemLogoButton: React.FC<{ item: MarketItem }> = ({ item }) => {
     <div className="flex flex-col items-center space-y-1.5 flex-shrink-0 w-24 text-center">
       <Button
         variant="outline"
-        className="w-16 h-16 rounded-full border-2 border-gray-300 bg-white p-0 shadow-md hover:shadow-lg hover:scale-105 transform transition-all duration-200 ease-in-out focus:ring-2 focus:ring-primary"
+        className="w-16 h-16 rounded-full border-2 border-gray-300 dark:border-gray-700 bg-white dark:bg-background p-0 shadow-md hover:shadow-lg hover:scale-105 transform transition-all duration-200 ease-in-out focus:ring-2 focus:ring-primary"
         aria-label={item.name}
         data-ai-hint={item.dataAiHint || item.name.toLowerCase()}
       >
         {IconComponent ? (
           <IconComponent className="w-8 h-8 text-primary" />
         ) : typeof item.logo === 'string' ? (
-          <span className="text-lg font-semibold text-gray-700">{item.logo}</span>
+          <span className="text-lg font-semibold text-gray-700 dark:text-gray-300">{item.logo}</span>
         ) : (
-          <DefaultIcon className="w-8 h-8 text-gray-500" />
+          <DefaultIcon className="w-8 h-8 text-gray-500 dark:text-gray-400" />
         )}
       </Button>
-      <span className="text-xs text-gray-700 font-medium truncate w-full">{item.name}</span>
+      <span className="text-xs text-gray-700 dark:text-gray-300 font-medium truncate w-full">{item.name}</span>
     </div>
   );
 };
@@ -80,18 +80,18 @@ export function AiPredictionMachineSection() {
   }, [searchTerm]);
 
   return (
-    <section className="py-12 md:py-20 bg-sky-50 text-foreground">
+    <section className="py-12 md:py-20 bg-zinc-800 text-foreground">
       <div className="container mx-auto max-w-3xl text-center px-4 sm:px-6 lg:px-8">
-        <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl md:text-5xl text-gray-900 font-headline">
+        <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl md:text-5xl text-foreground font-headline">
           Predict Tomorrow's Markets Today with AI-Powered Precision
         </h2>
-        <p className="mt-4 max-w-2xl mx-auto text-lg text-gray-700">
+        <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground">
           Transform your investment strategy with cutting-edge predictions powered by real-time data, technical indicators, and global market intelligence. Our advanced algorithms analyze thousands of data points to deliver accurate forecasts for stocks, crypto, commodities, and more.
         </p>
       </div>
 
       <div className="container mx-auto max-w-lg px-4 sm:px-6 lg:px-8 mt-8 md:mt-12">
-        <Card className="bg-white dark:bg-card p-6 md:p-8 shadow-xl rounded-xl">
+        <Card className="bg-card p-6 md:p-8 shadow-xl rounded-xl">
           <h3 className="text-2xl font-semibold text-primary mb-2 text-center flex items-center justify-center">
             <Sparkles className="w-7 h-7 mr-2 text-primary" /> AI Prediction Machine
           </h3>
@@ -108,17 +108,17 @@ export function AiPredictionMachineSection() {
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               placeholder="e.g., Bitcoin, AAPL, USD/INR, Gold"
-              className="w-full pl-10 pr-4 py-3 rounded-lg border-gray-300 shadow-sm focus:ring-primary focus:border-primary text-base dark:bg-background dark:text-foreground dark:placeholder:text-muted-foreground"
+              className="w-full pl-10 pr-4 py-3 rounded-lg border-gray-300 dark:border-border shadow-sm focus:ring-primary focus:border-primary text-base bg-background text-foreground placeholder:text-muted-foreground"
               aria-label="Search for predictions"
             />
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400 dark:text-muted-foreground" />
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted-foreground" />
           </div>
           {filteredSuggestions.length > 0 && searchTerm.trim() && (
-            <Card className="absolute z-10 w-[calc(100%-2rem)] max-w-lg mt-1 bg-white dark:bg-card shadow-lg rounded-md border border-gray-200 dark:border-border max-h-60 overflow-y-auto">
+            <Card className="absolute z-10 w-[calc(100%-2rem)] max-w-lg mt-1 bg-card shadow-lg rounded-md border border-border max-h-60 overflow-y-auto">
               {filteredSuggestions.map(suggestion => (
                 <div
                   key={suggestion}
-                  className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-muted cursor-pointer"
+                  className="px-4 py-2 hover:bg-muted cursor-pointer"
                   onClick={() => {
                     setSearchTerm(suggestion);
                     setFilteredSuggestions([]);
@@ -137,7 +137,7 @@ export function AiPredictionMachineSection() {
       </div>
 
       <div className="container mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 mt-10 md:mt-16">
-         <p className="text-sm text-center text-gray-600 dark:text-muted-foreground mb-4">Or pick from popular assets:</p>
+         <p className="text-sm text-center text-muted-foreground mb-4">Or pick from popular assets:</p>
         <div className="flex overflow-x-auto space-x-3 sm:space-x-4 pb-4 -mx-4 px-4 scrollbar-thin scrollbar-thumb-gray-400 dark:scrollbar-thumb-gray-600 scrollbar-track-gray-200 dark:scrollbar-track-gray-800 scrollbar-thumb-rounded-full">
           {marketItems.map((item) => (
             <ItemLogoButton key={item.name} item={item} />
@@ -146,7 +146,7 @@ export function AiPredictionMachineSection() {
       </div>
 
       <div className="container mx-auto max-w-3xl text-center px-4 sm:px-6 lg:px-8 mt-8 md:mt-12">
-        <p className="text-xs text-gray-500 dark:text-muted-foreground italic">
+        <p className="text-xs text-muted-foreground italic">
           These predictions are AI-generated and for informational purposes only. Markets involve risk.
         </p>
       </div>
