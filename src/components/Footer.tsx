@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Linkedin, Twitter, Facebook, BarChart3 } from 'lucide-react';
+import { Linkedin, Twitter, Facebook, Brain } from 'lucide-react';
 
 export function Footer() {
   return (
@@ -7,9 +7,9 @@ export function Footer() {
       <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-3 lg:grid-cols-4">
           <div className="lg:col-span-1">
-            <Link href="/" className="flex items-center gap-2 mb-4" aria-label="PriductAI Vision Home">
-              <BarChart3 className="h-8 w-8 text-primary" />
-              <span className="text-2xl font-bold text-foreground">PriductAI Vision</span>
+            <Link href="/" className="flex items-center gap-2 mb-4" aria-label="PredictAI Home">
+              <Brain className="h-8 w-8 text-primary" />
+              <span className="text-2xl font-bold text-foreground">PredictAI</span>
             </Link>
             <p className="text-sm text-muted-foreground">
               Predict tomorrow's markets today with AI-powered precision.
@@ -57,7 +57,7 @@ export function Footer() {
           </div>
         </div>
         <div className="mt-12 border-t border-border/40 pt-8 text-center">
-          <p className="text-sm text-muted-foreground">&copy; {new Date().getFullYear()} PriductAI Vision. All rights reserved.</p>
+          <p className="text-sm text-muted-foreground">&copy; {new Date().getFullYear()} PredictAI. All rights reserved.</p>
         </div>
       </div>
     </footer>

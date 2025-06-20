@@ -3,7 +3,7 @@ import './globals.css';
 import { Toaster } from "@/components/ui/toaster";
 
 export const metadata: Metadata = {
-  title: 'PriductAI Vision',
+  title: 'PredictAI',
   description: 'Predict Tomorrow\'s Markets Today with AI-Powered Precision',
 };
 
