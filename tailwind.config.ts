@@ -66,12 +66,6 @@ export default {
           border: 'hsl(var(--sidebar-border))',
           ring: 'hsl(var(--sidebar-ring))',
         },
-        // Added custom grays for the new section as per request
-        // to match Tailwind's default palette if specific HSLs are not in globals.css
-        // Using existing theme variables is preferred, but this is an option
-        // For this implementation, I'm using bg-gray-100 and text-gray-800 directly
-        // which Tailwind will resolve if they are standard Tailwind colors.
-        // If specific HSLs were needed, they'd go into globals.css and be referenced here.
       },
       borderRadius: {
         lg: 'var(--radius)',
@@ -104,6 +98,6 @@ export default {
   },
   plugins: [
     require('tailwindcss-animate'),
-    require('tailwind-scrollbar')({ nocompatible: true }), // Added for scrollbar styling
+    require('tailwind-scrollbar')({ nocompatible: true }),
   ],
 } satisfies Config;

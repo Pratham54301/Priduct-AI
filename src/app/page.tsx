@@ -1,9 +1,10 @@
+
 'use client';
 
 import * as React from 'react';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
-import { AiPredictionMachineSection } from '@/components/landing/AiPredictionMachineSection'; // New Import
+import { AiPredictionMachineSection } from '@/components/landing/AiPredictionMachineSection';
 import { HeroSection } from '@/components/landing/HeroSection';
 import { MarketOverviewSection } from '@/components/landing/MarketOverviewSection';
 import { TestimonialsSection } from '@/components/landing/TestimonialsSection';
@@ -24,7 +25,7 @@ export default function Home() {
     <div className="flex flex-col min-h-screen">
       <Header />
       <main className="flex-grow">
-        <AiPredictionMachineSection /> {/* New Section Added */}
+        <AiPredictionMachineSection />
         <HeroSection />
         <MarketOverviewSection />
         <TestimonialsSection />
