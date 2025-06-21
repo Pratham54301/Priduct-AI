@@ -8,6 +8,8 @@ export function Footer() {
   const [year, setYear] = useState(new Date().getFullYear());
 
   useEffect(() => {
+    // This effect runs on the client after hydration, ensuring the value is correct
+    // without causing a server-client mismatch on initial render.
     setYear(new Date().getFullYear());
   }, []);
 
