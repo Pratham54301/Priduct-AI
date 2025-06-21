@@ -1,3 +1,4 @@
+import * as React from 'react';
 import { ExpertCard } from './ExpertCard';
 import { Button } from '@/components/ui/button';
 import { Filter } from 'lucide-react';
@@ -68,6 +69,3 @@ export function ConsultExpertsSection() {
     </section>
   );
 }
-
-// Add React import for useState
-import * as React from 'react';

@@ -1,7 +1,16 @@
+'use client';
+
 import Link from 'next/link';
 import { Linkedin, Twitter, Facebook, Brain } from 'lucide-react';
+import { useState, useEffect } from 'react';
 
 export function Footer() {
+  const [year, setYear] = useState(new Date().getFullYear());
+
+  useEffect(() => {
+    setYear(new Date().getFullYear());
+  }, []);
+
   return (
     <footer className="border-t border-border/40 bg-background py-12">
       <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -57,7 +66,7 @@ export function Footer() {
           </div>
         </div>
         <div className="mt-12 border-t border-border/40 pt-8 text-center">
-          <p className="text-sm text-muted-foreground">&copy; {new Date().getFullYear()} PredictAI. All rights reserved.</p>
+          <p className="text-sm text-muted-foreground">&copy; {year} PredictAI. All rights reserved.</p>
         </div>
       </div>
     </footer>

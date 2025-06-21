@@ -1,3 +1,4 @@
+import * as React from 'react';
 import { BlogCard } from './BlogCard';
 import { Button } from '@/components/ui/button';
 import { Edit } from 'lucide-react';
@@ -79,6 +80,3 @@ export function BlogInsightsSection() {
     </section>
   );
 }
-
-// Add React import for useState
-import * as React from 'react';
