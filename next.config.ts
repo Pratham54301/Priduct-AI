@@ -3,6 +3,10 @@ import type {NextConfig} from 'next';
 
 const nextConfig: NextConfig = {
   /* config options here */
+  server: {
+    port: 9002,
+    hostname: '0.0.0.0',
+  },
   typescript: {
     ignoreBuildErrors: true,
   },
