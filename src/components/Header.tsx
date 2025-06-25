@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Menu, Brain } from 'lucide-react';
+import { ThemeToggle } from './ThemeToggle';
 
 const navItems = [
   { label: 'Home', href: '/' },
@@ -36,7 +37,8 @@ export function Header() {
           ))}
         </nav>
 
-        <div className="flex items-center space-x-4">
+        <div className="flex items-center space-x-2">
+          <ThemeToggle />
           <Button asChild variant="outline" className="hidden md:inline-flex">
             <Link href="/login">Login</Link>
           </Button>
@@ -48,7 +50,7 @@ export function Header() {
               </Button>
             </SheetTrigger>
             <SheetContent side="right" className="w-[300px] sm:w-[400px] bg-background">
-              <nav className="flex flex-col space-y-4 mt-8">
+              <nav className="flex flex-col space-y-4 mt-8 p-4">
                 {navItems.map((item) => (
                   <Link
                     key={item.label}
@@ -58,6 +60,10 @@ export function Header() {
                     {item.label}
                   </Link>
                 ))}
+                <div className="flex items-center justify-between pt-4 border-t border-border/40">
+                    <span className="text-lg font-medium">Theme</span>
+                    <ThemeToggle />
+                </div>
                 <Button asChild variant="outline" className="w-full mt-4">
                   <Link href="/login">Login</Link>
                 </Button>
