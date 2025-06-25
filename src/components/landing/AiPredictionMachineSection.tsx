@@ -86,8 +86,8 @@ export function AiPredictionMachineSection() {
           <h2 className="text-[2.75rem] sm:text-5xl md:text-6xl font-bold tracking-tight text-foreground font-headline leading-tight">
             Predict Tomorrow's Markets Today
           </h2>
-          <p className="mt-4 max-w-xl mx-auto text-lg leading-relaxed text-muted-foreground">
-            Transform your investment strategy with cutting-edge predictions powered by real-time data, technical indicators, and market intelligence. Our advanced algorithms analyze thousands of data points to deliver accurate forecasts for stocks, crypto, commodities, and more.
+          <p className="mt-4 max-w-xl mx-auto text-xl font-medium leading-relaxed text-muted-foreground">
+            Stocks, crypto, commodities, and more.
           </p>
         </div>
 
@@ -132,7 +132,7 @@ export function AiPredictionMachineSection() {
                   )}
               </div>
 
-              <Button className="w-full sm:w-auto shrink-0 font-semibold py-2 text-sm rounded-lg">
+              <Button className="w-full sm:w-auto shrink-0 font-semibold py-2 text-sm rounded-lg bg-primary text-primary-foreground hover:bg-primary/90">
                   <Sparkles className="w-4 h-4 mr-2" /> Get Prediction
               </Button>
             </div>
