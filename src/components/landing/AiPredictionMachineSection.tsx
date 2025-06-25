@@ -82,10 +82,10 @@ export function AiPredictionMachineSection() {
   return (
     <section className="py-12 md:py-20 bg-zinc-800 text-foreground">
       <div className="container mx-auto max-w-3xl text-center px-4 sm:px-6 lg:px-8">
-        <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl md:text-5xl text-foreground font-headline">
+        <h2 className="text-3xl font-extrabold tracking-tight text-foreground font-headline">
           Predict Tomorrow's Markets Today with AI-Powered Precision
         </h2>
-        <div className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground space-y-2">
+        <div className="mt-4 max-w-2xl mx-auto text-base text-muted-foreground space-y-2">
            <p>
             Transform your investment strategy with cutting-edge predictions powered by real-time data, technical indicators, and market intelligence.
           </p>
