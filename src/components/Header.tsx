@@ -5,10 +5,13 @@ import { Menu, Brain } from 'lucide-react';
 
 const navItems = [
   { label: 'Home', href: '/' },
-  { label: 'Features', href: '#features' },
-  { label: 'About', href: '#about' },
+  { label: 'Live Markets', href: '#features' },
+  { label: 'Invest', href: '#services' },
+  { label: 'Learn', href: '#learn' },
+  { label: 'Find Professional', href: '#experts' },
   { label: 'Become Partner', href: '#partner' },
-  { label: 'Blog', href: '#blog' },
+  { label: 'News', href: '#blog' },
+  { label: 'About Us', href: '#about' },
   { label: 'Support', href: '#support' },
 ];
 
@@ -34,8 +37,8 @@ export function Header() {
         </nav>
 
         <div className="flex items-center space-x-4">
-          <Button asChild className="hidden md:inline-flex bg-primary hover:bg-primary/90 text-primary-foreground">
-            <Link href="#subscribe">Start Predicting Now</Link>
+          <Button asChild variant="outline" className="hidden md:inline-flex">
+            <Link href="/login">Login</Link>
           </Button>
           <Sheet>
             <SheetTrigger asChild>
@@ -55,8 +58,8 @@ export function Header() {
                     {item.label}
                   </Link>
                 ))}
-                <Button asChild className="bg-primary hover:bg-primary/90 text-primary-foreground w-full mt-4">
-                  <Link href="#subscribe">Start Predicting Now</Link>
+                <Button asChild variant="outline" className="w-full mt-4">
+                  <Link href="/login">Login</Link>
                 </Button>
               </nav>
             </SheetContent>
