@@ -19,7 +19,7 @@ export function MarketCard({ name, value, change, changeType, marketType, icon: 
   return (
     <a href="#" className="flex-shrink-0">
       <Card className="w-auto p-0 shadow-md hover:shadow-primary/20 transition-shadow duration-300 bg-card/50 backdrop-blur-sm">
-        <div className="flex items-center gap-3 px-4 py-2">
+        <div className="flex items-center gap-3 px-5 py-3">
           {Icon && <Icon className="h-5 w-5 text-muted-foreground flex-shrink-0" />}
           <div className="font-semibold text-foreground text-sm truncate">{name}</div>
           <div className="text-sm text-foreground">{value}</div>
