@@ -7,6 +7,7 @@ import { Footer } from '@/components/Footer';
 import { AiPredictionMachineSection } from '@/components/landing/AiPredictionMachineSection';
 import { MarketOverviewSection } from '@/components/landing/MarketOverviewSection';
 import { TestimonialsSection } from '@/components/landing/TestimonialsSection';
+import { BecomePartnerSection } from '@/components/landing/BecomePartnerSection';
 import { AboutUsSection } from '@/components/landing/AboutUsSection';
 import { CoreServicesSection } from '@/components/landing/CoreServicesSection';
 import { ConsultExpertsSection } from '@/components/landing/ConsultExpertsSection';
@@ -27,6 +28,7 @@ export default function Home() {
         <AiPredictionMachineSection />
         <MarketOverviewSection />
         <TestimonialsSection />
+        <BecomePartnerSection />
         <AboutUsSection />
         <CoreServicesSection />
         <ConsultExpertsSection />
