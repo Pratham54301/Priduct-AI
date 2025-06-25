@@ -3,7 +3,7 @@
 import * as React from 'react';
 import { MarketCard } from './MarketCard';
 import { AreaChart, Bitcoin, Gem, Droplet, Landmark, Sigma, Flame, Briefcase, ArrowRightLeft, Search } from 'lucide-react';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from '@/components/ui/input';
 
 const initialMarketData = [
@@ -80,14 +80,17 @@ export function MarketOverviewSection() {
 
             const changeAmount = parseFloat(changeMatch[1].replace(/,/g, ''));
             const newChangeAmount = changeAmount + (newValue - valueNum);
-            const newChangePercent = (newChangeAmount / (newValue - newChangeAmount)) * 100;
 
+            const openingPrice = valueNum - changeAmount;
+            if (openingPrice === 0) return item; // Avoid division by zero
+            
+            const newChangePercent = (newChangeAmount / openingPrice) * 100;
             const valuePrefix = item.value.startsWith('₹') ? '₹' : item.value.startsWith('$') ? '$' : item.value.startsWith('¥') ? '¥' : '';
 
             return {
               ...item,
               value: `${valuePrefix}${newValue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: item.marketType === 'Currency' ? 4 : 2 })}`,
-              change: `${newChangeAmount >= 0 ? '+' : ''}${newChangeAmount.toFixed(2)} (${newChangePercent.toFixed(2)}%)`,
+              change: `${newChangeAmount >= 0 ? '+' : ''}${newChangeAmount.toFixed(2)} (${Math.abs(newChangePercent).toFixed(2)}%)`,
               changeType: newChangeAmount >= 0 ? 'positive' : 'negative',
             };
           }
@@ -108,9 +111,13 @@ export function MarketOverviewSection() {
     let assets = marketData;
 
     if (activeCategory === 'Top Gainers') {
-      assets = [...assets].sort((a, b) => getChangePercent(b.change) - getChangePercent(a.change));
+      assets = [...assets]
+        .filter(a => a.changeType === 'positive')
+        .sort((a, b) => getChangePercent(b.change) - getChangePercent(a.change));
     } else if (activeCategory === 'Top Losers') {
-      assets = [...assets].sort((a, b) => getChangePercent(a.change) - getChangePercent(b.change));
+      assets = [...assets]
+        .filter(a => a.changeType === 'negative')
+        .sort((a, b) => getChangePercent(a.change) - getChangePercent(b.change));
     } else if (activeCategory !== 'All') {
       assets = assets.filter(item => item.marketType === activeCategory);
     }
@@ -132,24 +139,28 @@ export function MarketOverviewSection() {
           </p>
         </div>
 
-        <div className="flex flex-col md:flex-row gap-4 mb-8">
-            <div className="relative w-full md:w-1/3">
-                <Input
-                    type="search"
-                    placeholder="Search assets..."
-                    className="w-full pl-10"
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                />
-                <Search className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
-            </div>
-            <Tabs value={activeCategory} onValueChange={setActiveCategory} className="w-full md:w-2/3">
-                <TabsList className="grid w-full grid-cols-3 sm:grid-cols-4 md:grid-cols-7">
-                    {categories.map((category) => (
-                        <TabsTrigger key={category} value={category}>{category}</TabsTrigger>
-                    ))}
-                </TabsList>
-            </Tabs>
+        <div className="flex flex-col gap-6 mb-8">
+          <div className="flex flex-col md:flex-row gap-4">
+              <div className="relative w-full md:flex-1">
+                  <Input
+                      type="search"
+                      placeholder="Search assets..."
+                      className="w-full pl-10"
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                  />
+                  <Search className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
+              </div>
+              <Tabs value={activeCategory} onValueChange={setActiveCategory} className="w-full md:w-auto">
+                <div className="overflow-x-auto pb-2 -mb-2 scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-gray-800">
+                  <TabsList className="inline-flex w-max space-x-2">
+                      {categories.map((category) => (
+                          <TabsTrigger key={category} value={category}>{category}</TabsTrigger>
+                      ))}
+                  </TabsList>
+                </div>
+              </Tabs>
+          </div>
         </div>
       </div>
       
@@ -162,8 +173,8 @@ export function MarketOverviewSection() {
                 </div>
             ))
           ) : (
-            <div className="w-full text-center py-10 text-muted-foreground">
-              No assets found for your filter.
+            <div className="flex justify-center items-center h-20 w-full text-center text-muted-foreground">
+              No assets found matching your criteria.
             </div>
           )}
         </div>
