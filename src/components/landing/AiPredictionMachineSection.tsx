@@ -5,7 +5,7 @@ import * as React from 'react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { Search, Briefcase, Landmark, Coins, Gem, Droplet, Bitcoin, DollarSign, Euro, PoundSterling, Sigma, Sparkles } from 'lucide-react'; // Added Sparkles for AI emphasis
+import { Search, Briefcase, Landmark, Coins, Gem, Droplet, Bitcoin, DollarSign, Euro, PoundSterling, Sigma, Sparkles } from 'lucide-react';
 
 interface MarketItem {
   name: string;
@@ -23,9 +23,9 @@ const marketItems: MarketItem[] = [
   { name: 'Amazon', logo: 'AMZN', type: 'Stock', dataAiHint: 'amazon logo' },
   { name: 'Gold', logo: Gem, type: 'Commodity', dataAiHint: 'gold bar' },
   { name: 'Crude Oil', logo: Droplet, type: 'Commodity', dataAiHint: 'oil barrel' },
-  { name: 'Silver', logo: Sigma, type: 'Commodity', dataAiHint: 'silver nugget' }, // Sigma as placeholder
+  { name: 'Silver', logo: Sigma, type: 'Commodity', dataAiHint: 'silver nugget' },
   { name: 'Bitcoin', logo: Bitcoin, type: 'Crypto', dataAiHint: 'bitcoin logo orange' },
-  { name: 'Ethereum', logo: Gem, type: 'Crypto', dataAiHint: 'ethereum logo diamond' }, // Gem as placeholder for ETH diamond
+  { name: 'Ethereum', logo: Gem, type: 'Crypto', dataAiHint: 'ethereum logo diamond' },
   { name: 'Solana', logo: 'SOL', type: 'Crypto', dataAiHint: 'solana logo purple' },
   { name: 'USD/INR', logo: () => <div className="flex items-center justify-center text-sm"><DollarSign size={16} /><span className="mx-0.5">/</span>₹</div>, type: 'Currency', dataAiHint: 'dollar rupee currency' },
   { name: 'EUR/USD', logo: () => <div className="flex items-center justify-center text-sm"><Euro size={16} /><span className="mx-0.5">/</span><DollarSign size={16}/></div>, type: 'Currency', dataAiHint: 'euro dollar currency' },
@@ -38,7 +38,7 @@ const ItemLogoButton: React.FC<{ item: MarketItem }> = ({ item }) => {
     case 'Stock': DefaultIcon = Briefcase; break;
     case 'Commodity': DefaultIcon = Coins; break;
     case 'Crypto': DefaultIcon = Bitcoin; break;
-    case 'Currency': DefaultIcon = Landmark; break; // Placeholder, specific logos handled by function
+    case 'Currency': DefaultIcon = Landmark; break;
     default: DefaultIcon = Briefcase;
   }
 
@@ -80,12 +80,12 @@ export function AiPredictionMachineSection() {
   }, [searchTerm]);
 
   return (
-    <section className="py-12 md:py-20 bg-zinc-800 text-foreground">
+    <section className="py-12 md:py-16 bg-zinc-800 text-foreground">
       <div className="container mx-auto max-w-3xl text-center px-4 sm:px-6 lg:px-8">
-        <h2 className="text-3xl font-bold tracking-tight text-foreground font-headline">
+        <h2 className="text-3xl font-semibold tracking-tight text-foreground font-headline">
           Predict Tomorrow's Markets Today with AI-Powered Precision
         </h2>
-        <div className="mt-4 max-w-2xl mx-auto text-sm text-muted-foreground space-y-2">
+        <div className="mt-3 max-w-2xl mx-auto text-sm text-muted-foreground space-y-2">
            <p>
             Transform your investment strategy with cutting-edge predictions powered by real-time data, technical indicators, and market intelligence.
           </p>
@@ -95,15 +95,15 @@ export function AiPredictionMachineSection() {
         </div>
       </div>
 
-      <div className="container mx-auto max-w-lg px-4 sm:px-6 lg:px-8 mt-8 md:mt-12">
+      <div className="container mx-auto max-w-lg px-4 sm:px-6 lg:px-8 mt-8">
         <Card className="bg-card p-6 md:p-8 shadow-xl rounded-xl">
-          <h3 className="text-xl font-semibold text-primary mb-2 text-center flex items-center justify-center">
-            <Sparkles className="w-6 h-6 mr-2 text-primary" /> AI Prediction Machine
+          <h3 className="text-lg font-semibold text-primary mb-2 text-center flex items-center justify-center">
+            <Sparkles className="w-5 h-5 mr-2 text-primary" /> AI Prediction Machine
           </h3>
           <p className="text-muted-foreground text-xs text-center mb-1">
             Enter a stock ticker, currency pair, commodity, or crypto name.
           </p>
-          <p className="text-xs text-accent dark:text-accent-foreground font-semibold text-center mb-6 bg-accent/10 dark:bg-accent/20 py-1 px-3 rounded-full inline-block mx-auto">
+          <p className="text-xs text-accent dark:text-accent-foreground font-semibold text-center mb-4 bg-accent/10 dark:bg-accent/20 py-1 px-3 rounded-full inline-block mx-auto">
             3 / 3 free predictions remaining
           </p>
           
@@ -144,7 +144,7 @@ export function AiPredictionMachineSection() {
         </Card>
       </div>
 
-      <div className="container mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 mt-10 md:mt-16">
+      <div className="container mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 mt-8 md:mt-12">
          <p className="text-xs text-center text-muted-foreground mb-4">Or pick from popular assets:</p>
         <div className="flex overflow-x-auto space-x-3 sm:space-x-4 pb-4 -mx-4 px-4 scrollbar-thin scrollbar-thumb-gray-400 dark:scrollbar-thumb-gray-600 scrollbar-track-gray-200 dark:scrollbar-track-gray-800 scrollbar-thumb-rounded-full">
           {marketItems.map((item) => (
@@ -153,7 +153,7 @@ export function AiPredictionMachineSection() {
         </div>
       </div>
 
-      <div className="container mx-auto max-w-3xl text-center px-4 sm:px-6 lg:px-8 mt-8 md:mt-12">
+      <div className="container mx-auto max-w-3xl text-center px-4 sm:px-6 lg:px-8 mt-8">
         <p className="text-xs text-muted-foreground italic">
           These predictions are AI-generated and for informational purposes only. Markets involve risk.
         </p>
