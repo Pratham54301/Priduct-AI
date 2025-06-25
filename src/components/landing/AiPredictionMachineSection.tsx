@@ -85,14 +85,9 @@ export function AiPredictionMachineSection() {
           <h2 className="text-2xl font-bold tracking-tight text-foreground font-headline">
             Predict Tomorrow's Markets Today with AI-Powered Precision
           </h2>
-          <div className="mt-2 text-xs text-muted-foreground space-y-1">
-            <p>
-              Transform your investment strategy with cutting-edge predictions powered by real-time data, technical indicators, and market intelligence.
-            </p>
-            <p>
-              Our advanced algorithms analyze thousands of data points to deliver accurate forecasts for stocks, crypto, commodities, and more.
-            </p>
-          </div>
+          <p className="mt-4 max-w-xl mx-auto text-lg leading-relaxed text-muted-foreground">
+            Transform your investment strategy with cutting-edge predictions powered by real-time data, technical indicators, and market intelligence. Our advanced algorithms analyze thousands of data points to deliver accurate forecasts for stocks, crypto, commodities, and more.
+          </p>
         </div>
 
         <div className="max-w-lg mx-auto mt-6">
