@@ -23,7 +23,7 @@ const marketItems: MarketItem[] = [
   { name: 'Amazon', logo: 'AMZN', type: 'Stock', dataAiHint: 'amazon logo' },
   { name: 'Gold', logo: Gem, type: 'Commodity', dataAiHint: 'gold bar' },
   { name: 'Crude Oil', logo: Droplet, type: 'Commodity', dataAiHint: 'oil barrel' },
-  { name: 'Silver', logo: Sigma, type: 'Commodity', dataAiHint: 'silver nugget' },
+  { name: 'Silver', logo: Sigma, type: 'Commodody', dataAiHint: 'silver nugget' },
   { name: 'Bitcoin', logo: Bitcoin, type: 'Crypto', dataAiHint: 'bitcoin logo orange' },
   { name: 'Ethereum', logo: Gem, type: 'Crypto', dataAiHint: 'ethereum logo diamond' },
   { name: 'Solana', logo: 'SOL', type: 'Crypto', dataAiHint: 'solana logo purple' },
@@ -32,7 +32,6 @@ const marketItems: MarketItem[] = [
 ];
 
 const ItemLogoButton: React.FC<{ item: MarketItem }> = ({ item }) => {
-  const IconComponent = typeof item.logo === 'string' ? null : item.logo;
   let DefaultIcon;
   switch (item.type) {
     case 'Stock': DefaultIcon = Briefcase; break;
@@ -41,6 +40,7 @@ const ItemLogoButton: React.FC<{ item: MarketItem }> = ({ item }) => {
     case 'Currency': DefaultIcon = Landmark; break;
     default: DefaultIcon = Briefcase;
   }
+  const IconComponent = typeof item.logo === 'string' ? null : item.logo;
 
   return (
     <div className="flex flex-col items-center space-y-1.5 flex-shrink-0 w-24 text-center">
@@ -80,7 +80,7 @@ export function AiPredictionMachineSection() {
   }, [searchTerm]);
 
   return (
-    <section className="py-10 md:py-12 bg-zinc-800 text-foreground">
+    <section className="py-10 md:py-12 bg-muted text-foreground transition-colors duration-300">
       <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="max-w-3xl mx-auto text-center">
           <h2 className="text-[2.75rem] sm:text-5xl md:text-6xl font-bold tracking-tight text-foreground font-headline leading-tight">
@@ -132,7 +132,7 @@ export function AiPredictionMachineSection() {
                   )}
               </div>
 
-              <Button className="w-full sm:w-auto shrink-0 bg-sky-600 hover:bg-sky-700 text-white font-semibold py-2 text-sm rounded-lg">
+              <Button className="w-full sm:w-auto shrink-0 font-semibold py-2 text-sm rounded-lg">
                   <Sparkles className="w-4 h-4 mr-2" /> Get Prediction
               </Button>
             </div>
