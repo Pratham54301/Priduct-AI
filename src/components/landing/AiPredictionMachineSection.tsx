@@ -85,9 +85,14 @@ export function AiPredictionMachineSection() {
         <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl md:text-5xl text-foreground font-headline">
           Predict Tomorrow's Markets Today with AI-Powered Precision
         </h2>
-        <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground">
-          Transform your investment strategy with cutting-edge predictions powered by real-time data, technical indicators, and global market intelligence. Our advanced algorithms analyze thousands of data points to deliver accurate forecasts for stocks, crypto, commodities, and more.
-        </p>
+        <div className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground space-y-2">
+           <p>
+            Transform your investment strategy with cutting-edge predictions powered by real-time data, technical indicators, and global market intelligence.
+          </p>
+          <p>
+            Our advanced algorithms analyze thousands of data points to deliver accurate forecasts for stocks, crypto, commodities, and more.
+          </p>
+        </div>
       </div>
 
       <div className="container mx-auto max-w-lg px-4 sm:px-6 lg:px-8 mt-8 md:mt-12">
@@ -102,37 +107,40 @@ export function AiPredictionMachineSection() {
             3 / 3 free predictions remaining
           </p>
           
-          <div className="relative">
-            <Input
-              type="search"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              placeholder="e.g., Bitcoin, AAPL, USD/INR, Gold"
-              className="w-full pl-10 pr-4 py-3 rounded-lg border-gray-300 dark:border-border shadow-sm focus:ring-primary focus:border-primary text-base bg-background text-foreground placeholder:text-muted-foreground"
-              aria-label="Search for predictions"
-            />
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-          </div>
-          {filteredSuggestions.length > 0 && searchTerm.trim() && (
-            <Card className="absolute z-10 w-[calc(100%-2rem)] max-w-lg mt-1 bg-card shadow-lg rounded-md border border-border max-h-60 overflow-y-auto">
-              {filteredSuggestions.map(suggestion => (
-                <div
-                  key={suggestion}
-                  className="px-4 py-2 hover:bg-muted cursor-pointer"
-                  onClick={() => {
-                    setSearchTerm(suggestion);
-                    setFilteredSuggestions([]);
-                  }}
-                >
-                  {suggestion}
-                </div>
-              ))}
-            </Card>
-          )}
+          <div className="flex flex-col sm:flex-row items-center gap-4">
+            <div className="relative w-full">
+                <Input
+                  type="search"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  placeholder="e.g., Bitcoin, AAPL, USD/INR, Gold"
+                  className="w-full pl-10 pr-4 py-3 rounded-lg border-gray-300 dark:border-border shadow-sm focus:ring-primary focus:border-primary text-base bg-background text-foreground placeholder:text-muted-foreground"
+                  aria-label="Search for predictions"
+                />
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                {filteredSuggestions.length > 0 && searchTerm.trim() && (
+                  <Card className="absolute z-10 w-full mt-1 bg-card shadow-lg rounded-md border border-border max-h-60 overflow-y-auto">
+                    {filteredSuggestions.map(suggestion => (
+                      <div
+                        key={suggestion}
+                        className="px-4 py-2 hover:bg-muted cursor-pointer"
+                        onClick={() => {
+                          setSearchTerm(suggestion);
+                          setFilteredSuggestions([]);
+                        }}
+                      >
+                        {suggestion}
+                      </div>
+                    ))}
+                  </Card>
+                )}
+            </div>
 
-          <Button className="w-full mt-4 bg-sky-600 hover:bg-sky-700 text-white font-semibold py-3 text-base rounded-lg">
-            <Sparkles className="w-5 h-5 mr-2" /> Get Prediction
-          </Button>
+            <Button className="w-full sm:w-auto shrink-0 bg-sky-600 hover:bg-sky-700 text-white font-semibold py-3 text-base rounded-lg">
+                <Sparkles className="w-5 h-5 mr-2" /> Get Prediction
+            </Button>
+          </div>
+
         </Card>
       </div>
 
