@@ -17,7 +17,7 @@ export function MarketCard({ name, value, change, changeType, marketType, icon: 
   const changeColor = changeType === 'positive' ? 'text-green-500' : changeType === 'negative' ? 'text-red-500' : 'text-muted-foreground';
 
   return (
-    <Card className="group relative overflow-hidden shadow-lg hover:shadow-primary/20 transition-shadow duration-300">
+    <Card className="h-full group relative flex flex-col overflow-hidden shadow-lg hover:shadow-primary/20 transition-shadow duration-300">
       <CardHeader className="pb-2">
         <div className="flex justify-between items-start">
           <CardTitle className="text-lg font-semibold flex items-center gap-2">
@@ -28,7 +28,7 @@ export function MarketCard({ name, value, change, changeType, marketType, icon: 
         </div>
         <CardDescription className="text-sm text-muted-foreground">Live Price</CardDescription>
       </CardHeader>
-      <CardContent>
+      <CardContent className="flex-grow">
         <p className="text-3xl font-bold text-foreground">{value}</p>
         <div className={`mt-1 flex items-center text-sm ${changeColor}`}>
           <ChangeIcon className="mr-1 h-4 w-4" />
