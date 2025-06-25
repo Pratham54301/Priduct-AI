@@ -9,9 +9,10 @@ interface MarketCardProps {
   change: string;
   changeType: 'positive' | 'negative' | 'neutral';
   marketType: string;
+  icon?: React.ElementType;
 }
 
-export function MarketCard({ name, value, change, changeType, marketType }: MarketCardProps) {
+export function MarketCard({ name, value, change, changeType, marketType, icon: Icon }: MarketCardProps) {
   const ChangeIcon = changeType === 'positive' ? ArrowUp : changeType === 'negative' ? ArrowDown : Minus;
   const changeColor = changeType === 'positive' ? 'text-green-500' : changeType === 'negative' ? 'text-red-500' : 'text-muted-foreground';
 
@@ -19,7 +20,10 @@ export function MarketCard({ name, value, change, changeType, marketType }: Mark
     <Card className="group relative overflow-hidden shadow-lg hover:shadow-primary/20 transition-shadow duration-300">
       <CardHeader className="pb-2">
         <div className="flex justify-between items-start">
-          <CardTitle className="text-lg font-semibold">{name}</CardTitle>
+          <CardTitle className="text-lg font-semibold flex items-center gap-2">
+             {Icon && <Icon className="h-5 w-5 text-muted-foreground" />}
+             {name}
+          </CardTitle>
           <Badge variant="outline" className="text-xs">{marketType}</Badge>
         </div>
         <CardDescription className="text-sm text-muted-foreground">Live Price</CardDescription>
