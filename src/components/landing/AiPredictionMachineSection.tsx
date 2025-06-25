@@ -83,8 +83,8 @@ export function AiPredictionMachineSection() {
     <section className="py-10 md:py-12 bg-muted text-foreground transition-colors duration-300">
       <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="max-w-3xl mx-auto text-center">
-          <h2 className="text-[2.75rem] sm:text-5xl md:text-6xl font-bold tracking-tight text-foreground font-headline leading-tight">
-            Predict Tomorrow's Markets Today A
+          <h2 className="text-[36] sm:text-5xl md:text-6xl font-bold tracking-tight text-foreground font-headline leading-tight">
+            Predict Tomorrow's Markets Today
           </h2>
           <p className="mt-4 max-w-xl mx-auto text-xl font-medium leading-relaxed text-muted-foreground">
             Stocks, crypto, commodities, and more.
@@ -99,7 +99,7 @@ export function AiPredictionMachineSection() {
             <p className="text-muted-foreground text-xs text-center mb-1">
               Enter a stock ticker, currency pair, commodity, or crypto name.
             </p>
-            <p className="text-xs text-accent dark:text-accent-foreground font-semibold text-center mb-3 bg-accent/10 dark:bg-accent/20 py-1 px-3 rounded-full inline-block mx-auto">
+            <p className="text-base text-accent dark:text-accent-foreground font-semibold text-center mb-3">
               3 / 3 free predictions remaining
             </p>
             
