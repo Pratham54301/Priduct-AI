@@ -8,8 +8,6 @@ export function Footer() {
   const [year, setYear] = useState(new Date().getFullYear());
 
   useEffect(() => {
-    // This effect runs on the client after hydration, ensuring the value is correct
-    // without causing a server-client mismatch on initial render.
     setYear(new Date().getFullYear());
   }, []);
 
@@ -41,8 +39,8 @@ export function Footer() {
           <div>
             <h3 className="text-sm font-semibold uppercase tracking-wider text-foreground">About</h3>
             <ul role="list" className="mt-4 space-y-2">
-              <li><Link href="#" className="text-sm text-muted-foreground hover:text-primary">About Us</Link></li>
-              <li><Link href="#" className="text-sm text-muted-foreground hover:text-primary">Contact Us</Link></li>
+              <li><Link href="/#about" className="text-sm text-muted-foreground hover:text-primary">About Us</Link></li>
+              <li><Link href="/#support" className="text-sm text-muted-foreground hover:text-primary">Contact Us</Link></li>
               <li><Link href="#" className="text-sm text-muted-foreground hover:text-primary">Terms</Link></li>
               <li><Link href="#" className="text-sm text-muted-foreground hover:text-primary">Privacy</Link></li>
               <li><Link href="#" className="text-sm text-muted-foreground hover:text-primary">Refund Policy</Link></li>
@@ -52,8 +50,8 @@ export function Footer() {
           <div>
             <h3 className="text-sm font-semibold uppercase tracking-wider text-foreground">Community</h3>
             <ul role="list" className="mt-4 space-y-2">
-              <li><Link href="#blog" className="text-sm text-muted-foreground hover:text-primary">Blog</Link></li>
-              <li><Link href="#" className="text-sm text-muted-foreground hover:text-primary">Join Network</Link></li>
+              <li><Link href="/blog" className="text-sm text-muted-foreground hover:text-primary">Blog</Link></li>
+              <li><Link href="/partner" className="text-sm text-muted-foreground hover:text-primary">Join Network</Link></li>
               <li><Link href="#" className="text-sm text-muted-foreground hover:text-primary">Contribute</Link></li>
             </ul>
           </div>

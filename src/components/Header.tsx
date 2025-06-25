@@ -5,14 +5,14 @@ import { Menu, Brain } from 'lucide-react';
 
 const navItems = [
   { label: 'Home', href: '/' },
-  { label: 'Live Markets', href: '#features' },
-  { label: 'Invest', href: '#services' },
-  { label: 'Learn', href: '#learn' },
-  { label: 'Find Professional', href: '#experts' },
-  { label: 'Become Partner', href: '#partner' },
-  { label: 'News', href: '#blog' },
-  { label: 'About Us', href: '#about' },
-  { label: 'Support', href: '#support' },
+  { label: 'Live Markets', href: '/#features' },
+  { label: 'Invest', href: '/invest' },
+  { label: 'Learn', href: '/learn' },
+  { label: 'Find Professional', href: '/professionals' },
+  { label: 'Become Partner', href: '/partner' },
+  { label: 'News', href: '/blog' },
+  { label: 'About Us', href: '/#about' },
+  { label: 'Support', href: '/#support' },
 ];
 
 export function Header() {
