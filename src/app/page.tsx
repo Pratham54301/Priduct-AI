@@ -19,8 +19,6 @@ import { AdvertisingBannerSection } from '@/components/landing/AdvertisingBanner
 import { SubscribeSection } from '@/components/landing/SubscribeSection';
 
 export default function Home() {
-  const [faqSearchTerm, setFaqSearchTerm] = React.useState('');
-
   return (
     <div className="flex flex-col min-h-screen">
       <Header />
@@ -34,8 +32,8 @@ export default function Home() {
         <BecomePartnerSection />
         <BlogInsightsSection />
         <AboutUsSection />
-        <CustomerSupportSection setFaqSearchTerm={setFaqSearchTerm} />
-        <FaqSection searchTerm={faqSearchTerm} />
+        <CustomerSupportSection />
+        <FaqSection />
         <AdvertisingBannerSection />
         <SubscribeSection />
       </main>

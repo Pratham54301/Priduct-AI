@@ -49,29 +49,8 @@ const faqData: FaqItemData[] = [
   },
 ];
 
-interface FaqSectionProps {
-  searchTerm: string;
-}
-
-export function FaqSection({ searchTerm }: FaqSectionProps) {
-  const [filteredFaqs, setFilteredFaqs] = React.useState<FaqItemData[]>(faqData);
-
-  React.useEffect(() => {
-    if (searchTerm.trim() === '') {
-      setFilteredFaqs(faqData);
-    } else {
-      const lowercasedFilter = searchTerm.toLowerCase();
-      const filtered = faqData.filter(
-        (faq) =>
-          faq.question.toLowerCase().includes(lowercasedFilter) ||
-          faq.answer.toLowerCase().includes(lowercasedFilter) ||
-          faq.category.toLowerCase().includes(lowercasedFilter)
-      );
-      setFilteredFaqs(filtered);
-    }
-  }, [searchTerm]);
-
-  const groupedFaqs = filteredFaqs.reduce((acc, faq) => {
+export function FaqSection() {
+  const groupedFaqs = faqData.reduce((acc, faq) => {
     if (!acc[faq.category]) {
       acc[faq.category] = [];
     }
@@ -114,7 +93,7 @@ export function FaqSection({ searchTerm }: FaqSectionProps) {
           ))
         ) : (
           <p className="text-center text-muted-foreground text-lg">
-            No FAQs found matching your search term.
+            No FAQs are available at this time.
           </p>
         )}
       </div>

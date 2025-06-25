@@ -84,7 +84,7 @@ export function AiPredictionMachineSection() {
       <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="max-w-3xl mx-auto text-center">
           <h2 className="text-[2.75rem] sm:text-5xl md:text-6xl font-bold tracking-tight text-foreground font-headline leading-tight">
-            Predict Tomorrow's Markets Today
+            Predict Tomorrow's Markets Today A
           </h2>
           <p className="mt-4 max-w-xl mx-auto text-xl font-medium leading-relaxed text-muted-foreground">
             Stocks, crypto, commodities, and more.
