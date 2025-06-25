@@ -3,13 +3,14 @@
 import * as React from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Mail, Loader2 } from 'lucide-react';
+import { Mail, MapPin, Loader2 } from 'lucide-react';
 import { useToast } from "@/hooks/use-toast";
 import { db } from '@/lib/firebase';
 import { doc, setDoc, serverTimestamp } from "firebase/firestore";
 
 export function SubscribeSection() {
   const [email, setEmail] = React.useState('');
+  const [location, setLocation] = React.useState('');
   const [isLoading, setIsLoading] = React.useState(false);
   const { toast } = useToast();
 
@@ -34,10 +35,10 @@ export function SubscribeSection() {
     }
 
     try {
-      // Save email to Firebase under /subscribers/{email_address}
-      // Using the email as the document ID ensures uniqueness
+      // Save email and location to Firebase under /subscribers/{email_address}
       await setDoc(doc(db, "subscribers", email), {
         email: email,
+        location: location,
         subscribedAt: serverTimestamp(),
       });
 
@@ -50,9 +51,6 @@ export function SubscribeSection() {
       setTimeout(() => {
         window.location.href = "https://studio--predictai-7jivd.us-central1.hosted.app/profile";
       }, 1500); 
-      // No need to setIsLoading(false) here if redirecting immediately, 
-      // but with timeout it's good practice if further actions were possible.
-      // For this case, we expect navigation, so user won't interact further.
 
     } catch (error) {
       console.error("Subscription failed:", error);
@@ -78,32 +76,51 @@ export function SubscribeSection() {
           <p className="mt-4 text-lg opacity-90">
             Get instant access to exclusive predictions, tutorials, and trading strategies.
           </p>
-          <form onSubmit={handleSubmit} className="mt-10 max-w-xl mx-auto flex flex-col sm:flex-row gap-4">
-            <Input
-              type="email"
-              placeholder="Enter your email address"
-              className="flex-grow text-base text-foreground placeholder:text-muted-foreground"
-              aria-label="Email address"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              disabled={isLoading}
-              required
-            />
-            <Button 
-              type="submit" 
-              size="lg" 
-              className="bg-background text-primary hover:bg-background/90 shrink-0"
-              disabled={isLoading}
-            >
-              {isLoading ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Please wait
-                </>
-              ) : (
-                'Subscribe & Continue'
-              )}
-            </Button>
+          <form onSubmit={handleSubmit} className="mt-10 max-w-2xl mx-auto">
+            <div className="flex flex-col sm:flex-row items-start gap-4">
+              <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="relative">
+                  <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                  <Input
+                    type="email"
+                    placeholder="Enter your email"
+                    className="w-full pl-10 text-base text-foreground placeholder:text-muted-foreground"
+                    aria-label="Email address"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    disabled={isLoading}
+                    required
+                  />
+                </div>
+                <div className="relative">
+                  <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                  <Input
+                    type="text"
+                    placeholder="Enter your location"
+                    className="w-full pl-10 text-base text-foreground placeholder:text-muted-foreground"
+                    aria-label="Location"
+                    value={location}
+                    onChange={(e) => setLocation(e.target.value)}
+                    disabled={isLoading}
+                  />
+                </div>
+              </div>
+              <Button 
+                type="submit" 
+                size="lg" 
+                className="bg-background text-primary hover:bg-background/90 shrink-0 w-full sm:w-auto"
+                disabled={isLoading}
+              >
+                {isLoading ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Please wait
+                  </>
+                ) : (
+                  'Subscribe & Continue'
+                )}
+              </Button>
+            </div>
           </form>
         </div>
       </div>
