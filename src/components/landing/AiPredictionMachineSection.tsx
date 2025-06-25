@@ -87,7 +87,7 @@ export function AiPredictionMachineSection() {
         </h2>
         <div className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground space-y-2">
            <p>
-            Transform your investment strategy with cutting-edge predictions powered by real-time data, technical indicators, and global market intelligence.
+            Transform your investment strategy with cutting-edge predictions powered by real-time data, technical indicators, and market intelligence.
           </p>
           <p>
             Our advanced algorithms analyze thousands of data points to deliver accurate forecasts for stocks, crypto, commodities, and more.
