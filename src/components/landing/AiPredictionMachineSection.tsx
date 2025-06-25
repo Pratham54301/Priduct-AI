@@ -80,82 +80,84 @@ export function AiPredictionMachineSection() {
 
   return (
     <section className="py-10 md:py-12 bg-zinc-800 text-foreground">
-      <div className="container mx-auto max-w-3xl text-center px-4 sm:px-6 lg:px-8">
-        <h2 className="text-2xl font-bold tracking-tight text-foreground font-headline">
-          Predict Tomorrow's Markets Today with AI-Powered Precision
-        </h2>
-        <div className="mt-2 max-w-2xl mx-auto text-xs text-muted-foreground space-y-1">
-           <p>
-            Transform your investment strategy with cutting-edge predictions powered by real-time data, technical indicators, and market intelligence.
-          </p>
-          <p>
-            Our advanced algorithms analyze thousands of data points to deliver accurate forecasts for stocks, crypto, commodities, and more.
-          </p>
+      <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="max-w-3xl text-center mx-auto">
+          <h2 className="text-2xl font-bold tracking-tight text-foreground font-headline">
+            Predict Tomorrow's Markets Today with AI-Powered Precision
+          </h2>
+          <div className="mt-2 text-xs text-muted-foreground space-y-1">
+            <p>
+              Transform your investment strategy with cutting-edge predictions powered by real-time data, technical indicators, and market intelligence.
+            </p>
+            <p>
+              Our advanced algorithms analyze thousands of data points to deliver accurate forecasts for stocks, crypto, commodities, and more.
+            </p>
+          </div>
         </div>
-      </div>
 
-      <div className="container mx-auto max-w-lg px-4 sm:px-6 lg:px-8 mt-6">
-        <Card className="bg-card p-4 md:p-6 shadow-xl rounded-xl">
-          <h3 className="text-base font-semibold text-primary mb-2 text-center flex items-center justify-center">
-            <Sparkles className="w-4 h-4 mr-2 text-primary" /> AI Prediction Machine
-          </h3>
-          <p className="text-muted-foreground text-xs text-center mb-1">
-            Enter a stock ticker, currency pair, commodity, or crypto name.
-          </p>
-          <p className="text-xs text-accent dark:text-accent-foreground font-semibold text-center mb-3 bg-accent/10 dark:bg-accent/20 py-1 px-3 rounded-full inline-block mx-auto">
-            3 / 3 free predictions remaining
-          </p>
-          
-          <div className="flex flex-col sm:flex-row items-center gap-3">
-            <div className="relative w-full">
-                <Input
-                  type="search"
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  placeholder="e.g., Bitcoin, AAPL, USD/INR, Gold"
-                  className="w-full pl-10 pr-4 py-2 rounded-lg border-gray-300 dark:border-border shadow-sm focus:ring-primary focus:border-primary text-sm bg-background text-foreground placeholder:text-muted-foreground"
-                  aria-label="Search for predictions"
-                />
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-                {filteredSuggestions.length > 0 && searchTerm.trim() && (
-                  <Card className="absolute z-10 w-full mt-1 bg-card shadow-lg rounded-md border border-border max-h-60 overflow-y-auto">
-                    {filteredSuggestions.map(suggestion => (
-                      <div
-                        key={suggestion}
-                        className="px-4 py-2 hover:bg-muted cursor-pointer text-sm"
-                        onClick={() => {
-                          setSearchTerm(suggestion);
-                          setFilteredSuggestions([]);
-                        }}
-                      >
-                        {suggestion}
-                      </div>
-                    ))}
-                  </Card>
-                )}
+        <div className="max-w-lg mx-auto mt-6">
+          <Card className="bg-card p-4 md:p-6 shadow-xl rounded-xl">
+            <h3 className="text-base font-semibold text-primary mb-2 text-center flex items-center justify-center">
+              <Sparkles className="w-4 h-4 mr-2 text-primary" /> AI Prediction Machine
+            </h3>
+            <p className="text-muted-foreground text-xs text-center mb-1">
+              Enter a stock ticker, currency pair, commodity, or crypto name.
+            </p>
+            <p className="text-xs text-accent dark:text-accent-foreground font-semibold text-center mb-3 bg-accent/10 dark:bg-accent/20 py-1 px-3 rounded-full inline-block mx-auto">
+              3 / 3 free predictions remaining
+            </p>
+            
+            <div className="flex flex-col sm:flex-row items-center gap-3">
+              <div className="relative w-full">
+                  <Input
+                    type="search"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    placeholder="e.g., Bitcoin, AAPL, USD/INR, Gold"
+                    className="w-full pl-10 pr-4 py-2 rounded-lg border-gray-300 dark:border-border shadow-sm focus:ring-primary focus:border-primary text-sm bg-background text-foreground placeholder:text-muted-foreground"
+                    aria-label="Search for predictions"
+                  />
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                  {filteredSuggestions.length > 0 && searchTerm.trim() && (
+                    <Card className="absolute z-10 w-full mt-1 bg-card shadow-lg rounded-md border border-border max-h-60 overflow-y-auto">
+                      {filteredSuggestions.map(suggestion => (
+                        <div
+                          key={suggestion}
+                          className="px-4 py-2 hover:bg-muted cursor-pointer text-sm"
+                          onClick={() => {
+                            setSearchTerm(suggestion);
+                            setFilteredSuggestions([]);
+                          }}
+                        >
+                          {suggestion}
+                        </div>
+                      ))}
+                    </Card>
+                  )}
+              </div>
+
+              <Button className="w-full sm:w-auto shrink-0 bg-sky-600 hover:bg-sky-700 text-white font-semibold py-2 text-sm rounded-lg">
+                  <Sparkles className="w-4 h-4 mr-2" /> Get Prediction
+              </Button>
             </div>
 
-            <Button className="w-full sm:w-auto shrink-0 bg-sky-600 hover:bg-sky-700 text-white font-semibold py-2 text-sm rounded-lg">
-                <Sparkles className="w-4 h-4 mr-2" /> Get Prediction
-            </Button>
-          </div>
-
-        </Card>
-      </div>
-
-      <div className="container mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 mt-6 md:mt-8">
-         <p className="text-xs text-center text-muted-foreground mb-3">Or pick from popular assets:</p>
-        <div className="flex overflow-x-auto space-x-3 sm:space-x-4 pb-4 -mx-4 px-4 scrollbar-thin scrollbar-thumb-gray-400 dark:scrollbar-thumb-gray-600 scrollbar-track-gray-200 dark:scrollbar-track-gray-800 scrollbar-thumb-rounded-full">
-          {marketItems.map((item) => (
-            <ItemLogoButton key={item.name} item={item} />
-          ))}
+          </Card>
         </div>
-      </div>
 
-      <div className="container mx-auto max-w-3xl text-center px-4 sm:px-6 lg:px-8 mt-6">
-        <p className="text-xs text-muted-foreground italic">
-          These predictions are AI-generated and for informational purposes only. Markets involve risk.
-        </p>
+        <div className="max-w-5xl mx-auto mt-6 md:mt-8">
+           <p className="text-xs text-center text-muted-foreground mb-3">Or pick from popular assets:</p>
+          <div className="flex overflow-x-auto space-x-3 sm:space-x-4 pb-4 -mx-4 px-4 scrollbar-thin scrollbar-thumb-gray-400 dark:scrollbar-thumb-gray-600 scrollbar-track-gray-200 dark:scrollbar-track-gray-800 scrollbar-thumb-rounded-full">
+            {marketItems.map((item) => (
+              <ItemLogoButton key={item.name} item={item} />
+            ))}
+          </div>
+        </div>
+
+        <div className="max-w-3xl text-center mx-auto mt-6">
+          <p className="text-xs text-muted-foreground italic">
+            These predictions are AI-generated and for informational purposes only. Markets involve risk.
+          </p>
+        </div>
       </div>
     </section>
   );
