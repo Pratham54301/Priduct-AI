@@ -8,7 +8,7 @@ export function TestimonialsSection() {
         <div className="text-center mb-12">
           <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl font-headline">Success Stories from Smart Investors</h2>
           <p className="mt-4 text-lg text-muted-foreground">
-            Hear what our users have to say about their journey with PriductAI Vision.
+            Real people. Real results. Real growth.
           </p>
         </div>
       </div>

@@ -27,6 +27,7 @@ export default function Home() {
       <main className="flex-grow">
         <AiPredictionMachineSection />
         <MarketOverviewSection />
+        <TestimonialsSection />
         <CoreServicesSection />
         <LearningHubSection />
         <ConsultExpertsSection />
@@ -35,7 +36,6 @@ export default function Home() {
         <AboutUsSection />
         <CustomerSupportSection setFaqSearchTerm={setFaqSearchTerm} />
         <FaqSection searchTerm={faqSearchTerm} />
-        <TestimonialsSection />
         <AdvertisingBannerSection />
         <SubscribeSection />
       </main>
