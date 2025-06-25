@@ -6,16 +6,15 @@ import { Button } from '@/components/ui/button';
 import { faqData } from './faqData';
 
 const INITIAL_VISIBLE_FAQS = 10;
-const FAQS_TO_LOAD = 10;
 
 export function FaqSection() {
-  const [visibleCount, setVisibleCount] = React.useState(INITIAL_VISIBLE_FAQS);
+  const [isExpanded, setIsExpanded] = React.useState(false);
 
-  const handleShowMore = () => {
-    setVisibleCount(prevCount => Math.min(prevCount + FAQS_TO_LOAD, faqData.length));
+  const handleToggle = () => {
+    setIsExpanded(prev => !prev);
   };
 
-  const visibleFaqs = faqData.slice(0, visibleCount);
+  const visibleFaqs = isExpanded ? faqData : faqData.slice(0, INITIAL_VISIBLE_FAQS);
 
   return (
     <section id="faq" className="py-16 md:py-24 bg-card">
@@ -50,10 +49,10 @@ export function FaqSection() {
               ))}
             </Accordion>
 
-            {visibleCount < faqData.length && (
+            {faqData.length > INITIAL_VISIBLE_FAQS && (
               <div className="mt-12 text-center">
-                <Button onClick={handleShowMore} size="lg">
-                  Show More
+                <Button onClick={handleToggle} size="lg">
+                  {isExpanded ? 'Show Less' : 'Show More'}
                 </Button>
               </div>
             )}
