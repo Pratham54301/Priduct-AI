@@ -82,10 +82,10 @@ export function AiPredictionMachineSection() {
   return (
     <section className="py-12 md:py-20 bg-zinc-800 text-foreground">
       <div className="container mx-auto max-w-3xl text-center px-4 sm:px-6 lg:px-8">
-        <h2 className="text-3xl font-extrabold tracking-tight text-foreground font-headline">
+        <h2 className="text-3xl font-bold tracking-tight text-foreground font-headline">
           Predict Tomorrow's Markets Today with AI-Powered Precision
         </h2>
-        <div className="mt-4 max-w-2xl mx-auto text-base text-muted-foreground space-y-2">
+        <div className="mt-4 max-w-2xl mx-auto text-sm text-muted-foreground space-y-2">
            <p>
             Transform your investment strategy with cutting-edge predictions powered by real-time data, technical indicators, and market intelligence.
           </p>
@@ -97,10 +97,10 @@ export function AiPredictionMachineSection() {
 
       <div className="container mx-auto max-w-lg px-4 sm:px-6 lg:px-8 mt-8 md:mt-12">
         <Card className="bg-card p-6 md:p-8 shadow-xl rounded-xl">
-          <h3 className="text-2xl font-semibold text-primary mb-2 text-center flex items-center justify-center">
-            <Sparkles className="w-7 h-7 mr-2 text-primary" /> AI Prediction Machine
+          <h3 className="text-xl font-semibold text-primary mb-2 text-center flex items-center justify-center">
+            <Sparkles className="w-6 h-6 mr-2 text-primary" /> AI Prediction Machine
           </h3>
-          <p className="text-muted-foreground text-sm text-center mb-1">
+          <p className="text-muted-foreground text-xs text-center mb-1">
             Enter a stock ticker, currency pair, commodity, or crypto name.
           </p>
           <p className="text-xs text-accent dark:text-accent-foreground font-semibold text-center mb-6 bg-accent/10 dark:bg-accent/20 py-1 px-3 rounded-full inline-block mx-auto">
@@ -114,7 +114,7 @@ export function AiPredictionMachineSection() {
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   placeholder="e.g., Bitcoin, AAPL, USD/INR, Gold"
-                  className="w-full pl-10 pr-4 py-3 rounded-lg border-gray-300 dark:border-border shadow-sm focus:ring-primary focus:border-primary text-base bg-background text-foreground placeholder:text-muted-foreground"
+                  className="w-full pl-10 pr-4 py-3 rounded-lg border-gray-300 dark:border-border shadow-sm focus:ring-primary focus:border-primary text-sm bg-background text-foreground placeholder:text-muted-foreground"
                   aria-label="Search for predictions"
                 />
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted-foreground" />
@@ -136,7 +136,7 @@ export function AiPredictionMachineSection() {
                 )}
             </div>
 
-            <Button className="w-full sm:w-auto shrink-0 bg-sky-600 hover:bg-sky-700 text-white font-semibold py-3 text-base rounded-lg">
+            <Button className="w-full sm:w-auto shrink-0 bg-sky-600 hover:bg-sky-700 text-white font-semibold py-3 text-sm rounded-lg">
                 <Sparkles className="w-5 h-5 mr-2" /> Get Prediction
             </Button>
           </div>
@@ -145,7 +145,7 @@ export function AiPredictionMachineSection() {
       </div>
 
       <div className="container mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 mt-10 md:mt-16">
-         <p className="text-sm text-center text-muted-foreground mb-4">Or pick from popular assets:</p>
+         <p className="text-xs text-center text-muted-foreground mb-4">Or pick from popular assets:</p>
         <div className="flex overflow-x-auto space-x-3 sm:space-x-4 pb-4 -mx-4 px-4 scrollbar-thin scrollbar-thumb-gray-400 dark:scrollbar-thumb-gray-600 scrollbar-track-gray-200 dark:scrollbar-track-gray-800 scrollbar-thumb-rounded-full">
           {marketItems.map((item) => (
             <ItemLogoButton key={item.name} item={item} />
