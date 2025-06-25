@@ -1,7 +1,6 @@
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { ArrowUp, ArrowDown, Minus, ExternalLink } from 'lucide-react';
+import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { ArrowUp, ArrowDown, Minus } from 'lucide-react';
 
 interface MarketCardProps {
   name: string;
@@ -17,29 +16,23 @@ export function MarketCard({ name, value, change, changeType, marketType, icon: 
   const changeColor = changeType === 'positive' ? 'text-green-500' : changeType === 'negative' ? 'text-red-500' : 'text-muted-foreground';
 
   return (
-    <Card className="h-full group relative flex flex-col overflow-hidden shadow-lg hover:shadow-primary/20 transition-shadow duration-300">
-      <CardHeader className="pb-2">
-        <div className="flex justify-between items-start">
-          <CardTitle className="text-lg font-semibold flex items-center gap-2">
-             {Icon && <Icon className="h-5 w-5 text-muted-foreground" />}
-             {name}
-          </CardTitle>
-          <Badge variant="outline" className="text-xs">{marketType}</Badge>
+    <Card className="p-3 shadow-md hover:shadow-primary/20 transition-shadow duration-300 bg-card/50 backdrop-blur-sm">
+      <div className="flex items-center justify-between gap-4">
+        <div className="flex items-center gap-3 overflow-hidden">
+          {Icon && <Icon className="h-8 w-8 text-muted-foreground flex-shrink-0" />}
+          <div className="overflow-hidden">
+            <p className="font-bold text-foreground text-sm truncate">{name}</p>
+            <Badge variant="secondary" className="mt-1 text-xs">{marketType}</Badge>
+          </div>
         </div>
-        <CardDescription className="text-sm text-muted-foreground">Live Price</CardDescription>
-      </CardHeader>
-      <CardContent className="flex-grow">
-        <p className="text-3xl font-bold text-foreground">{value}</p>
-        <div className={`mt-1 flex items-center text-sm ${changeColor}`}>
-          <ChangeIcon className="mr-1 h-4 w-4" />
-          <span>{change}</span>
+        <div className="text-right flex-shrink-0">
+          <p className="font-semibold text-foreground text-sm">{value}</p>
+          <div className={`flex items-center justify-end text-xs ${changeColor}`}>
+            <ChangeIcon className="h-3 w-3 mr-1" />
+            <span>{change}</span>
+          </div>
         </div>
-        <div className="absolute inset-0 bg-card/80 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-          <Button variant="outline" size="sm" className="border-accent text-accent hover:bg-accent hover:text-accent-foreground">
-            View Full Prediction <ExternalLink className="ml-2 h-4 w-4" />
-          </Button>
-        </div>
-      </CardContent>
+      </div>
     </Card>
   );
 }

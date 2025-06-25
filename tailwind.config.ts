@@ -91,18 +91,23 @@ export default {
         },
         marquee: {
           from: { transform: 'translateX(0)' },
-          to: { transform: 'translateX(-100%)' },
+          to: { transform: 'translateX(-50%)' },
         },
         'marquee-slow': {
           from: { transform: 'translateX(0)' },
-          to: { transform: 'translateX(-100%)' },
+          to: { transform: 'translateX(-50%)' },
         },
+        'marquee-v': {
+          from: { transform: 'translateY(0)' },
+          to: { transform: 'translateY(-50%)' },
+        }
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
         marquee: 'marquee 60s linear infinite',
         'marquee-slow': 'marquee-slow 180s linear infinite',
+        'marquee-v': 'marquee-v 40s linear infinite',
       },
     },
   },
