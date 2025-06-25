@@ -15,10 +15,10 @@ interface AdData {
 }
 
 const adsData: AdData[] = [
-  { id: 'ad1', imageUrl: 'https://placehold.co/728x90.png', altText: 'Advertisement 1: Discover New Investments', linkUrl: '#', imageHint: 'investment chart' },
-  { id: 'ad2', imageUrl: 'https://placehold.co/728x90.png', altText: 'Advertisement 2: Tech Stocks Outlook', linkUrl: '#', imageHint: 'tech analysis' },
-  { id: 'ad3', imageUrl: 'https://placehold.co/728x90.png', altText: 'Advertisement 3: Join Our Webinar', linkUrl: '#', imageHint: 'online webinar' },
-  { id: 'ad4', imageUrl: 'https://placehold.co/728x90.png', altText: 'Advertisement 4: Secure Trading Platform', linkUrl: '#', imageHint: 'security shield' },
+  { id: 'ad1', imageUrl: 'https://placehold.co/728x200.png', altText: 'Advertisement 1: Discover New Investments', linkUrl: '#', imageHint: 'investment chart' },
+  { id: 'ad2', imageUrl: 'https://placehold.co/728x200.png', altText: 'Advertisement 2: Tech Stocks Outlook', linkUrl: '#', imageHint: 'tech analysis' },
+  { id: 'ad3', imageUrl: 'https://placehold.co/728x200.png', altText: 'Advertisement 3: Join Our Webinar', linkUrl: '#', imageHint: 'online webinar' },
+  { id: 'ad4', imageUrl: 'https://placehold.co/728x200.png', altText: 'Advertisement 4: Secure Trading Platform', linkUrl: '#', imageHint: 'security shield' },
 ];
 
 const AdUnit: React.FC<{ ad: AdData }> = ({ ad }) => {
@@ -97,10 +97,10 @@ export function AdvertisingBannerSection() {
           onMouseEnter={() => setIsHovering(true)}
           onMouseLeave={() => setIsHovering(false)}
         >
-          <div className="w-[728px] h-[90px]">
+          <div className="w-[728px] h-[200px]">
             {desktopAd1 && <AdUnit ad={desktopAd1} />}
           </div>
-          <div className="w-[728px] h-[90px]">
+          <div className="w-[728px] h-[200px]">
             {desktopAd2 && <AdUnit ad={desktopAd2} />}
           </div>
         </div>
@@ -111,7 +111,7 @@ export function AdvertisingBannerSection() {
           onMouseEnter={() => setIsHovering(true)}
           onMouseLeave={() => setIsHovering(false)}
         >
-          <div className="w-full max-w-[728px] aspect-[728/90]">
+          <div className="w-full max-w-[728px] aspect-[728/200]">
              {mobileAd && <AdUnit ad={mobileAd} />}
           </div>
         </div>
