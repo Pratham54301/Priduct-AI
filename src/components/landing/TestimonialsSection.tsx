@@ -1,29 +1,5 @@
 import { TestimonialCard } from './TestimonialCard';
-import { Button } from '@/components/ui/button';
-import { Send } from 'lucide-react';
-
-const testimonials = [
-  {
-    name: 'Priya Sharma',
-    photoUrl: 'https://placehold.co/112x112.png',
-    feedback: 'PriductAI\'s predictions are incredibly accurate. It helped me make informed decisions and significantly boosted my portfolio.',
-    returns: '+25% in 6 months',
-    imageHint: 'woman investor'
-  },
-  {
-    name: 'Rajesh Kumar',
-    photoUrl: 'https://placehold.co/112x112.png',
-    feedback: 'The learning hub is fantastic! I went from a novice to a confident trader with their courses and webinars.',
-    imageHint: 'man professional'
-  },
-  {
-    name: 'Anita Desai',
-    photoUrl: 'https://placehold.co/112x112.png',
-    feedback: 'I love the real-time market snapshots and the detailed intelligence reports. It\'s my go-to platform for all things finance.',
-    returns: 'Consistent 15% YoY',
-    imageHint: 'person happy'
-  },
-];
+import { testimonialsData } from './testimonialsData';
 
 export function TestimonialsSection() {
   return (
@@ -35,15 +11,14 @@ export function TestimonialsSection() {
             Hear what our users have to say about their journey with PriductAI Vision.
           </p>
         </div>
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-          {testimonials.map((testimonial) => (
-            <TestimonialCard key={testimonial.name} {...testimonial} />
+      </div>
+      <div className="relative w-full overflow-hidden [mask-image:linear-gradient(to_right,transparent,white_5%,white_95%,transparent)]">
+        <div className="flex w-max animate-marquee-slow hover:[animation-play-state:paused]">
+          {[...testimonialsData, ...testimonialsData].map((testimonial, index) => (
+            <div key={index} className="w-[360px] flex-shrink-0 px-4">
+              <TestimonialCard {...testimonial} />
+            </div>
           ))}
-        </div>
-        <div className="mt-12 text-center">
-          <Button size="lg" variant="outline" className="border-accent text-accent hover:bg-accent hover:text-accent-foreground">
-            Share My Story <Send className="ml-2 h-5 w-5" />
-          </Button>
         </div>
       </div>
     </section>
