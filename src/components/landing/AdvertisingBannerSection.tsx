@@ -89,7 +89,7 @@ export function AdvertisingBannerSection() {
   const mobileAd = adsData[mobileAdIndex];
 
   return (
-    <section className="py-12 md:py-16 bg-background">
+    <section className="py-12 md:py-16 bg-card">
       <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Desktop View: 2 ads side-by-side */}
         <div

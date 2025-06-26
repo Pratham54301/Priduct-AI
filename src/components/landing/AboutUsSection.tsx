@@ -5,7 +5,7 @@ import { Target, Users, Zap, TrendingUp } from 'lucide-react';
 
 export function AboutUsSection() {
   return (
-    <section id="about" className="py-16 md:py-24 bg-card">
+    <section id="about" className="py-16 md:py-24 bg-background">
       <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
           <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl font-headline">The Vision Behind PriductAI Vision</h2>

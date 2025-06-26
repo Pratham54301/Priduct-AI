@@ -44,7 +44,7 @@ const BenefitCard = ({ icon: Icon, title, description }: BenefitCardProps) => (
 
 export function BecomePartnerSection() {
   return (
-    <section id="partner" className="py-16 md:py-24 bg-card">
+    <section id="partner" className="py-16 md:py-24 bg-background">
       <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12 max-w-3xl mx-auto">
           <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl font-headline">Collaborate & Grow With Us</h2>

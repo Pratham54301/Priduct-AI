@@ -80,10 +80,10 @@ export function AiPredictionMachineSection() {
   }, [searchTerm]);
 
   return (
-    <section className="py-10 md:py-12 bg-muted text-foreground transition-colors duration-300">
+    <section className="py-10 md:py-12 bg-background text-foreground transition-colors duration-300">
       <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="max-w-3xl mx-auto text-center">
-          <h2 className="text-[28px] leading-[36px] sm:text-[36px] sm:leading-[46px] font-bold tracking-tight text-foreground font-headline text-center">
+          <h2 className="text-[36px] leading-[46px] sm:text-[36px] sm:leading-[46px] font-bold tracking-tight text-foreground font-headline text-center">
             Predict Tomorrow's Markets Today with AI
           </h2>
           <p className="mt-4 max-w-xl mx-auto text-xl font-medium leading-relaxed text-muted-foreground">
@@ -96,9 +96,6 @@ export function AiPredictionMachineSection() {
             <h3 className="text-base font-semibold text-primary mb-2 text-center flex items-center justify-center">
               <Sparkles className="w-4 h-4 mr-2 text-primary" /> AI Prediction Machine
             </h3>
-            <p className="text-muted-foreground text-xs text-center mb-1">
-              Enter a stock ticker, currency pair, commodity, or crypto name.
-            </p>
             <p className="text-base text-accent dark:text-accent-foreground font-semibold text-center mb-3">
               3 / 3 free predictions remaining
             </p>
@@ -109,7 +106,7 @@ export function AiPredictionMachineSection() {
                     type="search"
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    placeholder="e.g., Bitcoin, AAPL, USD/INR, Gold"
+                    placeholder="Enter a stock ticker, currency pair, commodity, or crypto name."
                     className="w-full pl-10 pr-4 py-2 rounded-lg border-gray-300 dark:border-border shadow-sm focus:ring-primary focus:border-primary text-sm bg-background text-foreground placeholder:text-muted-foreground"
                     aria-label="Search for predictions"
                   />

@@ -17,7 +17,7 @@ export function FaqSection() {
   const visibleFaqs = isExpanded ? faqData : faqData.slice(0, INITIAL_VISIBLE_FAQS);
 
   return (
-    <section id="faq" className="py-16 md:py-24 bg-card">
+    <section id="faq" className="py-16 md:py-24 bg-background">
       <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
           <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl font-headline">Frequently Asked Questions</h2>
@@ -37,7 +37,7 @@ export function FaqSection() {
                 <AccordionItem 
                   key={faq.id} 
                   value={faq.id} 
-                  className="bg-background rounded-lg border shadow-sm break-inside-avoid"
+                  className="bg-card rounded-lg border shadow-sm break-inside-avoid"
                 >
                   <AccordionTrigger className="text-left hover:no-underline text-base font-semibold px-6 py-4 text-start">
                     {faq.question}
