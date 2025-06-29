@@ -10,8 +10,6 @@ import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { useToast } from '@/hooks/use-toast';
-import { auth } from '@/lib/firebase';
-import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { Loader2, UserPlus } from 'lucide-react';
 
 const signUpSchema = z.object({
@@ -23,7 +21,6 @@ const signUpSchema = z.object({
 export function SignUpPage() {
   const { toast } = useToast();
   const [isLoading, setIsLoading] = React.useState(false);
-  const isFirebaseActive = !!auth;
 
   const form = useForm<z.infer<typeof signUpSchema>>({
     resolver: zodResolver(signUpSchema),
@@ -37,48 +34,19 @@ export function SignUpPage() {
   async function onSubmit(values: z.infer<typeof signUpSchema>) {
     setIsLoading(true);
 
-    if (!auth) {
-      toast({
-        title: "Sign Up Unavailable",
-        description: "Firebase is not configured. Please add your credentials.",
-        variant: "destructive",
-      });
-      setIsLoading(false);
-      return;
-    }
+    // Simulate API call for signup
+    console.log("Simulating sign up for:", values);
+    await new Promise(resolve => setTimeout(resolve, 1500));
 
-    try {
-      const userCredential = await createUserWithEmailAndPassword(auth, values.email, values.password);
-      const user = userCredential.user;
+    toast({
+      title: "Account Created Successfully!",
+      description: "You have been signed up. Redirecting to home...",
+    });
 
-      await updateProfile(user, {
-        displayName: values.fullName,
-      });
-
-      toast({
-        title: "Account Created Successfully!",
-        description: "You have been signed up. Redirecting to home...",
-      });
-
-      // Redirect to home page after successful sign up
-      setTimeout(() => {
-        window.location.href = '/';
-      }, 1500);
-
-    } catch (error: any) {
-      let errorMessage = "An unexpected error occurred. Please try again.";
-      if (error.code === 'auth/email-already-in-use') {
-        errorMessage = "This email address is already in use.";
-      } else if (error.code === 'auth/weak-password') {
-        errorMessage = "The password is too weak. Please choose a stronger password.";
-      }
-      toast({
-        title: "Sign Up Failed",
-        description: errorMessage,
-        variant: "destructive",
-      });
-      setIsLoading(false);
-    }
+    // Redirect to home page after successful sign up
+    setTimeout(() => {
+      window.location.href = '/';
+    }, 1500);
   }
 
   return (
@@ -89,12 +57,6 @@ export function SignUpPage() {
         <CardDescription>Join PredictAI to get started with AI-powered insights</CardDescription>
       </CardHeader>
       <CardContent>
-        {!isFirebaseActive && (
-          <div className="mb-4 rounded-md border border-destructive/50 bg-destructive/10 p-3 text-center text-sm text-destructive">
-            <p><strong>Sign-up is currently disabled.</strong></p>
-            <p className="text-xs">The app is not configured for Firebase Authentication.</p>
-          </div>
-        )}
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             <FormField
@@ -104,7 +66,7 @@ export function SignUpPage() {
                 <FormItem>
                   <FormLabel>Full Name</FormLabel>
                   <FormControl>
-                    <Input placeholder="John Doe" {...field} disabled={!isFirebaseActive} />
+                    <Input placeholder="John Doe" {...field} disabled={isLoading} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -117,7 +79,7 @@ export function SignUpPage() {
                 <FormItem>
                   <FormLabel>Email Address</FormLabel>
                   <FormControl>
-                    <Input type="email" placeholder="you@example.com" {...field} disabled={!isFirebaseActive} />
+                    <Input type="email" placeholder="you@example.com" {...field} disabled={isLoading} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -130,13 +92,13 @@ export function SignUpPage() {
                 <FormItem>
                   <FormLabel>Password</FormLabel>
                   <FormControl>
-                    <Input type="password" placeholder="••••••••" {...field} disabled={!isFirebaseActive} />
+                    <Input type="password" placeholder="••••••••" {...field} disabled={isLoading} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <Button type="submit" className="w-full" disabled={isLoading || !isFirebaseActive}>
+            <Button type="submit" className="w-full" disabled={isLoading}>
               {isLoading ? (
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
               ) : (
