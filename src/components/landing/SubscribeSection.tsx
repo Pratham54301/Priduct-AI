@@ -13,6 +13,7 @@ export function SubscribeSection() {
   const [location, setLocation] = React.useState('');
   const [isLoading, setIsLoading] = React.useState(false);
   const { toast } = useToast();
+  const isFirebaseActive = !!db;
 
   const validateEmail = (email: string) => {
     // Basic email validation regex
@@ -23,6 +24,16 @@ export function SubscribeSection() {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setIsLoading(true);
+
+    if (!isFirebaseActive || !db) {
+      toast({
+        title: "Subscription Unavailable",
+        description: "Firebase is not configured. Please add your credentials.",
+        variant: "destructive",
+      });
+      setIsLoading(false);
+      return;
+    }
 
     if (!validateEmail(email)) {
       toast({
@@ -76,6 +87,11 @@ export function SubscribeSection() {
           <p className="mt-4 text-lg opacity-90">
             Get instant access to exclusive predictions, tutorials, and trading strategies.
           </p>
+          {!isFirebaseActive && (
+            <div className="mt-6 max-w-2xl mx-auto rounded-md bg-yellow-500/20 p-3 text-sm text-yellow-200">
+              <p><strong>Subscription feature is currently disabled.</strong> The app is not configured for Firebase.</p>
+            </div>
+          )}
           <form onSubmit={handleSubmit} className="mt-10 max-w-2xl mx-auto">
             <div className="flex flex-col sm:flex-row items-start gap-4">
               <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -88,7 +104,7 @@ export function SubscribeSection() {
                     aria-label="Email address"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    disabled={isLoading}
+                    disabled={isLoading || !isFirebaseActive}
                     required
                   />
                 </div>
@@ -101,7 +117,7 @@ export function SubscribeSection() {
                     aria-label="Location"
                     value={location}
                     onChange={(e) => setLocation(e.target.value)}
-                    disabled={isLoading}
+                    disabled={isLoading || !isFirebaseActive}
                   />
                 </div>
               </div>
@@ -109,7 +125,7 @@ export function SubscribeSection() {
                 type="submit" 
                 size="lg" 
                 className="bg-background text-primary hover:bg-background/90 shrink-0 w-full sm:w-auto"
-                disabled={isLoading}
+                disabled={isLoading || !isFirebaseActive}
               >
                 {isLoading ? (
                   <>
