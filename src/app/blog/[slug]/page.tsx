@@ -5,6 +5,11 @@ import { blogPosts } from '@/components/blog/BlogListPage';
 import { notFound } from 'next/navigation';
 
 export async function generateStaticParams() {
+  if (!Array.isArray(blogPosts)) {
+    console.error("blogPosts is not an array:", blogPosts);
+    return []; // fallback to avoid build failure
+  }
+
   return blogPosts.map((post) => ({
     slug: post.slug,
   }));
