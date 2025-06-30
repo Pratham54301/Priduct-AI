@@ -11,18 +11,39 @@ import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { useToast } from '@/hooks/use-toast';
-import { Loader2, UserPlus, ShieldCheck } from 'lucide-react';
+import { Loader2, UserPlus } from 'lucide-react';
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
 
 const signUpSchema = z.object({
-  fullName: z.string().min(2, { message: "Full name must be at least 2 characters." }),
-  email: z.string().email({ message: "Please enter a valid email address." }),
-  password: z.string().min(6, { message: "Password must be at least 6 characters." }),
   role: z.enum(['User', 'Admin']),
+  fullName: z.string().optional(),
+  email: z.string().optional(),
+  password: z.string().optional(),
   adminId: z.string().optional(),
   adminPassword: z.string().optional(),
+}).superRefine((data, ctx) => {
+  if (data.role === 'User') {
+    if (!data.fullName || data.fullName.length < 2) {
+      ctx.addIssue({ code: z.ZodIssueCode.custom, message: "Full name must be at least 2 characters.", path: ['fullName'] });
+    }
+    const emailValidation = z.string().email().safeParse(data.email);
+    if (!data.email || !emailValidation.success) {
+      ctx.addIssue({ code: z.ZodIssueCode.custom, message: "Please enter a valid email address.", path: ['email'] });
+    }
+    if (!data.password || data.password.length < 6) {
+      ctx.addIssue({ code: z.ZodIssueCode.custom, message: "Password must be at least 6 characters.", path: ['password'] });
+    }
+  } else if (data.role === 'Admin') {
+    if (!data.adminId || data.adminId.trim() === '') {
+       ctx.addIssue({ code: z.ZodIssueCode.custom, message: "Admin ID is required.", path: ['adminId'] });
+    }
+    if (!data.adminPassword || data.adminPassword.trim() === '') {
+       ctx.addIssue({ code: z.ZodIssueCode.custom, message: "Admin Password is required.", path: ['adminPassword'] });
+    }
+  }
 });
+
 
 export function SignUpPage() {
   const { toast } = useToast();
@@ -44,20 +65,18 @@ export function SignUpPage() {
   
   React.useEffect(() => {
     form.setValue('role', role);
+    form.clearErrors();
   }, [role, form]);
 
   async function onSubmit(values: z.infer<typeof signUpSchema>) {
     setIsLoading(true);
 
     if (values.role === 'Admin') {
-      // Hardcoded admin credentials check
-      if (values.adminId === 'Priduct369' && values.adminPassword === 'Ai@0000') {
+      if (values.adminId === 'priduct123' && values.adminPassword === 'secureAccess#') {
         toast({
           title: "Admin Validation Successful!",
           description: "Redirecting to the admin panel...",
         });
-        // In a real app, you would issue a secure session/token here.
-        // For this prototype, we'll use sessionStorage. THIS IS NOT SECURE.
         sessionStorage.setItem('isAdmin', 'true');
         router.push('/admin-panel');
       } else {
@@ -72,17 +91,13 @@ export function SignUpPage() {
     }
 
     // Simulate regular user signup
-    console.log("Simulating sign up for:", values);
     await new Promise(resolve => setTimeout(resolve, 1500));
-
     toast({
       title: "Account Created Successfully!",
       description: "You have been signed up. Redirecting to home...",
     });
-
-    setTimeout(() => {
-      router.push('/');
-    }, 1500);
+    router.push('/');
+    setIsLoading(false);
   }
 
   return (
@@ -107,78 +122,77 @@ export function SignUpPage() {
               <Label htmlFor="role-switch" className={`transition-colors ${role === 'Admin' ? 'text-primary font-semibold' : 'text-muted-foreground'}`}>Admin</Label>
             </div>
 
-            <FormField
-              control={form.control}
-              name="fullName"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Full Name</FormLabel>
-                  <FormControl>
-                    <Input placeholder="John Doe" {...field} disabled={isLoading} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Email Address</FormLabel>
-                  <FormControl>
-                    <Input type="email" placeholder="you@example.com" {...field} disabled={isLoading} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="password"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Password</FormLabel>
-                  <FormControl>
-                    <Input type="password" placeholder="••••••••" {...field} disabled={isLoading} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            {role === 'Admin' && (
-              <Card className="p-4 bg-muted/50 border-primary/20 animate-in fade-in-50 duration-500">
-                <div className="space-y-4">
-                   <CardDescription className="text-center flex items-center justify-center gap-2"><ShieldCheck className="h-4 w-4" /> Admin Validation Required</CardDescription>
-                   <FormField
-                    control={form.control}
-                    name="adminId"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Admin ID</FormLabel>
-                        <FormControl>
-                          <Input placeholder="Enter Admin ID" {...field} disabled={isLoading} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="adminPassword"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Admin Password</FormLabel>
-                        <FormControl>
-                          <Input type="password" placeholder="Enter Admin Password" {...field} disabled={isLoading} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-              </Card>
+            {role === 'User' ? (
+              <div className="space-y-4">
+                <FormField
+                  control={form.control}
+                  name="fullName"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Full Name</FormLabel>
+                      <FormControl>
+                        <Input placeholder="John Doe" {...field} disabled={isLoading} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Email Address</FormLabel>
+                      <FormControl>
+                        <Input type="email" placeholder="you@example.com" {...field} disabled={isLoading} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="password"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Password</FormLabel>
+                      <FormControl>
+                        <Input type="password" placeholder="••••••••" {...field} disabled={isLoading} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+            ) : (
+              <div className="space-y-4">
+                <FormField
+                  control={form.control}
+                  name="adminId"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Admin ID</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Enter Admin ID" {...field} disabled={isLoading} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="adminPassword"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Admin Password</FormLabel>
+                      <FormControl>
+                        <Input type="password" placeholder="Enter Admin Password" {...field} disabled={isLoading} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
             )}
 
             <Button type="submit" className="w-full" disabled={isLoading}>
@@ -187,7 +201,7 @@ export function SignUpPage() {
               ) : (
                 <UserPlus className="mr-2 h-4 w-4" />
               )}
-              {isLoading ? 'Processing...' : 'Create Account'}
+              {isLoading ? 'Processing...' : (role === 'Admin' ? 'Validate & Continue' : 'Create Account')}
             </Button>
           </form>
         </Form>
