@@ -11,7 +11,7 @@ import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { useToast } from '@/hooks/use-toast';
-import { Loader2, UserPlus } from 'lucide-react';
+import { Loader2, UserPlus, ShieldCheck } from 'lucide-react';
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
 
@@ -72,7 +72,7 @@ export function SignUpPage() {
     setIsLoading(true);
 
     if (values.role === 'Admin') {
-      if (values.adminId === 'priduct123' && values.adminPassword === 'secureAccess#') {
+      if (values.adminId === 'Priduct369' && values.adminPassword === 'Ai@0000') {
         toast({
           title: "Admin Validation Successful!",
           description: "Redirecting to the admin panel...",
@@ -123,7 +123,7 @@ export function SignUpPage() {
             </div>
 
             {role === 'User' ? (
-              <div className="space-y-4">
+              <div className="space-y-4 animate-in fade-in-50 duration-500">
                 <FormField
                   control={form.control}
                   name="fullName"
@@ -165,34 +165,37 @@ export function SignUpPage() {
                 />
               </div>
             ) : (
-              <div className="space-y-4">
-                <FormField
-                  control={form.control}
-                  name="adminId"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Admin ID</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Enter Admin ID" {...field} disabled={isLoading} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="adminPassword"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Admin Password</FormLabel>
-                      <FormControl>
-                        <Input type="password" placeholder="Enter Admin Password" {...field} disabled={isLoading} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
+              <Card className="p-4 bg-muted/50 border-primary/20 animate-in fade-in-50 duration-500">
+                  <div className="space-y-4">
+                      <CardDescription className="text-center flex items-center justify-center gap-2"><ShieldCheck className="h-4 w-4" /> Admin Access</CardDescription>
+                      <FormField
+                          control={form.control}
+                          name="adminId"
+                          render={({ field }) => (
+                          <FormItem>
+                              <FormLabel>Admin ID</FormLabel>
+                              <FormControl>
+                              <Input placeholder="Enter Admin ID" {...field} disabled={isLoading} />
+                              </FormControl>
+                              <FormMessage />
+                          </FormItem>
+                          )}
+                      />
+                      <FormField
+                          control={form.control}
+                          name="adminPassword"
+                          render={({ field }) => (
+                          <FormItem>
+                              <FormLabel>Admin Password</FormLabel>
+                              <FormControl>
+                              <Input type="password" placeholder="Enter Admin Password" {...field} disabled={isLoading} />
+                              </FormControl>
+                              <FormMessage />
+                          </FormItem>
+                          )}
+                      />
+                  </div>
+              </Card>
             )}
 
             <Button type="submit" className="w-full" disabled={isLoading}>

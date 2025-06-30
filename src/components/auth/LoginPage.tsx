@@ -16,19 +16,27 @@ import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 
 const formSchema = z.object({
+  role: z.enum(['User', 'Admin']),
   email: z.string().optional(),
   password: z.string().optional(),
-  role: z.enum(['User', 'Admin']),
   adminId: z.string().optional(),
   adminPassword: z.string().optional(),
-}).refine(data => {
-    if (data.role === 'User') {
-        return !!data.email && z.string().email().safeParse(data.email).success && !!data.password && data.password.length >= 6;
+}).superRefine((data, ctx) => {
+  if (data.role === 'User') {
+    if (!data.email || !z.string().email().safeParse(data.email).success) {
+       ctx.addIssue({ code: z.ZodIssueCode.custom, message: "A valid email is required.", path: ['email'] });
     }
-    return true;
-}, {
-    message: "Email and password are required for user login.",
-    path: ['email'],
+    if (!data.password || data.password.length === 0) {
+       ctx.addIssue({ code: z.ZodIssueCode.custom, message: "Password is required.", path: ['password'] });
+    }
+  } else if (data.role === 'Admin') {
+    if (!data.adminId || data.adminId.trim() === '') {
+       ctx.addIssue({ code: z.ZodIssueCode.custom, message: "Admin ID is required.", path: ['adminId'] });
+    }
+    if (!data.adminPassword || data.adminPassword.trim() === '') {
+       ctx.addIssue({ code: z.ZodIssueCode.custom, message: "Admin Password is required.", path: ['adminPassword'] });
+    }
+  }
 });
 
 export function LoginPage() {
@@ -50,6 +58,7 @@ export function LoginPage() {
 
   React.useEffect(() => {
     form.setValue('role', role);
+    form.clearErrors();
   }, [role, form]);
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
@@ -111,7 +120,7 @@ export function LoginPage() {
             </div>
 
             {role === 'User' ? (
-                <>
+                <div className="space-y-4 animate-in fade-in-50 duration-500">
                     <FormField
                     control={form.control}
                     name="email"
@@ -143,7 +152,7 @@ export function LoginPage() {
                         </FormItem>
                     )}
                     />
-                </>
+                </div>
             ) : (
                 <Card className="p-4 bg-muted/50 border-primary/20 animate-in fade-in-50 duration-500">
                     <div className="space-y-4">
