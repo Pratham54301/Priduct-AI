@@ -13,6 +13,7 @@ import {
   Package2,
   Search,
   Users,
+  LineChart,
 } from 'lucide-react';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
