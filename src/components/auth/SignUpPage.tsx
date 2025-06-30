@@ -51,7 +51,7 @@ export function SignUpPage() {
 
     if (values.role === 'Admin') {
       // Hardcoded admin credentials check
-      if (values.adminId === 'Priduct3006' && values.adminPassword === 'Ai@1404') {
+      if (values.adminId === 'Priduct369' && values.adminPassword === 'Ai@0000') {
         toast({
           title: "Admin Validation Successful!",
           description: "Redirecting to the admin panel...",
