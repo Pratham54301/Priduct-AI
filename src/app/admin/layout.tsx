@@ -18,16 +18,16 @@ export default function AdminLayout({
     // THIS IS NOT A SECURE WAY TO PROTECT A ROUTE in a production app.
     // In a real application, this logic should be handled by a server-side middleware
     // that validates a secure, HTTP-only cookie or a JWT token.
-    try {
-      const isAdmin = sessionStorage.getItem('isAdmin');
-      if (isAdmin !== 'true') {
+    if (typeof sessionStorage !== 'undefined') {
+        const isAdmin = sessionStorage.getItem('isAdmin');
+        if (isAdmin !== 'true') {
+            router.push('/login');
+        } else {
+            setIsVerified(true);
+        }
+    } else {
+        // Fallback for environments where sessionStorage might not be immediately available.
         router.push('/login');
-      } else {
-        setIsVerified(true);
-      }
-    } catch (error) {
-      // sessionStorage is not available on the server, so redirect on the client
-      router.push('/login');
     }
   }, [router]);
 
