@@ -71,7 +71,7 @@ export function LoginPage() {
           description: "Redirecting to the admin panel...",
         });
         sessionStorage.setItem('isAdmin', 'true');
-        router.push('/admin-panel');
+        router.push('/admin');
       } else {
         toast({
           title: "Invalid Admin Credentials",
@@ -89,7 +89,7 @@ export function LoginPage() {
 
     toast({
       title: "Login Successful!",
-      description: "Redirecting to your dashboard...",
+      description: "You have been signed up. Redirecting to home...",
     });
     
     // In a real app, you would redirect the user after successful login.

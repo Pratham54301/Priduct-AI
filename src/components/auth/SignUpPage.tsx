@@ -78,7 +78,7 @@ export function SignUpPage() {
           description: "Redirecting to the admin panel...",
         });
         sessionStorage.setItem('isAdmin', 'true');
-        router.push('/admin-panel');
+        router.push('/admin');
       } else {
         toast({
           title: "Invalid Admin Credentials",
