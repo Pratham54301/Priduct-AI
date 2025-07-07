@@ -14,6 +14,8 @@ import { useToast } from '@/hooks/use-toast';
 import { Loader2, LogIn, ShieldCheck } from 'lucide-react';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
+import { auth } from '@/lib/firebase';
+import { signInWithEmailAndPassword } from 'firebase/auth';
 
 const formSchema = z.object({
   role: z.enum(['User', 'Admin']),
@@ -78,24 +80,48 @@ export function LoginPage() {
           description: "The Admin ID or Password is incorrect.",
           variant: "destructive",
         });
-        setIsLoading(false);
       }
+      setIsLoading(false);
       return;
     }
     
-    // Simulate regular user login
-    console.log(values);
-    await new Promise(resolve => setTimeout(resolve, 1500));
+    // Regular user login with Firebase
+    try {
+        if (!auth) throw new Error("Firebase Auth is not configured.");
+        if (!values.email || !values.password) throw new Error("Email and password are required.");
+        
+        await signInWithEmailAndPassword(auth, values.email, values.password);
+        
+        toast({
+            title: "Login Successful!",
+            description: "Welcome back! Redirecting you now...",
+        });
+        router.push('/');
+    } catch (error: any) {
+        let title = "Login Failed";
+        let description = "An unexpected error occurred. Please try again.";
 
-    toast({
-      title: "Login Successful!",
-      description: "You have been signed up. Redirecting to home...",
-    });
-    
-    // In a real app, you would redirect the user after successful login.
-    // For now, redirecting to home
-    router.push('/');
-    setIsLoading(false);
+        switch (error.code) {
+            case 'auth/user-not-found':
+            case 'auth/wrong-password':
+            case 'auth/invalid-credential':
+                title = "Invalid Credentials";
+                description = "The email or password you entered is incorrect.";
+                break;
+            case 'auth/too-many-requests':
+                title = "Too Many Attempts";
+                description = "Access to this account has been temporarily disabled due to many failed login attempts. You can immediately restore it by resetting your password or you can try again later.";
+                break;
+        }
+
+        toast({
+            title,
+            description,
+            variant: "destructive",
+        });
+    } finally {
+        setIsLoading(false);
+    }
   }
 
   return (

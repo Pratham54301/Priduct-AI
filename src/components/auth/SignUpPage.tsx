@@ -14,6 +14,9 @@ import { useToast } from '@/hooks/use-toast';
 import { Loader2, UserPlus, ShieldCheck } from 'lucide-react';
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
+import { auth } from '@/lib/firebase';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { addUser } from '@/services/userService';
 
 const signUpSchema = z.object({
   role: z.enum(['User', 'Admin']),
@@ -85,19 +88,50 @@ export function SignUpPage() {
           description: "The Admin ID or Password is incorrect.",
           variant: "destructive",
         });
-        setIsLoading(false);
       }
+      setIsLoading(false);
       return;
     }
 
-    // Simulate regular user signup
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    toast({
-      title: "Account Created Successfully!",
-      description: "You have been signed up. Redirecting to home...",
-    });
-    router.push('/');
-    setIsLoading(false);
+    // Regular user signup with Firebase
+    try {
+        if (!auth) throw new Error("Firebase Auth is not configured.");
+        if (!values.email || !values.password || !values.fullName) throw new Error("Full name, email and password are required.");
+        
+        const userCredential = await createUserWithEmailAndPassword(auth, values.email, values.password);
+        const user = userCredential.user;
+
+        // Add user to Firestore database
+        await addUser({
+            fullName: values.fullName,
+            email: user.email!,
+            role: 'User',
+            status: 'Active',
+            joined: new Date().toISOString()
+        });
+
+        toast({
+            title: "Account Created Successfully!",
+            description: "Welcome! Redirecting you to the home page...",
+        });
+        router.push('/');
+    } catch (error: any) {
+        let title = "Sign Up Failed";
+        let description = "An unexpected error occurred. Please try again.";
+        
+        if (error.code === 'auth/email-already-in-use') {
+            title = "Email Already Registered";
+            description = "An account with this email address already exists. Please try logging in instead.";
+        }
+        
+        toast({
+            title,
+            description,
+            variant: "destructive",
+        });
+    } finally {
+        setIsLoading(false);
+    }
   }
 
   return (
