@@ -1,3 +1,4 @@
+
 'use client';
 
 import * as React from 'react';
@@ -11,6 +12,7 @@ import {
   RotateCcw,
   Search,
   Brain,
+  Loader2,
 } from 'lucide-react';
 
 import {
@@ -36,7 +38,6 @@ import {
 } from '@/components/ui/card';
 import {
   DropdownMenu,
-  DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
@@ -53,30 +54,55 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { UserMenu } from '../UserMenu';
 import { mobileNavItems } from '../navItems';
 import { useToast } from '@/hooks/use-toast';
-
-const leaderboardData = [
-  { rank: 1, name: 'Priya S.', score: 12500, accuracy: '92.5%', trades: 150 },
-  { rank: 2, name: 'Raj K.', score: 11800, accuracy: '88.2%', trades: 210 },
-  { rank: 3, name: 'Vikram Singh', score: 11500, accuracy: '85.0%', trades: 180 },
-  { rank: 4, name: 'Anita D.', score: 10900, accuracy: '91.1%', trades: 120 },
-  { rank: 5, name: 'John Smith', score: 10500, accuracy: '82.5%', trades: 250 },
-  { rank: 6, name: 'Suresh P.', score: 9800, accuracy: '78.9%', trades: 190 },
-  { rank: 7, name: 'Emily Chen', score: 9500, accuracy: '90.3%', trades: 140 },
-];
+import { LeaderboardEntry } from '@/models/types';
+import { getLeaderboard, resetAllScores } from '@/services/leaderboardService';
 
 export function LeaderboardPage() {
   const { toast } = useToast();
+  const [leaderboard, setLeaderboard] = React.useState<LeaderboardEntry[]>([]);
+  const [isLoading, setIsLoading] = React.useState(true);
 
-  const handleResetScores = () => {
-    toast({
-      title: 'Scores Reset!',
-      description: 'The leaderboard scores have been successfully reset.',
-    });
+  const fetchLeaderboard = React.useCallback(async () => {
+    setIsLoading(true);
+    try {
+        const fetchedLeaderboard = await getLeaderboard();
+        setLeaderboard(fetchedLeaderboard);
+    } catch (error) {
+        console.error("Failed to fetch leaderboard:", error);
+        toast({
+            title: "Error fetching leaderboard",
+            description: "Could not load leaderboard data. Please ensure Firebase is configured correctly.",
+            variant: "destructive",
+        });
+    } finally {
+        setIsLoading(false);
+    }
+  }, [toast]);
+
+  React.useEffect(() => {
+    fetchLeaderboard();
+  }, [fetchLeaderboard]);
+
+  const handleResetScores = async () => {
+    try {
+        await resetAllScores();
+        await fetchLeaderboard(); // Refresh the data
+        toast({
+          title: 'Scores Reset!',
+          description: 'The leaderboard scores have been successfully reset.',
+        });
+    } catch (error) {
+        console.error("Failed to reset scores:", error);
+        toast({
+            title: "Error resetting scores",
+            description: "Could not reset scores. Please try again.",
+            variant: "destructive",
+        });
+    }
   };
 
   return (
@@ -176,7 +202,20 @@ export function LeaderboardPage() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {leaderboardData.map((user) => (
+                  {isLoading ? (
+                       <TableRow>
+                        <TableCell colSpan={6} className="h-24 text-center">
+                          <Loader2 className="mx-auto h-6 w-6 animate-spin text-primary" />
+                        </TableCell>
+                      </TableRow>
+                    ) : leaderboard.length === 0 ? (
+                       <TableRow>
+                        <TableCell colSpan={6} className="h-24 text-center">
+                          No leaderboard data found.
+                        </TableCell>
+                      </TableRow>
+                    ) : (
+                  leaderboard.map((user) => (
                     <TableRow key={user.rank}>
                       <TableCell className="font-medium">{user.rank}</TableCell>
                       <TableCell>{user.name}</TableCell>
@@ -211,13 +250,13 @@ export function LeaderboardPage() {
                         </DropdownMenu>
                       </TableCell>
                     </TableRow>
-                  ))}
+                  )))}
                 </TableBody>
               </Table>
             </CardContent>
             <CardFooter>
               <div className="text-xs text-muted-foreground">
-                Showing <strong>1-7</strong> of <strong>32</strong> users
+                Showing <strong>{leaderboard.length}</strong> of <strong>{leaderboard.length}</strong> users
               </div>
             </CardFooter>
           </Card>
@@ -225,3 +264,4 @@ export function LeaderboardPage() {
     </>
   );
 }
+

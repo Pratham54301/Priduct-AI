@@ -1,3 +1,4 @@
+
 'use client';
 
 import * as React from 'react';
@@ -6,8 +7,8 @@ import {
   File,
   Menu,
   MoreHorizontal,
-  Search,
   Brain,
+  Loader2,
 } from 'lucide-react';
 
 import { Badge } from '@/components/ui/badge';
@@ -27,7 +28,6 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { Input } from '@/components/ui/input';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import {
   Table,
@@ -42,16 +42,36 @@ import { ThemeToggle } from '@/components/ThemeToggle';
 import { UserMenu } from '../UserMenu';
 import { mobileNavItems } from '../navItems';
 import { ManualPaymentDialog } from './ManualPaymentDialog';
-
-const paymentsData = [
-    { id: 'pay_1', email: 'liam@example.com', amount: '$29.00', status: 'Completed', date: '2024-07-20' },
-    { id: 'pay_2', email: 'olivia@example.com', amount: '$49.00', status: 'Completed', date: '2024-07-19' },
-    { id: 'pay_3', email: 'noah@example.com', amount: '$99.00', status: 'Pending', date: '2024-07-18' },
-    { id: 'pay_4', email: 'emma@example.com', amount: '$29.00', status: 'Completed', date: '2024-07-17' },
-    { id: 'pay_5', email: 'ava@example.com', amount: '$49.00', status: 'Failed', date: '2024-07-16' },
-]
+import { Payment } from '@/models/types';
+import { getPayments } from '@/services/paymentService';
+import { useToast } from '@/hooks/use-toast';
 
 export function PaymentSystemPage() {
+  const { toast } = useToast();
+  const [payments, setPayments] = React.useState<Payment[]>([]);
+  const [isLoading, setIsLoading] = React.useState(true);
+
+  React.useEffect(() => {
+    const fetchPayments = async () => {
+        setIsLoading(true);
+        try {
+            const fetchedPayments = await getPayments();
+            setPayments(fetchedPayments);
+        } catch (error) {
+            console.error("Failed to fetch payments:", error);
+            toast({
+                title: "Error fetching payments",
+                description: "Could not load payment data. Please ensure Firebase is configured correctly.",
+                variant: "destructive",
+            });
+        } finally {
+            setIsLoading(false);
+        }
+    };
+    fetchPayments();
+  }, [toast]);
+
+
   return (
     <>
       <header className="flex h-14 items-center gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6">
@@ -131,12 +151,25 @@ export function PaymentSystemPage() {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {paymentsData.map(payment => (
+                    {isLoading ? (
+                       <TableRow>
+                        <TableCell colSpan={5} className="h-24 text-center">
+                          <Loader2 className="mx-auto h-6 w-6 animate-spin text-primary" />
+                        </TableCell>
+                      </TableRow>
+                    ) : payments.length === 0 ? (
+                       <TableRow>
+                        <TableCell colSpan={5} className="h-24 text-center">
+                          No payments found.
+                        </TableCell>
+                      </TableRow>
+                    ) : (
+                      payments.map(payment => (
                         <TableRow key={payment.id}>
                             <TableCell>
-                                <div className="font-medium">{payment.email.split('@')[0]}</div>
+                                <div className="font-medium">{payment.userEmail.split('@')[0]}</div>
                                 <div className="hidden text-sm text-muted-foreground md:inline">
-                                {payment.email}
+                                {payment.userEmail}
                                 </div>
                             </TableCell>
                             <TableCell>
@@ -144,7 +177,7 @@ export function PaymentSystemPage() {
                                 {payment.status}
                                 </Badge>
                             </TableCell>
-                            <TableCell>{payment.amount}</TableCell>
+                            <TableCell>${payment.amount.toFixed(2)}</TableCell>
                             <TableCell>{payment.date}</TableCell>
                             <TableCell>
                                 <DropdownMenu>
@@ -163,13 +196,13 @@ export function PaymentSystemPage() {
                                 </DropdownMenu>
                             </TableCell>
                         </TableRow>
-                    ))}
+                    )))}
                   </TableBody>
                 </Table>
               </CardContent>
               <CardFooter>
                 <div className="text-xs text-muted-foreground">
-                  Showing <strong>1-5</strong> of <strong>32</strong> payments
+                  Showing <strong>{payments.length}</strong> payments
                 </div>
               </CardFooter>
             </Card>

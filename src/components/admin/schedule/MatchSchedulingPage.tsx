@@ -1,3 +1,4 @@
+
 'use client';
 
 import * as React from 'react';
@@ -9,8 +10,8 @@ import {
   CalendarIcon,
   Menu,
   MoreHorizontal,
-  Search,
   Brain,
+  Loader2,
 } from 'lucide-react';
 import { format } from "date-fns"
 
@@ -56,6 +57,9 @@ import { UserMenu } from '../UserMenu';
 import { mobileNavItems } from '../navItems';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
+import { Schedule } from '@/models/types';
+import { getSchedules, addSchedule } from '@/services/scheduleService';
+
 
 const scheduleSchema = z.object({
     title: z.string().min(3, "Title must be at least 3 characters."),
@@ -67,21 +71,47 @@ const scheduleSchema = z.object({
     description: z.string().optional(),
 });
 
-const scheduledMatches = [
-    { id: 'm_1', title: 'Nifty 50 Weekly Prediction', date: '2024-08-05', type: 'Stock', status: 'Upcoming' },
-    { id: 'm_2', title: 'Bitcoin Halving Special', date: '2024-07-30', type: 'Crypto', status: 'Live' },
-    { id: 'm_3', title: 'Forex Friday: USD/INR', date: '2024-07-26', type: 'Currency', status: 'Completed' },
-    { id: 'm_4', title: 'Tech Stocks Rally', date: '2024-08-10', type: 'Stock', status: 'Upcoming' },
-]
-
 export function MatchSchedulingPage() {
     const { toast } = useToast();
+    const [schedules, setSchedules] = React.useState<Schedule[]>([]);
+    const [isLoading, setIsLoading] = React.useState(true);
+
     const form = useForm<z.infer<typeof scheduleSchema>>({
         resolver: zodResolver(scheduleSchema),
+        defaultValues: {
+            title: '',
+            time: '',
+            type: 'Stock',
+            description: '',
+        }
     });
+
+    const fetchSchedules = React.useCallback(async () => {
+        setIsLoading(true);
+        try {
+            const fetchedSchedules = await getSchedules();
+            setSchedules(fetchedSchedules);
+        } catch (error) {
+            console.error("Failed to fetch schedules:", error);
+            toast({
+                title: "Error fetching schedules",
+                description: "Could not load schedule data. Please ensure Firebase is configured correctly.",
+                variant: "destructive",
+            });
+        } finally {
+            setIsLoading(false);
+        }
+    }, [toast]);
+    
+    React.useEffect(() => {
+        fetchSchedules();
+    }, [fetchSchedules]);
+
 
     const onSubmit = (data: z.infer<typeof scheduleSchema>) => {
         console.log(data);
+        // This is where you would call addSchedule(data)
+        // For now, it just shows a toast.
         toast({
             title: "Match Scheduled!",
             description: `"${data.title}" has been successfully scheduled for ${format(data.date, "PPP")} at ${data.time}.`,
@@ -219,7 +249,20 @@ export function MatchSchedulingPage() {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {scheduledMatches.map(match => (
+                     {isLoading ? (
+                       <TableRow>
+                        <TableCell colSpan={5} className="h-24 text-center">
+                          <Loader2 className="mx-auto h-6 w-6 animate-spin text-primary" />
+                        </TableCell>
+                      </TableRow>
+                    ) : schedules.length === 0 ? (
+                       <TableRow>
+                        <TableCell colSpan={5} className="h-24 text-center">
+                          No schedules found.
+                        </TableCell>
+                      </TableRow>
+                    ) : (
+                    schedules.map(match => (
                         <TableRow key={match.id}>
                             <TableCell className="font-medium">{match.title}</TableCell>
                             <TableCell>{match.type}</TableCell>
@@ -241,7 +284,7 @@ export function MatchSchedulingPage() {
                                 </DropdownMenu>
                             </TableCell>
                         </TableRow>
-                    ))}
+                    )))}
                   </TableBody>
                 </Table>
               </CardContent>

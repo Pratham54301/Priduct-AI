@@ -1,3 +1,4 @@
+
 'use client';
 
 import * as React from 'react';
@@ -10,6 +11,7 @@ import {
   PlusCircle,
   Search,
   Brain,
+  Loader2,
 } from 'lucide-react';
 
 import {
@@ -56,31 +58,58 @@ import { ThemeToggle } from '@/components/ThemeToggle';
 import { UserMenu } from '../UserMenu';
 import { mobileNavItems } from '../navItems';
 import { useToast } from '@/hooks/use-toast';
-
-const usersData = [
-    { id: 'usr_1', name: 'Liam Johnson', email: 'liam@example.com', role: 'User', status: 'Active', joined: '2024-07-20' },
-    { id: 'usr_2', name: 'Olivia Smith', email: 'olivia@example.com', role: 'User', status: 'Active', joined: '2024-07-19' },
-    { id: 'usr_3', name: 'Noah Williams', email: 'noah@example.com', role: 'User', status: 'Inactive', joined: '2024-07-18' },
-    { id: 'usr_4', name: 'Emma Brown', email: 'emma@example.com', role: 'Admin', status: 'Active', joined: '2024-07-17' },
-    { id: 'usr_5', name: 'Ava Jones', email: 'ava@example.com', role: 'User', status: 'Active', joined: '2024-07-16' },
-]
+import { User } from '@/models/types';
+import { getUsers, deleteUser } from '@/services/userService';
 
 export function UserManagementPage() {
     const { toast } = useToast();
+    const [users, setUsers] = React.useState<User[]>([]);
+    const [isLoading, setIsLoading] = React.useState(true);
     const [openDeleteDialog, setOpenDeleteDialog] = React.useState(false);
-    const [selectedUser, setSelectedUser] = React.useState(null);
+    const [selectedUser, setSelectedUser] = React.useState<User | null>(null);
 
-    const handleDelete = () => {
+    const fetchUsers = React.useCallback(async () => {
+        setIsLoading(true);
+        try {
+            const fetchedUsers = await getUsers();
+            setUsers(fetchedUsers);
+        } catch (error) {
+            console.error("Failed to fetch users:", error);
+            toast({
+                title: "Error fetching users",
+                description: "Could not load user data. Please ensure Firebase is configured correctly.",
+                variant: "destructive",
+            });
+        } finally {
+            setIsLoading(false);
+        }
+    }, [toast]);
+
+    React.useEffect(() => {
+        fetchUsers();
+    }, [fetchUsers]);
+
+    const handleDelete = async () => {
         if (!selectedUser) return;
-        console.log("Deleting user", selectedUser);
-        toast({
-            title: "User Deleted",
-            description: `User ${selectedUser.name} has been successfully deleted.`,
-            variant: "destructive"
-        });
-        // Here you would typically filter out the user from your state
-        setOpenDeleteDialog(false);
-        setSelectedUser(null);
+        try {
+            await deleteUser(selectedUser.id);
+            setUsers(prevUsers => prevUsers.filter(u => u.id !== selectedUser.id));
+            toast({
+                title: "User Deleted",
+                description: `User ${selectedUser.fullName} has been successfully deleted.`,
+                variant: "destructive"
+            });
+        } catch (error) {
+             console.error("Failed to delete user:", error);
+             toast({
+                title: "Error deleting user",
+                description: "Could not delete user. Please try again.",
+                variant: "destructive",
+            });
+        } finally {
+            setOpenDeleteDialog(false);
+            setSelectedUser(null);
+        }
     }
 
   return (
@@ -203,10 +232,23 @@ export function UserManagementPage() {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {usersData.map((user) => (
+                    {isLoading ? (
+                      <TableRow>
+                        <TableCell colSpan={5} className="h-24 text-center">
+                          <Loader2 className="mx-auto h-6 w-6 animate-spin text-primary" />
+                        </TableCell>
+                      </TableRow>
+                    ) : users.length === 0 ? (
+                       <TableRow>
+                        <TableCell colSpan={5} className="h-24 text-center">
+                          No users found.
+                        </TableCell>
+                      </TableRow>
+                    ) : (
+                      users.map((user) => (
                         <TableRow key={user.id}>
                             <TableCell className="font-medium">
-                                <div>{user.name}</div>
+                                <div>{user.fullName}</div>
                                 <div className="text-sm text-muted-foreground md:hidden">{user.email}</div>
                             </TableCell>
                             <TableCell>{user.role}</TableCell>
@@ -240,13 +282,13 @@ export function UserManagementPage() {
                                 </DropdownMenu>
                             </TableCell>
                         </TableRow>
-                    ))}
+                    )))}
                   </TableBody>
                 </Table>
               </CardContent>
               <CardFooter>
                 <div className="text-xs text-muted-foreground">
-                  Showing <strong>1-5</strong> of <strong>32</strong> users
+                  Showing <strong>{users.length}</strong> users
                 </div>
               </CardFooter>
             </Card>
@@ -257,7 +299,7 @@ export function UserManagementPage() {
                 <AlertDialogHeader>
                     <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
                     <AlertDialogDescription>
-                        This action cannot be undone. This will permanently delete the user account for {selectedUser?.name} and remove their data from our servers.
+                        This action cannot be undone. This will permanently delete the user account for {selectedUser?.fullName} and remove their data from our servers.
                     </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
