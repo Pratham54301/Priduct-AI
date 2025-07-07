@@ -18,12 +18,11 @@ export const AssetPredictionInputSchema = z.object({
 export type AssetPredictionInput = z.infer<typeof AssetPredictionInputSchema>;
 
 export const AssetPredictionOutputSchema = z.object({
-    currentPrice: z.string().nullable().describe("The current market price of the asset, formatted with currency symbol. Null if ticker is invalid."),
-    entryPoint: z.string().nullable().describe("The predicted entry price point for a trade, formatted with currency symbol. Null if ticker is invalid."),
-    sellPoint: z.string().nullable().describe("The predicted sell price point to take profit, formatted with currency symbol. Null if ticker is invalid."),
-    indicatorUsed: z.string().nullable().describe("The primary technical indicator used for the prediction. Null if ticker is invalid."),
-    reason: z.string().nullable().describe("A concise explanation for the prediction based on the technical indicator. Null if ticker is invalid."),
-    error: z.string().nullable().describe("Error message if the ticker is invalid (e.g., 'Invalid ticker symbol. Please try a valid stock/crypto code.'). Null if the ticker is valid."),
+    currentPrice: z.string().describe("The current market price of the asset, formatted with a currency symbol."),
+    entryPoint: z.string().describe("The predicted entry price point for a trade, formatted with a currency symbol."),
+    sellPoint: z.string().describe("The predicted sell price point to take profit, formatted with a currency symbol."),
+    indicatorUsed: z.string().describe("The primary technical indicator used for the prediction."),
+    reason: z.string().describe("A concise explanation for the prediction based on the technical indicator."),
 });
 export type AssetPredictionOutput = z.infer<typeof AssetPredictionOutputSchema>;
 
@@ -39,36 +38,20 @@ const prompt = ai.definePrompt({
 
 For the given ticker: "{{{ticker}}}"
 
-Your primary task is to generate prediction data.
-- \`currentPrice\`: A realistic current price. Must be a string with a currency symbol (e.g., "$", "₹").
-- \`entryPoint\`: A realistic price to enter a trade. Must be a string with a currency symbol.
-- \`sellPoint\`: A realistic price to sell for profit. Must be a string with a currency symbol.
-- \`indicatorUsed\`: A common technical indicator used (e.g., "RSI (Oversold)", "MACD Crossover").
-- \`reason\`: A concise, 1-2 sentence explanation for the prediction based on the indicator.
-- \`error\`: Set this to \`null\`.
+Generate the following prediction data:
+- \`currentPrice\`: A realistic current price with a currency symbol.
+- \`entryPoint\`: A realistic entry price with a currency symbol.
+- \`sellPoint\`: A realistic sell price with a currency symbol.
+- \`indicatorUsed\`: A common technical indicator (e.g., "RSI (Oversold)", "MACD Crossover").
+- \`reason\`: A concise, 1-2 sentence explanation for the prediction.
 
-If and only if the ticker is completely nonsensical and you cannot generate a plausible prediction (e.g., for "ASDFG"):
-- Set the \`error\` field to "Invalid ticker symbol. Please try a valid stock/crypto code.".
-- Set all other fields to \`null\`.
-
-Example for "BTC":
+Example for ticker "BTC":
 {
-  "error": null,
-  "currentPrice": "$64,221",
-  "entryPoint": "$63,800",
-  "sellPoint": "$66,000",
+  "currentPrice": "$64,221.50",
+  "entryPoint": "$63,800.00",
+  "sellPoint": "$66,000.00",
   "indicatorUsed": "RSI (Oversold) + EMA Crossover",
   "reason": "The RSI is in oversold territory, suggesting a potential price reversal. A bullish EMA crossover further supports an upward trend."
-}
-
-Example for "NOTASYMBOL":
-{
-  "error": "Invalid ticker symbol. Please try a valid stock/crypto code.",
-  "currentPrice": null,
-  "entryPoint": null,
-  "sellPoint": null,
-  "indicatorUsed": null,
-  "reason": null
 }
 
 Generate the JSON response for: {{{ticker}}}.`,
@@ -82,6 +65,9 @@ const getAssetPredictionFlow = ai.defineFlow(
   },
   async input => {
     const {output} = await prompt(input);
-    return output!;
+    if (!output) {
+      throw new Error("The AI failed to generate a valid prediction.");
+    }
+    return output;
   }
 );

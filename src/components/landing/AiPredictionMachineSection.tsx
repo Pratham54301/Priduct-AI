@@ -104,19 +104,7 @@ export function AiPredictionMachineSection() {
 
     try {
       const result = await getAssetPrediction({ ticker });
-      
-      if (result.error) {
-        // AI returned a specific error for the ticker
-        toast({
-          title: "Prediction Error",
-          description: result.error,
-          variant: "destructive",
-        });
-        setPrediction(null); // Clear any previous valid prediction
-      } else {
-        // Successful prediction
-        setPrediction(result);
-      }
+      setPrediction(result);
     } catch (error) {
       // General failure (API down, network error, etc.)
       console.error("Prediction failed:", error); // Log detailed error
@@ -125,6 +113,7 @@ export function AiPredictionMachineSection() {
         description: "The prediction service is currently unavailable. Please try again in a few seconds.",
         variant: "destructive",
       });
+      setPrediction(null);
     } finally {
       setIsLoading(false);
     }
