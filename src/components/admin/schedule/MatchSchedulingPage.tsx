@@ -75,6 +75,7 @@ export function MatchSchedulingPage() {
     const { toast } = useToast();
     const [schedules, setSchedules] = React.useState<Schedule[]>([]);
     const [isLoading, setIsLoading] = React.useState(true);
+    const [isSubmitting, setIsSubmitting] = React.useState(false);
 
     const form = useForm<z.infer<typeof scheduleSchema>>({
         resolver: zodResolver(scheduleSchema),
@@ -108,15 +109,34 @@ export function MatchSchedulingPage() {
     }, [fetchSchedules]);
 
 
-    const onSubmit = (data: z.infer<typeof scheduleSchema>) => {
-        console.log(data);
-        // This is where you would call addSchedule(data)
-        // For now, it just shows a toast.
-        toast({
-            title: "Match Scheduled!",
-            description: `"${data.title}" has been successfully scheduled for ${format(data.date, "PPP")} at ${data.time}.`,
-        });
-        form.reset();
+    const onSubmit = async (data: z.infer<typeof scheduleSchema>) => {
+        setIsSubmitting(true);
+        try {
+            const scheduleData = {
+                title: data.title,
+                date: format(data.date, 'yyyy-MM-dd'),
+                time: data.time,
+                type: data.type,
+                description: data.description || '',
+                status: 'Upcoming' as const,
+            };
+            await addSchedule(scheduleData);
+            toast({
+                title: "Match Scheduled!",
+                description: `"${data.title}" has been successfully scheduled.`,
+            });
+            form.reset();
+            fetchSchedules(); // Re-fetch the list
+        } catch (error) {
+            console.error("Failed to schedule match:", error);
+            toast({
+                title: "Scheduling Failed",
+                description: "Could not save the new match. Please try again.",
+                variant: "destructive",
+            });
+        } finally {
+            setIsSubmitting(false);
+        }
     };
 
   return (
@@ -227,7 +247,10 @@ export function MatchSchedulingPage() {
                                     <FormMessage />
                                 </FormItem>
                             )}/>
-                            <Button type="submit" className="w-full">Schedule Match</Button>
+                            <Button type="submit" className="w-full" disabled={isSubmitting}>
+                                {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                                Schedule Match
+                            </Button>
                         </form>
                     </Form>
                 </CardContent>

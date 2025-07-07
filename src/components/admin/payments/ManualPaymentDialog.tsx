@@ -1,3 +1,4 @@
+
 'use client';
 
 import * as React from 'react';
@@ -26,6 +27,8 @@ import {
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { useToast } from '@/hooks/use-toast';
 import { Loader2, PlusCircle } from 'lucide-react';
+import { findUserByEmail } from '@/services/userService';
+import { addPayment } from '@/services/paymentService';
 
 const paymentSchema = z.object({
   email: z.string().email({ message: 'Invalid email address.' }),
@@ -33,7 +36,11 @@ const paymentSchema = z.object({
   status: z.enum(['Completed', 'Pending', 'Failed']),
 });
 
-export function ManualPaymentDialog() {
+interface ManualPaymentDialogProps {
+  onSuccess: () => void;
+}
+
+export function ManualPaymentDialog({ onSuccess }: ManualPaymentDialogProps) {
     const { toast } = useToast();
     const [open, setOpen] = React.useState(false);
     const [isLoading, setIsLoading] = React.useState(false);
@@ -48,16 +55,46 @@ export function ManualPaymentDialog() {
 
     const onSubmit = async (values: z.infer<typeof paymentSchema>) => {
         setIsLoading(true);
-        console.log(values);
-        // Simulate API call
-        await new Promise(resolve => setTimeout(resolve, 1000));
-        setIsLoading(false);
-        setOpen(false);
-        form.reset();
-        toast({
-            title: 'Payment Recorded',
-            description: `Payment of $${values.amount} for ${values.email} has been manually recorded.`,
-        });
+        try {
+            const user = await findUserByEmail(values.email);
+            if (!user) {
+                toast({
+                    title: "User Not Found",
+                    description: "No user exists with that email address. Please check the email and try again.",
+                    variant: "destructive",
+                });
+                setIsLoading(false);
+                return;
+            }
+
+            const paymentData = {
+                userId: user.id,
+                userEmail: values.email,
+                amount: values.amount,
+                status: values.status,
+                date: new Date().toISOString(),
+            };
+
+            await addPayment(paymentData);
+
+            toast({
+                title: 'Payment Recorded',
+                description: `Payment of $${values.amount} for ${values.email} has been successfully recorded.`,
+            });
+            onSuccess(); // Trigger the refresh on the parent page
+            setOpen(false);
+            form.reset();
+
+        } catch (error) {
+            console.error("Failed to record payment:", error);
+            toast({
+                title: "Error Recording Payment",
+                description: "Could not save the payment. Please try again.",
+                variant: "destructive",
+            });
+        } finally {
+            setIsLoading(false);
+        }
     }
 
   return (

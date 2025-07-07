@@ -12,6 +12,7 @@ import {
   Search,
   Brain,
   Loader2,
+  ShieldAlert,
 } from 'lucide-react';
 
 import {
@@ -59,13 +60,14 @@ import { UserMenu } from '../UserMenu';
 import { mobileNavItems } from '../navItems';
 import { useToast } from '@/hooks/use-toast';
 import { User } from '@/models/types';
-import { getUsers, deleteUser } from '@/services/userService';
+import { getUsers, deleteUser, updateUserRole } from '@/services/userService';
 
 export function UserManagementPage() {
     const { toast } = useToast();
     const [users, setUsers] = React.useState<User[]>([]);
     const [isLoading, setIsLoading] = React.useState(true);
     const [openDeleteDialog, setOpenDeleteDialog] = React.useState(false);
+    const [openPromoteDialog, setOpenPromoteDialog] = React.useState(false);
     const [selectedUser, setSelectedUser] = React.useState<User | null>(null);
 
     const fetchUsers = React.useCallback(async () => {
@@ -111,6 +113,28 @@ export function UserManagementPage() {
             setSelectedUser(null);
         }
     }
+
+    const handlePromote = async () => {
+      if (!selectedUser) return;
+      try {
+        await updateUserRole(selectedUser.id, 'Admin');
+        setUsers(prevUsers => prevUsers.map(u => u.id === selectedUser.id ? { ...u, role: 'Admin' } : u));
+        toast({
+          title: "User Promoted!",
+          description: `${selectedUser.fullName} has been successfully promoted to an Admin.`,
+        });
+      } catch (error) {
+        console.error("Failed to promote user:", error);
+        toast({
+          title: "Error Promoting User",
+          description: "Could not promote user. Please try again.",
+          variant: "destructive",
+        });
+      } finally {
+        setOpenPromoteDialog(false);
+        setSelectedUser(null);
+      }
+    };
 
   return (
     <>
@@ -273,7 +297,11 @@ export function UserManagementPage() {
                                 <DropdownMenuContent align="end">
                                     <DropdownMenuLabel>Actions</DropdownMenuLabel>
                                     <DropdownMenuItem>View</DropdownMenuItem>
-                                    <DropdownMenuItem>Promote to Admin</DropdownMenuItem>
+                                    {user.role !== 'Admin' && (
+                                      <DropdownMenuItem onClick={() => { setSelectedUser(user); setOpenPromoteDialog(true); }}>
+                                        Promote to Admin
+                                      </DropdownMenuItem>
+                                    )}
                                     <DropdownMenuSeparator />
                                     <DropdownMenuItem className="text-destructive" onClick={() => { setSelectedUser(user); setOpenDeleteDialog(true); }}>
                                         Delete
@@ -307,6 +335,23 @@ export function UserManagementPage() {
                     <AlertDialogAction onClick={handleDelete}>Continue</AlertDialogAction>
                 </AlertDialogFooter>
             </AlertDialogContent>
+        </AlertDialog>
+        <AlertDialog open={openPromoteDialog} onOpenChange={setOpenPromoteDialog}>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle className="flex items-center gap-2">
+                <ShieldAlert className="text-primary h-6 w-6" />
+                Confirm Promotion
+              </AlertDialogTitle>
+              <AlertDialogDescription>
+                Are you sure you want to promote {selectedUser?.fullName} to an Admin role? They will gain full access to the admin panel. This action can be reversed.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel onClick={() => setSelectedUser(null)}>Cancel</AlertDialogCancel>
+              <AlertDialogAction onClick={handlePromote}>Promote User</AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
         </AlertDialog>
       </main>
     </>

@@ -51,25 +51,26 @@ export function PaymentSystemPage() {
   const [payments, setPayments] = React.useState<Payment[]>([]);
   const [isLoading, setIsLoading] = React.useState(true);
 
-  React.useEffect(() => {
-    const fetchPayments = async () => {
-        setIsLoading(true);
-        try {
-            const fetchedPayments = await getPayments();
-            setPayments(fetchedPayments);
-        } catch (error) {
-            console.error("Failed to fetch payments:", error);
-            toast({
-                title: "Error fetching payments",
-                description: "Could not load payment data. Please ensure Firebase is configured correctly.",
-                variant: "destructive",
-            });
-        } finally {
-            setIsLoading(false);
-        }
-    };
-    fetchPayments();
+  const fetchPayments = React.useCallback(async () => {
+      setIsLoading(true);
+      try {
+          const fetchedPayments = await getPayments();
+          setPayments(fetchedPayments);
+      } catch (error) {
+          console.error("Failed to fetch payments:", error);
+          toast({
+              title: "Error fetching payments",
+              description: "Could not load payment data. Please ensure Firebase is configured correctly.",
+              variant: "destructive",
+          });
+      } finally {
+          setIsLoading(false);
+      }
   }, [toast]);
+
+  React.useEffect(() => {
+    fetchPayments();
+  }, [fetchPayments]);
 
 
   return (
@@ -126,7 +127,7 @@ export function PaymentSystemPage() {
                     Export
                     </span>
                 </Button>
-                <ManualPaymentDialog />
+                <ManualPaymentDialog onSuccess={fetchPayments} />
             </div>
           </div>
           <TabsContent value="all">
