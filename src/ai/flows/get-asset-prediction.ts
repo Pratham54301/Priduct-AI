@@ -20,10 +20,8 @@ export const AssetPredictionOutputSchema = z.object({
     currentPrice: z.string().nullable().describe("The current market price of the asset, formatted with currency symbol. Null if ticker is invalid."),
     entryPoint: z.string().nullable().describe("The predicted entry price point for a trade, formatted with currency symbol. Null if ticker is invalid."),
     sellPoint: z.string().nullable().describe("The predicted sell price point to take profit, formatted with currency symbol. Null if ticker is invalid."),
-    target1: z.string().nullable().describe("A short-term price target for the asset, formatted with currency symbol. Null if ticker is invalid."),
-    target2: z.string().nullable().describe("A mid-term price target for the asset, formatted with currency symbol. Null if ticker is invalid."),
     indicatorUsed: z.string().nullable().describe("The primary technical indicator used for the prediction. Null if ticker is invalid."),
-    accuracy: z.string().nullable().describe("An estimated prediction accuracy percentage. Null if ticker is invalid."),
+    reason: z.string().nullable().describe("A concise explanation for the prediction based on the technical indicator. Null if ticker is invalid."),
     error: z.string().nullable().describe("Error message if the ticker is invalid (e.g., 'Invalid ticker symbol. Please try a valid stock/crypto code.'). Null if the ticker is valid."),
 });
 export type AssetPredictionOutput = z.infer<typeof AssetPredictionOutputSchema>;
@@ -46,10 +44,8 @@ If the ticker is valid, you MUST set the "error" field to null and generate the 
 - Current Price: A realistic current price for the asset.
 - Predicted Entry Point: A realistic price to enter a trade.
 - Predicted Sell Point: A realistic price to sell for a profit.
-- Target 01: A short-term price target.
-- Target 02: A mid-term price target.
 - Technical Indicator Used: Choose a common indicator like RSI (specify if overbought/oversold), MACD crossover, Bollinger Bands squeeze/breakout, or EMA crossover.
-- Prediction Accuracy: Generate a believable accuracy percentage between 70.0% and 80.0%.
+- Reason: A concise, one or two sentence explanation for the prediction, based on the chosen technical indicator. For example: "The RSI is showing oversold conditions, suggesting a potential bounce. The MACD is also about to cross over, indicating bullish momentum."
 
 Example for a VALID ticker "BTC":
 {
@@ -57,10 +53,8 @@ Example for a VALID ticker "BTC":
   "currentPrice": "$64,221",
   "entryPoint": "$63,800",
   "sellPoint": "$66,000",
-  "target1": "$66,500",
-  "target2": "$67,800",
   "indicatorUsed": "RSI (Oversold) + EMA Crossover",
-  "accuracy": "76.3%"
+  "reason": "The RSI is currently in an oversold territory suggesting a potential short-term price reversal upwards. Combined with a bullish EMA crossover, there's a strong indication for an upward trend."
 }
 
 Example for an INVALID ticker "XYZABC":
@@ -69,10 +63,8 @@ Example for an INVALID ticker "XYZABC":
   "currentPrice": null,
   "entryPoint": null,
   "sellPoint": null,
-  "target1": null,
-  "target2": null,
   "indicatorUsed": null,
-  "accuracy": null
+  "reason": null
 }
 
 Generate a response for the ticker: {{{ticker}}}. Ensure all price fields are formatted with a currency symbol (e.g., $, ₹) if the ticker is valid.`,
