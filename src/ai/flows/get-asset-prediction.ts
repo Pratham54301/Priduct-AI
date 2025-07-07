@@ -1,3 +1,4 @@
+
 'use server';
 
 /**
@@ -34,30 +35,33 @@ const prompt = ai.definePrompt({
   name: 'getAssetPredictionPrompt',
   input: {schema: AssetPredictionInputSchema},
   output: {schema: AssetPredictionOutputSchema},
-  prompt: `You are a sophisticated financial analyst AI. Your task is to validate a ticker symbol and generate a plausible-looking stock or cryptocurrency prediction.
+  prompt: `You are a financial AI that generates plausible-looking predictions for stock or crypto tickers.
 
-First, evaluate the given ticker: "{{ticker}}".
+For the given ticker: "{{{ticker}}}"
 
-If the ticker is invalid, meaningless, or not a recognized stock/crypto symbol (e.g., "ASDF", "NOTASYMBOL"), you MUST set the "error" field to "Invalid ticker symbol. Please try a valid stock/crypto code." and all other fields to null.
+Your primary task is to generate prediction data.
+- \`currentPrice\`: A realistic current price. Must be a string with a currency symbol (e.g., "$", "₹").
+- \`entryPoint\`: A realistic price to enter a trade. Must be a string with a currency symbol.
+- \`sellPoint\`: A realistic price to sell for profit. Must be a string with a currency symbol.
+- \`indicatorUsed\`: A common technical indicator used (e.g., "RSI (Oversold)", "MACD Crossover").
+- \`reason\`: A concise, 1-2 sentence explanation for the prediction based on the indicator.
+- \`error\`: Set this to \`null\`.
 
-If the ticker is valid, you MUST set the "error" field to null and generate the following prediction data:
-- Current Price: A realistic current price for the asset.
-- Predicted Entry Point: A realistic price to enter a trade.
-- Predicted Sell Point: A realistic price to sell for a profit.
-- Technical Indicator Used: Choose a common indicator like RSI (specify if overbought/oversold), MACD crossover, Bollinger Bands squeeze/breakout, or EMA crossover.
-- Reason: A concise, one or two sentence explanation for the prediction, based on the chosen technical indicator. For example: "The RSI is showing oversold conditions, suggesting a potential bounce. The MACD is also about to cross over, indicating bullish momentum."
+If and only if the ticker is completely nonsensical and you cannot generate a plausible prediction (e.g., for "ASDFG"):
+- Set the \`error\` field to "Invalid ticker symbol. Please try a valid stock/crypto code.".
+- Set all other fields to \`null\`.
 
-Example for a VALID ticker "BTC":
+Example for "BTC":
 {
   "error": null,
   "currentPrice": "$64,221",
   "entryPoint": "$63,800",
   "sellPoint": "$66,000",
   "indicatorUsed": "RSI (Oversold) + EMA Crossover",
-  "reason": "The RSI is currently in an oversold territory suggesting a potential short-term price reversal upwards. Combined with a bullish EMA crossover, there's a strong indication for an upward trend."
+  "reason": "The RSI is in oversold territory, suggesting a potential price reversal. A bullish EMA crossover further supports an upward trend."
 }
 
-Example for an INVALID ticker "XYZABC":
+Example for "NOTASYMBOL":
 {
   "error": "Invalid ticker symbol. Please try a valid stock/crypto code.",
   "currentPrice": null,
@@ -67,7 +71,7 @@ Example for an INVALID ticker "XYZABC":
   "reason": null
 }
 
-Generate a response for the ticker: {{{ticker}}}. Ensure all price fields are formatted with a currency symbol (e.g., $, ₹) if the ticker is valid.`,
+Generate the JSON response for: {{{ticker}}}.`,
 });
 
 const getAssetPredictionFlow = ai.defineFlow(
