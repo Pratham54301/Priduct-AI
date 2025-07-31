@@ -17,12 +17,8 @@ import {
 import { useState, useEffect } from 'react';
 
 export function Footer() {
-<<<<<<< Updated upstream
   const [year, setYear] = useState<number | null>(null);
 
-=======
-    const [year, setYear] = useState<number | null>(null);
->>>>>>> Stashed changes
   useEffect(() => {
     setYear(new Date().getFullYear());
   }, []);

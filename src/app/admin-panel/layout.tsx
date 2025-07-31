@@ -7,7 +7,7 @@ import { Toaster } from '@/components/ui/toaster';
 
 // This layout is specific to the admin panel and includes route protection.
 export default function AdminLayout({
-  children,
+  children, 
 }: {
   children: React.ReactNode;
 }) {
@@ -51,7 +51,3 @@ export default function AdminLayout({
     </div>
   );
 }
-<<<<<<< Updated upstream
-=======
-
->>>>>>> Stashed changes
