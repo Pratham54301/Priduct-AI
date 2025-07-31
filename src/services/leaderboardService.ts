@@ -5,7 +5,7 @@ import { db } from '@/lib/firebase';
 import { LeaderboardEntry } from '@/models/types';
 import { collection, getDocs, writeBatch } from 'firebase/firestore';
 
-const leaderboardCollection = collection(db, 'leaderboard');
+// Removed global leaderboardCollection to avoid using possibly null db
 
 /**
  * Fetches all entries from the Firestore 'leaderboard' collection.
@@ -13,6 +13,7 @@ const leaderboardCollection = collection(db, 'leaderboard');
  */
 export async function getLeaderboard(): Promise<LeaderboardEntry[]> {
     if (!db) throw new Error("Firebase is not initialized.");
+    const leaderboardCollection = collection(db, 'leaderboard');
     const snapshot = await getDocs(leaderboardCollection);
     return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as LeaderboardEntry));
 }
@@ -23,6 +24,7 @@ export async function getLeaderboard(): Promise<LeaderboardEntry[]> {
  */
 export async function resetAllScores(): Promise<void> {
     if (!db) throw new Error("Firebase is not initialized.");
+    const leaderboardCollection = collection(db, 'leaderboard');
     const snapshot = await getDocs(leaderboardCollection);
     const batch = writeBatch(db);
     snapshot.docs.forEach(doc => {

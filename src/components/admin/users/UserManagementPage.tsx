@@ -1,7 +1,3 @@
-<<<<<<< Updated upstream
-
-=======
->>>>>>> Stashed changes
 'use client';
 
 import * as React from 'react';
@@ -14,11 +10,8 @@ import {
   PlusCircle,
   Search,
   Brain,
-<<<<<<< Updated upstream
   Loader2,
   ShieldAlert,
-=======
->>>>>>> Stashed changes
 } from 'lucide-react';
 
 import {
@@ -65,7 +58,6 @@ import { ThemeToggle } from '@/components/ThemeToggle';
 import { UserMenu } from '../UserMenu';
 import { mobileNavItems } from '../navItems';
 import { useToast } from '@/hooks/use-toast';
-<<<<<<< Updated upstream
 import { User } from '@/models/types';
 import { getUsers, deleteUser, updateUserRole } from '@/services/userService';
 
@@ -142,43 +134,6 @@ export function UserManagementPage() {
         setSelectedUser(null);
       }
     };
-=======
-
-type User = {
-    id: string;
-    name: string;
-    email: string;
-    role: string;
-    status: string;
-    joined: string;
-};
-
-const usersData: User[] = [
-    { id: 'usr_1', name: 'Liam Johnson', email: 'liam@example.com', role: 'User', status: 'Active', joined: '2024-07-20' },
-    { id: 'usr_2', name: 'Olivia Smith', email: 'olivia@example.com', role: 'User', status: 'Active', joined: '2024-07-19' },
-    { id: 'usr_3', name: 'Noah Williams', email: 'noah@example.com', role: 'User', status: 'Inactive', joined: '2024-07-18' },
-    { id: 'usr_4', name: 'Emma Brown', email: 'emma@example.com', role: 'Admin', status: 'Active', joined: '2024-07-17' },
-    { id: 'usr_5', name: 'Ava Jones', email: 'ava@example.com', role: 'User', status: 'Active', joined: '2024-07-16' },
-];
-
-export function UserManagementPage() {
-    const { toast } = useToast();
-    const [openDeleteDialog, setOpenDeleteDialog] = React.useState(false);
-    const [selectedUser, setSelectedUser] = React.useState<User | null>(null);
-
-    const handleDelete = () => {
-        if (!selectedUser) return;
-        console.log("Deleting user", selectedUser);
-        toast({
-            title: "User Deleted",
-            description: `User ${selectedUser.name} has been successfully deleted.`,
-            variant: "destructive"
-        });
-        // Here you would typically filter out the user from your state
-        setOpenDeleteDialog(false);
-        setSelectedUser(null);
-    }
->>>>>>> Stashed changes
 
   return (
     <>
@@ -300,7 +255,6 @@ export function UserManagementPage() {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-<<<<<<< Updated upstream
                     {isLoading ? (
                       <TableRow>
                         <TableCell colSpan={5} className="h-24 text-center">
@@ -318,12 +272,6 @@ export function UserManagementPage() {
                         <TableRow key={user.id}>
                             <TableCell className="font-medium">
                                 <div>{user.fullName}</div>
-=======
-                    {usersData.map((user) => (
-                        <TableRow key={user.id}>
-                            <TableCell className="font-medium">
-                                <div>{user.name}</div>
->>>>>>> Stashed changes
                                 <div className="text-sm text-muted-foreground md:hidden">{user.email}</div>
                             </TableCell>
                             <TableCell>{user.role}</TableCell>
@@ -348,15 +296,11 @@ export function UserManagementPage() {
                                 <DropdownMenuContent align="end">
                                     <DropdownMenuLabel>Actions</DropdownMenuLabel>
                                     <DropdownMenuItem>View</DropdownMenuItem>
-<<<<<<< Updated upstream
                                     {user.role !== 'Admin' && (
                                       <DropdownMenuItem onClick={() => { setSelectedUser(user); setOpenPromoteDialog(true); }}>
                                         Promote to Admin
                                       </DropdownMenuItem>
                                     )}
-=======
-                                    <DropdownMenuItem>Promote to Admin</DropdownMenuItem>
->>>>>>> Stashed changes
                                     <DropdownMenuSeparator />
                                     <DropdownMenuItem className="text-destructive" onClick={() => { setSelectedUser(user); setOpenDeleteDialog(true); }}>
                                         Delete
@@ -365,21 +309,13 @@ export function UserManagementPage() {
                                 </DropdownMenu>
                             </TableCell>
                         </TableRow>
-<<<<<<< Updated upstream
                     )))}
-=======
-                    ))}
->>>>>>> Stashed changes
                   </TableBody>
                 </Table>
               </CardContent>
               <CardFooter>
                 <div className="text-xs text-muted-foreground">
-<<<<<<< Updated upstream
                   Showing <strong>{users.length}</strong> users
-=======
-                  Showing <strong>1-5</strong> of <strong>32</strong> users
->>>>>>> Stashed changes
                 </div>
               </CardFooter>
             </Card>
@@ -390,11 +326,7 @@ export function UserManagementPage() {
                 <AlertDialogHeader>
                     <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
                     <AlertDialogDescription>
-<<<<<<< Updated upstream
                         This action cannot be undone. This will permanently delete the user account for {selectedUser?.fullName} and remove their data from our servers.
-=======
-                        This action cannot be undone. This will permanently delete the user account for {selectedUser?.name} and remove their data from our servers.
->>>>>>> Stashed changes
                     </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
@@ -403,7 +335,6 @@ export function UserManagementPage() {
                 </AlertDialogFooter>
             </AlertDialogContent>
         </AlertDialog>
-<<<<<<< Updated upstream
         <AlertDialog open={openPromoteDialog} onOpenChange={setOpenPromoteDialog}>
           <AlertDialogContent>
             <AlertDialogHeader>
@@ -421,8 +352,6 @@ export function UserManagementPage() {
             </AlertDialogFooter>
           </AlertDialogContent>
         </AlertDialog>
-=======
->>>>>>> Stashed changes
       </main>
     </>
   );
