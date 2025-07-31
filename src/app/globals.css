@@ -91,3 +91,38 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+/* Confidence Bar Classes */
+@layer components {
+  .confidence-bar-70 { width: 70%; }
+  .confidence-bar-71 { width: 71%; }
+  .confidence-bar-72 { width: 72%; }
+  .confidence-bar-73 { width: 73%; }
+  .confidence-bar-74 { width: 74%; }
+  .confidence-bar-75 { width: 75%; }
+  .confidence-bar-76 { width: 76%; }
+  .confidence-bar-77 { width: 77%; }
+  .confidence-bar-78 { width: 78%; }
+  .confidence-bar-79 { width: 79%; }
+  .confidence-bar-80 { width: 80%; }
+  .confidence-bar-81 { width: 81%; }
+  .confidence-bar-82 { width: 82%; }
+  .confidence-bar-83 { width: 83%; }
+  .confidence-bar-84 { width: 84%; }
+  .confidence-bar-85 { width: 85%; }
+  .confidence-bar-86 { width: 86%; }
+  .confidence-bar-87 { width: 87%; }
+  .confidence-bar-88 { width: 88%; }
+  .confidence-bar-89 { width: 89%; }
+  .confidence-bar-90 { width: 90%; }
+  .confidence-bar-91 { width: 91%; }
+  .confidence-bar-92 { width: 92%; }
+  .confidence-bar-93 { width: 93%; }
+  .confidence-bar-94 { width: 94%; }
+  .confidence-bar-95 { width: 95%; }
+  .confidence-bar-96 { width: 96%; }
+  .confidence-bar-97 { width: 97%; }
+  .confidence-bar-98 { width: 98%; }
+  .confidence-bar-99 { width: 99%; }
+  .confidence-bar-100 { width: 100%; }
+}

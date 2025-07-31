@@ -1,8 +1,11 @@
+"use client";
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { Menu, Brain } from 'lucide-react';
+import { Menu, Brain, Loader2 } from 'lucide-react';
 import { ThemeToggle } from './ThemeToggle';
+import { useAuth } from '@/context/AuthContext';
+import ProfileDropdown from './ProfileDropdown';
 
 const navItems = [
   { label: 'Home', href: '/' },
@@ -17,6 +20,8 @@ const navItems = [
 ];
 
 export function Header() {
+  const { user, loading } = useAuth();
+
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
@@ -39,9 +44,22 @@ export function Header() {
 
         <div className="flex items-center space-x-2">
           <ThemeToggle />
-          <Button asChild variant="outline" className="hidden md:inline-flex">
-            <Link href="/login">Login</Link>
-          </Button>
+          
+          {loading ? (
+            <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
+          ) : user ? (
+            <ProfileDropdown />
+          ) : (
+            <>
+              <Button asChild variant="outline" className="hidden md:inline-flex">
+                <Link href="/login">Login</Link>
+              </Button>
+              <Button asChild className="hidden md:inline-flex">
+                <Link href="/signup">Join Now</Link>
+              </Button>
+            </>
+          )}
+          
           <Sheet>
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon" className="md:hidden">
@@ -64,9 +82,24 @@ export function Header() {
                     <span className="text-lg font-medium">Theme</span>
                     <ThemeToggle />
                 </div>
-                <Button asChild variant="outline" className="w-full mt-4">
-                  <Link href="/login">Login</Link>
-                </Button>
+                {loading ? (
+                  <div className="flex items-center justify-center py-4">
+                    <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
+                  </div>
+                ) : user ? (
+                  <div className="pt-4 border-t border-border/40">
+                    <ProfileDropdown />
+                  </div>
+                ) : (
+                  <div className="flex flex-col space-y-2 pt-4 border-t border-border/40">
+                    <Button asChild variant="outline" className="w-full">
+                      <Link href="/login">Login</Link>
+                    </Button>
+                    <Button asChild className="w-full">
+                      <Link href="/signup">Join Now</Link>
+                    </Button>
+                  </div>
+                )}
               </nav>
             </SheetContent>
           </Sheet>

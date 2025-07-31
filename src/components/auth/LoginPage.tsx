@@ -1,4 +1,3 @@
-
 'use client';
 
 import * as React from 'react';
@@ -15,8 +14,12 @@ import { useToast } from '@/hooks/use-toast';
 import { Loader2, LogIn, ShieldCheck } from 'lucide-react';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
+<<<<<<< Updated upstream
 import { auth } from '@/lib/firebase';
 import { signInWithEmailAndPassword } from 'firebase/auth';
+=======
+import { useAuth } from '@/context/AuthContext';
+>>>>>>> Stashed changes
 
 const formSchema = z.object({
   role: z.enum(['User', 'Admin']),
@@ -45,6 +48,10 @@ const formSchema = z.object({
 export function LoginPage() {
   const { toast } = useToast();
   const router = useRouter();
+<<<<<<< Updated upstream
+=======
+  const { login } = useAuth();
+>>>>>>> Stashed changes
   const [isLoading, setIsLoading] = React.useState(false);
   const [role, setRole] = React.useState<'User' | 'Admin'>('User');
 
@@ -85,6 +92,7 @@ export function LoginPage() {
       setIsLoading(false);
       return;
     }
+<<<<<<< Updated upstream
     
     // Regular user login with Firebase
     try {
@@ -123,17 +131,42 @@ export function LoginPage() {
     } finally {
         setIsLoading(false);
     }
+=======
+    
+    // Regular user login
+    if (values.email && values.password) {
+      const result = await login(values.email, values.password);
+      
+      if (result.success) {
+        toast({
+          title: "Login Successful!",
+          description: "Redirecting to home...",
+        });
+        router.push('/');
+      } else {
+        toast({
+          title: "Login Failed",
+          description: result.message,
+          variant: "destructive",
+        });
+      }
+    }
+    
+    setIsLoading(false);
+>>>>>>> Stashed changes
   }
 
   return (
     <Card className="w-full max-w-md shadow-2xl bg-card">
-      <CardHeader className="text-center space-y-2">
-        <LogIn className="mx-auto h-8 w-8 text-primary" />
-        <CardTitle className="text-2xl font-bold">Welcome Back!</CardTitle>
-        <CardDescription>Enter your credentials to access your account</CardDescription>
+      <CardHeader className="space-y-1">
+        <CardTitle className="text-2xl font-bold text-center">Welcome back</CardTitle>
+        <CardDescription className="text-center">
+          Enter your credentials to access your account
+        </CardDescription>
       </CardHeader>
       <CardContent>
         <Form {...form}>
+<<<<<<< Updated upstream
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             <div className="flex items-center justify-center space-x-2 pt-2">
               <Label htmlFor="role-switch" className={`transition-colors ${role === 'User' ? 'text-primary font-semibold' : 'text-muted-foreground'}`}>User</Label>
@@ -212,21 +245,118 @@ export function LoginPage() {
                     />
                     </div>
               </Card>
+=======
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+            <div className="flex items-center space-x-2">
+              <Switch
+                id="role-toggle"
+                checked={role === 'Admin'}
+                onCheckedChange={(checked) => setRole(checked ? 'Admin' : 'User')}
+              />
+              <Label htmlFor="role-toggle" className="text-sm font-medium">
+                {role === 'Admin' ? 'Admin Login' : 'User Login'}
+              </Label>
+            </div>
+
+            {role === 'User' ? (
+              <>
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Email</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="Enter your email"
+                          type="email"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="password"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Password</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="Enter your password"
+                          type="password"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </>
+            ) : (
+              <>
+                <FormField
+                  control={form.control}
+                  name="adminId"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Admin ID</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="Enter admin ID"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="adminPassword"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Admin Password</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="Enter admin password"
+                          type="password"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </>
+>>>>>>> Stashed changes
             )}
 
             <Button type="submit" className="w-full" disabled={isLoading}>
               {isLoading ? (
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  {role === 'Admin' ? 'Verifying...' : 'Signing in...'}
+                </>
               ) : (
-                <LogIn className="mr-2 h-4 w-4" />
+                <>
+                  {role === 'Admin' ? (
+                    <ShieldCheck className="mr-2 h-4 w-4" />
+                  ) : (
+                    <LogIn className="mr-2 h-4 w-4" />
+                  )}
+                  {role === 'Admin' ? 'Admin Login' : 'Sign In'}
+                </>
               )}
-              {isLoading ? 'Signing In...' : 'Sign In'}
             </Button>
           </form>
         </Form>
-        <div className="mt-6 text-center text-sm text-muted-foreground">
-          Don't have an account?{' '}
-          <Link href="/signup" className="font-medium text-primary hover:underline">
+
+        <div className="mt-4 text-center text-sm">
+          <span className="text-muted-foreground">Don't have an account? </span>
+          <Link href="/signup" className="text-primary hover:underline">
             Sign up
           </Link>
         </div>

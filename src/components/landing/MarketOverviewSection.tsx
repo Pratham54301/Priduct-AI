@@ -1,3 +1,4 @@
++
 'use client';
 
 import * as React from 'react';
@@ -65,8 +66,17 @@ export function MarketOverviewSection() {
   const [activeCategory, setActiveCategory] = React.useState('All');
   const [marketData, setMarketData] = React.useState(initialMarketData);
   const [searchTerm, setSearchTerm] = React.useState('');
+const [hasMounted, setHasMounted] = React.useState(false);
 
   React.useEffect(() => {
+    setHasMounted(true);
+  }, []);
+
+  React.useEffect(() => {
+    if (!hasMounted) {
+      return;
+    }
+
     const interval = setInterval(() => {
       setMarketData(currentData =>
         currentData.map(item => {
@@ -100,7 +110,7 @@ export function MarketOverviewSection() {
     }, 2000); 
 
     return () => clearInterval(interval);
-  }, []);
+   }, [hasMounted]);
 
   const getChangePercent = (change: string) => {
     const match = change.match(/\(([^%]+)%\)/);
@@ -108,7 +118,8 @@ export function MarketOverviewSection() {
   };
 
   const filteredAssets = React.useMemo(() => {
-    let assets = marketData;
+     const sourceData = hasMounted ? marketData : initialMarketData;
+    let assets = sourceData;
 
     if (activeCategory === 'Top Gainers') {
       assets = [...assets]
@@ -127,7 +138,7 @@ export function MarketOverviewSection() {
     }
 
     return assets;
-  }, [activeCategory, marketData, searchTerm]);
+ }, [activeCategory, marketData, searchTerm, hasMounted]);
 
   return (
     <section id="features" className="py-16 md:py-24 bg-card">

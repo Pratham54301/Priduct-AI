@@ -5,10 +5,21 @@ import * as React from 'react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
+<<<<<<< Updated upstream
 import { Search, Briefcase, Landmark, Coins, Gem, Droplet, Bitcoin, DollarSign, Euro, PoundSterling, Sigma, Sparkles, Loader2 } from 'lucide-react';
 import { getAssetPrediction, type AssetPredictionOutput } from '@/ai/flows/get-asset-prediction';
 import { PredictionResultCard } from './PredictionResultCard';
 import { useToast } from '@/hooks/use-toast';
+=======
+import { Search, Briefcase, Landmark, Coins, Gem, Droplet, Bitcoin, DollarSign, Euro, PoundSterling, Sigma, Sparkles } from 'lucide-react';
+import { useStocks } from '@/hooks/useStocks';
+
+interface Stock {
+  symbol: string;
+  name: string;
+  sector: string;
+}
+>>>>>>> Stashed changes
 
 interface MarketItem {
   name: string;
@@ -26,7 +37,7 @@ const marketItems: MarketItem[] = [
   { name: 'Amazon', logo: 'AMZN', type: 'Stock', dataAiHint: 'amazon logo' },
   { name: 'Gold', logo: Gem, type: 'Commodity', dataAiHint: 'gold bar' },
   { name: 'Crude Oil', logo: Droplet, type: 'Commodity', dataAiHint: 'oil barrel' },
-  { name: 'Silver', logo: Sigma, type: 'Commodody', dataAiHint: 'silver nugget' },
+  { name: 'Silver', logo: Sigma, type: 'Commodity', dataAiHint: 'silver nugget' },
   { name: 'Bitcoin', logo: Bitcoin, type: 'Crypto', dataAiHint: 'bitcoin logo orange' },
   { name: 'Ethereum', logo: Gem, type: 'Crypto', dataAiHint: 'ethereum logo diamond' },
   { name: 'Solana', logo: 'SOL', type: 'Crypto', dataAiHint: 'solana logo purple' },
@@ -67,8 +78,8 @@ const ItemLogoButton: React.FC<{ item: MarketItem, onClick: (ticker: string) => 
   );
 };
 
-
 export function AiPredictionMachineSection() {
+<<<<<<< Updated upstream
   const { toast } = useToast();
   const [searchTerm, setSearchTerm] = React.useState('');
   const [isLoading, setIsLoading] = React.useState(false);
@@ -77,15 +88,20 @@ export function AiPredictionMachineSection() {
   
   const suggestions = ['TCS', 'RELIANCE', 'TSLA', 'AAPL', 'BTC', 'ETH', 'USDINR', 'GOLD', 'Infosys', 'HDFC Bank', 'Microsoft', 'Amazon', 'Crude Oil', 'Silver', 'Solana', 'EUR/USD'];
   const [filteredSuggestions, setFilteredSuggestions] = React.useState<string[]>([]);
+=======
+  const { stocks, loading, error, searchStocks } = useStocks();
+  const [searchTerm, setSearchTerm] = React.useState('');
+  const [suggestions, setSuggestions] = React.useState<Stock[]>([]);
+  const [showSuggestions, setShowSuggestions] = React.useState(false);
+>>>>>>> Stashed changes
 
   React.useEffect(() => {
-    if (searchTerm.trim()) {
-      setFilteredSuggestions(
-        suggestions.filter(s => s.toLowerCase().startsWith(searchTerm.toLowerCase().trim()))
-      );
-    } else {
-      setFilteredSuggestions([]);
+    if (!searchTerm.trim()) {
+      setSuggestions([]);
+      setShowSuggestions(false);
+      return;
     }
+<<<<<<< Updated upstream
   }, [searchTerm]);
   
   const handleGetPrediction = async (ticker: string) => {
@@ -130,6 +146,31 @@ export function AiPredictionMachineSection() {
     setFilteredSuggestions([]);
     handleGetPrediction(suggestion);
   }
+=======
+
+    const filtered = searchStocks(searchTerm, 10);
+    setSuggestions(filtered);
+    setShowSuggestions(filtered.length > 0);
+  }, [searchTerm, searchStocks]);
+
+  const handleSuggestionClick = (stock: Stock) => {
+    setSearchTerm(stock.symbol);
+    setShowSuggestions(false);
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setSearchTerm(value);
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' && suggestions.length > 0) {
+      handleSuggestionClick(suggestions[0]);
+    } else if (e.key === 'Escape') {
+      setShowSuggestions(false);
+    }
+  };
+>>>>>>> Stashed changes
 
   return (
     <section className="py-10 md:py-12 bg-background text-foreground transition-colors duration-300">
@@ -154,25 +195,59 @@ export function AiPredictionMachineSection() {
                   <Input
                     type="search"
                     value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
+                    onChange={handleInputChange}
+                    onKeyDown={handleKeyDown}
+                    onFocus={() => searchTerm && suggestions.length > 0 && setShowSuggestions(true)}
                     placeholder="Enter a stock ticker, currency pair, commodity, or crypto name."
                     className="w-full pl-10 pr-4 py-2 rounded-lg border-gray-300 dark:border-border shadow-sm focus:ring-primary focus:border-primary text-sm bg-background text-foreground placeholder:text-muted-foreground"
                     aria-label="Search for predictions"
+<<<<<<< Updated upstream
                     disabled={isLoading}
+=======
+                    disabled={loading}
+>>>>>>> Stashed changes
                   />
                   <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-                  {filteredSuggestions.length > 0 && searchTerm.trim() && (
+                  
+                  {/* Stock Suggestions Dropdown */}
+                  {showSuggestions && suggestions.length > 0 && (
                     <Card className="absolute z-10 w-full mt-1 bg-card shadow-lg rounded-md border border-border max-h-60 overflow-y-auto">
-                      {filteredSuggestions.map(suggestion => (
+                      {suggestions.map((stock, index) => (
                         <div
+<<<<<<< Updated upstream
                           key={suggestion}
                           className="px-4 py-2 hover:bg-muted cursor-pointer text-sm"
                           onClick={() => handleSuggestionClick(suggestion)}
+=======
+                          key={`${stock.symbol}-${index}`}
+                          className="px-4 py-3 hover:bg-muted cursor-pointer text-sm border-b border-border last:border-b-0"
+                          onClick={() => handleSuggestionClick(stock)}
+>>>>>>> Stashed changes
                         >
-                          {suggestion}
+                          <div className="flex items-center justify-between">
+                            <div>
+                              <div className="font-medium text-foreground">{stock.symbol}</div>
+                              <div className="text-xs text-muted-foreground truncate">{stock.name}</div>
+                            </div>
+                            <div className="text-xs text-muted-foreground">{stock.sector}</div>
+                          </div>
                         </div>
                       ))}
                     </Card>
+                  )}
+
+                  {/* Loading State */}
+                  {loading && (
+                    <div className="absolute inset-0 flex items-center justify-center bg-background bg-opacity-75 rounded-md">
+                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-primary"></div>
+                    </div>
+                  )}
+
+                  {/* Error State */}
+                  {error && (
+                    <div className="absolute inset-0 flex items-center justify-center bg-red-50 dark:bg-red-900/20 rounded-md">
+                      <p className="text-xs text-red-600 dark:text-red-400">Error loading stocks</p>
+                    </div>
                   )}
               </div>
 

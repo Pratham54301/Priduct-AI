@@ -17,8 +17,16 @@ import { FaqSection } from '@/components/landing/FaqSection';
 import { TestimonialsSection } from '@/components/landing/TestimonialsSection';
 import { AdvertisingBannerSection } from '@/components/landing/AdvertisingBannerSection';
 import { SubscribeSection } from '@/components/landing/SubscribeSection';
+import { useAuth } from '@/context/AuthContext';
+import AuthLoading from '@/components/auth/AuthLoading';
 
 export default function Home() {
+  const { loading } = useAuth();
+
+  if (loading) {
+    return <AuthLoading message="Loading your experience..." />;
+  }
+
   return (
     <div className="flex flex-col min-h-screen">
       <Header />

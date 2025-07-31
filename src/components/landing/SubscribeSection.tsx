@@ -32,6 +32,7 @@ export function SubscribeSection() {
       return;
     }
 
+<<<<<<< Updated upstream
     // Simulate API call
     await new Promise(resolve => setTimeout(resolve, 1000));
 
@@ -40,6 +41,17 @@ export function SubscribeSection() {
         description: "Thank you for subscribing to our newsletter.",
     });
 
+=======
+
+  // Simulate API call
+    await new Promise(resolve => setTimeout(resolve, 1000));
+
+     toast({
+        title: "Subscription successful!",
+        description: "Thank you for subscribing to our newsletter.",
+    });
+
+>>>>>>> Stashed changes
     setEmail('');
     setLocation('');
     setIsLoading(false);
