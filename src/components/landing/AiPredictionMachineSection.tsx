@@ -67,6 +67,7 @@ const ItemLogoButton: React.FC<{ item: MarketItem, onClick: (ticker: string) => 
 };
 
 export function AiPredictionMachineSection() {
+  
   const { toast } = useToast();
   const [searchTerm, setSearchTerm] = React.useState('');
   const [isLoading, setIsLoading] = React.useState(false);

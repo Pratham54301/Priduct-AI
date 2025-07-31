@@ -51,3 +51,7 @@ export default function AdminLayout({
     </div>
   );
 }
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes

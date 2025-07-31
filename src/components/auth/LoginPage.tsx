@@ -44,6 +44,10 @@ const formSchema = z.object({
 export function LoginPage() {
   const { toast } = useToast();
   const router = useRouter();
+<<<<<<< Updated upstream
+=======
+  const { login } = useAuth();
+>>>>>>> Stashed changes
   const [isLoading, setIsLoading] = React.useState(false);
   const [role, setRole] = React.useState<'User' | 'Admin'>('User');
 
@@ -84,6 +88,7 @@ export function LoginPage() {
       setIsLoading(false);
       return;
     }
+<<<<<<< Updated upstream
     
     // Regular user login with Firebase
     try {
@@ -122,6 +127,29 @@ export function LoginPage() {
     } finally {
         setIsLoading(false);
     }
+=======
+    
+    // Regular user login
+    if (values.email && values.password) {
+      const result = await login(values.email, values.password);
+      
+      if (result.success) {
+        toast({
+          title: "Login Successful!",
+          description: "Redirecting to home...",
+        });
+        router.push('/');
+      } else {
+        toast({
+          title: "Login Failed",
+          description: result.message,
+          variant: "destructive",
+        });
+      }
+    }
+    
+    setIsLoading(false);
+>>>>>>> Stashed changes
   }
 
   return (
@@ -134,6 +162,7 @@ export function LoginPage() {
       </CardHeader>
       <CardContent>
         <Form {...form}>
+<<<<<<< Updated upstream
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             <div className="flex items-center justify-center space-x-2 pt-2">
               <Label htmlFor="role-switch" className={`transition-colors ${role === 'User' ? 'text-primary font-semibold' : 'text-muted-foreground'}`}>User</Label>
@@ -212,6 +241,93 @@ export function LoginPage() {
                     />
                     </div>
               </Card>
+=======
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+            <div className="flex items-center space-x-2">
+              <Switch
+                id="role-toggle"
+                checked={role === 'Admin'}
+                onCheckedChange={(checked) => setRole(checked ? 'Admin' : 'User')}
+              />
+              <Label htmlFor="role-toggle" className="text-sm font-medium">
+                {role === 'Admin' ? 'Admin Login' : 'User Login'}
+              </Label>
+            </div>
+
+            {role === 'User' ? (
+              <>
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Email</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="Enter your email"
+                          type="email"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="password"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Password</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="Enter your password"
+                          type="password"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </>
+            ) : (
+              <>
+                <FormField
+                  control={form.control}
+                  name="adminId"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Admin ID</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="Enter admin ID"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="adminPassword"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Admin Password</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="Enter admin password"
+                          type="password"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </>
+>>>>>>> Stashed changes
             )}
 
             <Button type="submit" className="w-full" disabled={isLoading}>
