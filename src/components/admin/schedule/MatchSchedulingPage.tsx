@@ -9,13 +9,8 @@ import {
   CalendarIcon,
   Menu,
   MoreHorizontal,
-<<<<<<< Updated upstream
   Brain,
   Loader2,
-=======
-  Search,
-  Brain,
->>>>>>> Stashed changes
 } from 'lucide-react';
 import { format } from "date-fns"
 
@@ -61,12 +56,9 @@ import { UserMenu } from '../UserMenu';
 import { mobileNavItems } from '../navItems';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
-<<<<<<< Updated upstream
 import { Schedule } from '@/models/types';
 import { getSchedules, addSchedule } from '@/services/scheduleService';
 
-=======
->>>>>>> Stashed changes
 
 const scheduleSchema = z.object({
     title: z.string().min(3, "Title must be at least 3 characters."),
@@ -78,7 +70,6 @@ const scheduleSchema = z.object({
     description: z.string().optional(),
 });
 
-<<<<<<< Updated upstream
 export function MatchSchedulingPage() {
     const { toast } = useToast();
     const [schedules, setSchedules] = React.useState<Schedule[]>([]);
@@ -145,28 +136,6 @@ export function MatchSchedulingPage() {
         } finally {
             setIsSubmitting(false);
         }
-=======
-const scheduledMatches = [
-    { id: 'm_1', title: 'Nifty 50 Weekly Prediction', date: '2024-08-05', type: 'Stock', status: 'Upcoming' },
-    { id: 'm_2', title: 'Bitcoin Halving Special', date: '2024-07-30', type: 'Crypto', status: 'Live' },
-    { id: 'm_3', title: 'Forex Friday: USD/INR', date: '2024-07-26', type: 'Currency', status: 'Completed' },
-    { id: 'm_4', title: 'Tech Stocks Rally', date: '2024-08-10', type: 'Stock', status: 'Upcoming' },
-]
-
-export function MatchSchedulingPage() {
-    const { toast } = useToast();
-    const form = useForm<z.infer<typeof scheduleSchema>>({
-        resolver: zodResolver(scheduleSchema),
-    });
-
-    const onSubmit = (data: z.infer<typeof scheduleSchema>) => {
-        console.log(data);
-        toast({
-            title: "Match Scheduled!",
-            description: `"${data.title}" has been successfully scheduled for ${format(data.date, "PPP")} at ${data.time}.`,
-        });
-        form.reset();
->>>>>>> Stashed changes
     };
 
   return (
@@ -277,14 +246,10 @@ export function MatchSchedulingPage() {
                                     <FormMessage />
                                 </FormItem>
                             )}/>
-<<<<<<< Updated upstream
                             <Button type="submit" className="w-full" disabled={isSubmitting}>
                                 {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                                 Schedule Match
                             </Button>
-=======
-                            <Button type="submit" className="w-full">Schedule Match</Button>
->>>>>>> Stashed changes
                         </form>
                     </Form>
                 </CardContent>
@@ -306,7 +271,6 @@ export function MatchSchedulingPage() {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-<<<<<<< Updated upstream
                      {isLoading ? (
                        <TableRow>
                         <TableCell colSpan={5} className="h-24 text-center">
@@ -321,9 +285,6 @@ export function MatchSchedulingPage() {
                       </TableRow>
                     ) : (
                     schedules.map(match => (
-=======
-                    {scheduledMatches.map(match => (
->>>>>>> Stashed changes
                         <TableRow key={match.id}>
                             <TableCell className="font-medium">{match.title}</TableCell>
                             <TableCell>{match.type}</TableCell>
@@ -345,11 +306,7 @@ export function MatchSchedulingPage() {
                                 </DropdownMenu>
                             </TableCell>
                         </TableRow>
-<<<<<<< Updated upstream
                     )))}
-=======
-                    ))}
->>>>>>> Stashed changes
                   </TableBody>
                 </Table>
               </CardContent>

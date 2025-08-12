@@ -11,10 +11,7 @@ import {
   RotateCcw,
   Search,
   Brain,
-<<<<<<< Updated upstream
   Loader2,
-=======
->>>>>>> Stashed changes
 } from 'lucide-react';
 
 import {
@@ -40,10 +37,6 @@ import {
 } from '@/components/ui/card';
 import {
   DropdownMenu,
-<<<<<<< Updated upstream
-=======
-  DropdownMenuCheckboxItem,
->>>>>>> Stashed changes
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
@@ -60,15 +53,10 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-<<<<<<< Updated upstream
-=======
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
->>>>>>> Stashed changes
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { UserMenu } from '../UserMenu';
 import { mobileNavItems } from '../navItems';
 import { useToast } from '@/hooks/use-toast';
-<<<<<<< Updated upstream
 import { LeaderboardEntry } from '@/models/types';
 import { getLeaderboard, resetAllScores } from '@/services/leaderboardService';
 
@@ -114,27 +102,6 @@ export function LeaderboardPage() {
             variant: "destructive",
         });
     }
-=======
-
-const leaderboardData = [
-  { rank: 1, name: 'Priya S.', score: 12500, accuracy: '92.5%', trades: 150 },
-  { rank: 2, name: 'Raj K.', score: 11800, accuracy: '88.2%', trades: 210 },
-  { rank: 3, name: 'Vikram Singh', score: 11500, accuracy: '85.0%', trades: 180 },
-  { rank: 4, name: 'Anita D.', score: 10900, accuracy: '91.1%', trades: 120 },
-  { rank: 5, name: 'John Smith', score: 10500, accuracy: '82.5%', trades: 250 },
-  { rank: 6, name: 'Suresh P.', score: 9800, accuracy: '78.9%', trades: 190 },
-  { rank: 7, name: 'Emily Chen', score: 9500, accuracy: '90.3%', trades: 140 },
-];
-
-export function LeaderboardPage() {
-  const { toast } = useToast();
-
-  const handleResetScores = () => {
-    toast({
-      title: 'Scores Reset!',
-      description: 'The leaderboard scores have been successfully reset.',
-    });
->>>>>>> Stashed changes
   };
 
   return (
@@ -234,7 +201,6 @@ export function LeaderboardPage() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-<<<<<<< Updated upstream
                   {isLoading ? (
                        <TableRow>
                         <TableCell colSpan={6} className="h-24 text-center">
@@ -249,9 +215,6 @@ export function LeaderboardPage() {
                       </TableRow>
                     ) : (
                   leaderboard.map((user) => (
-=======
-                  {leaderboardData.map((user) => (
->>>>>>> Stashed changes
                     <TableRow key={user.rank}>
                       <TableCell className="font-medium">{user.rank}</TableCell>
                       <TableCell>{user.name}</TableCell>
@@ -286,21 +249,13 @@ export function LeaderboardPage() {
                         </DropdownMenu>
                       </TableCell>
                     </TableRow>
-<<<<<<< Updated upstream
                   )))}
-=======
-                  ))}
->>>>>>> Stashed changes
                 </TableBody>
               </Table>
             </CardContent>
             <CardFooter>
               <div className="text-xs text-muted-foreground">
-<<<<<<< Updated upstream
                 Showing <strong>{leaderboard.length}</strong> of <strong>{leaderboard.length}</strong> users
-=======
-                Showing <strong>1-7</strong> of <strong>32</strong> users
->>>>>>> Stashed changes
               </div>
             </CardFooter>
           </Card>

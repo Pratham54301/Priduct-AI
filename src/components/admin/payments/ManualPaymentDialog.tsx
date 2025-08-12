@@ -26,11 +26,8 @@ import {
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { useToast } from '@/hooks/use-toast';
 import { Loader2, PlusCircle } from 'lucide-react';
-<<<<<<< Updated upstream
 import { findUserByEmail } from '@/services/userService';
 import { addPayment } from '@/services/paymentService';
-=======
->>>>>>> Stashed changes
 
 const paymentSchema = z.object({
   email: z.string().email({ message: 'Invalid email address.' }),
@@ -38,18 +35,14 @@ const paymentSchema = z.object({
   status: z.enum(['Completed', 'Pending', 'Failed']),
 });
 
-<<<<<<< Updated upstream
 interface ManualPaymentDialogProps {
   onSuccess: () => void;
 }
 
 export function ManualPaymentDialog({ onSuccess }: ManualPaymentDialogProps) {
-=======
-export function ManualPaymentDialog() {
->>>>>>> Stashed changes
-    const { toast } = useToast();
     const [open, setOpen] = React.useState(false);
     const [isLoading, setIsLoading] = React.useState(false);
+    const { toast } = useToast();
     const form = useForm<z.infer<typeof paymentSchema>>({
         resolver: zodResolver(paymentSchema),
         defaultValues: {
@@ -61,7 +54,6 @@ export function ManualPaymentDialog() {
 
     const onSubmit = async (values: z.infer<typeof paymentSchema>) => {
         setIsLoading(true);
-<<<<<<< Updated upstream
         try {
             const user = await findUserByEmail(values.email);
             if (!user) {
@@ -102,18 +94,6 @@ export function ManualPaymentDialog() {
         } finally {
             setIsLoading(false);
         }
-=======
-        console.log(values);
-        // Simulate API call
-        await new Promise(resolve => setTimeout(resolve, 1000));
-        setIsLoading(false);
-        setOpen(false);
-        form.reset();
-        toast({
-            title: 'Payment Recorded',
-            description: `Payment of $${values.amount} for ${values.email} has been manually recorded.`,
-        });
->>>>>>> Stashed changes
     }
 
   return (
