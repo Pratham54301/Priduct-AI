@@ -9,13 +9,8 @@ import {
   CalendarIcon,
   Menu,
   MoreHorizontal,
-<<<<<<< Updated upstream
   Brain,
   Loader2,
-=======
-  Search,
-  Brain,
->>>>>>> Stashed changes
 } from 'lucide-react';
 import { format } from "date-fns"
 
@@ -61,12 +56,9 @@ import { UserMenu } from '../UserMenu';
 import { mobileNavItems } from '../navItems';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
-<<<<<<< Updated upstream
 import { Schedule } from '@/models/types';
 import { getSchedules, addSchedule } from '@/services/scheduleService';
 
-=======
->>>>>>> Stashed changes
 
 const scheduleSchema = z.object({
     title: z.string().min(3, "Title must be at least 3 characters."),
@@ -78,7 +70,6 @@ const scheduleSchema = z.object({
     description: z.string().optional(),
 });
 
-<<<<<<< Updated upstream
 export function MatchSchedulingPage() {
     const { toast } = useToast();
     const [schedules, setSchedules] = React.useState<Schedule[]>([]);
@@ -145,28 +136,6 @@ export function MatchSchedulingPage() {
         } finally {
             setIsSubmitting(false);
         }
-=======
-const scheduledMatches = [
-    { id: 'm_1', title: 'Nifty 50 Weekly Prediction', date: '2024-08-05', type: 'Stock', status: 'Upcoming' },
-    { id: 'm_2', title: 'Bitcoin Halving Special', date: '2024-07-30', type: 'Crypto', status: 'Live' },
-    { id: 'm_3', title: 'Forex Friday: USD/INR', date: '2024-07-26', type: 'Currency', status: 'Completed' },
-    { id: 'm_4', title: 'Tech Stocks Rally', date: '2024-08-10', type: 'Stock', status: 'Upcoming' },
-]
-
-export function MatchSchedulingPage() {
-    const { toast } = useToast();
-    const form = useForm<z.infer<typeof scheduleSchema>>({
-        resolver: zodResolver(scheduleSchema),
-    });
-
-    const onSubmit = (data: z.infer<typeof scheduleSchema>) => {
-        console.log(data);
-        toast({
-            title: "Match Scheduled!",
-            description: `"${data.title}" has been successfully scheduled for ${format(data.date, "PPP")} at ${data.time}.`,
-        });
-        form.reset();
->>>>>>> Stashed changes
     };
 
   return (
@@ -174,7 +143,7 @@ export function MatchSchedulingPage() {
       <header className="flex h-14 items-center gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6">
         <Sheet>
           <SheetTrigger asChild>
-            <Button variant="outline" size="icon" className="shrink-0 md:hidden">
+            <Button className="shrink-0 md:hidden h-9 w-9 border border-input bg-background hover:bg-accent hover:text-accent-foreground">
               <Menu className="h-5 w-5" />
               <span className="sr-only">Toggle navigation menu</span>
             </Button>
@@ -231,7 +200,7 @@ export function MatchSchedulingPage() {
                                         <Popover>
                                             <PopoverTrigger asChild>
                                                 <FormControl>
-                                                    <Button variant="outline" className={cn("pl-3 text-left font-normal", !field.value && "text-muted-foreground")}>
+                                                    <Button className={cn("pl-3 text-left font-normal border border-input bg-background hover:bg-accent hover:text-accent-foreground", !field.value && "text-muted-foreground")}>
                                                         {field.value ? format(field.value, "PPP") : <span>Pick a date</span>}
                                                         <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                                                     </Button>
@@ -277,14 +246,10 @@ export function MatchSchedulingPage() {
                                     <FormMessage />
                                 </FormItem>
                             )}/>
-<<<<<<< Updated upstream
                             <Button type="submit" className="w-full" disabled={isSubmitting}>
                                 {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                                 Schedule Match
                             </Button>
-=======
-                            <Button type="submit" className="w-full">Schedule Match</Button>
->>>>>>> Stashed changes
                         </form>
                     </Form>
                 </CardContent>
@@ -306,7 +271,6 @@ export function MatchSchedulingPage() {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-<<<<<<< Updated upstream
                      {isLoading ? (
                        <TableRow>
                         <TableCell colSpan={5} className="h-24 text-center">
@@ -321,18 +285,25 @@ export function MatchSchedulingPage() {
                       </TableRow>
                     ) : (
                     schedules.map(match => (
-=======
-                    {scheduledMatches.map(match => (
->>>>>>> Stashed changes
                         <TableRow key={match.id}>
                             <TableCell className="font-medium">{match.title}</TableCell>
                             <TableCell>{match.type}</TableCell>
                             <TableCell>{match.date}</TableCell>
-                            <TableCell><Badge variant={match.status === 'Live' ? 'destructive' : 'secondary'}>{match.status}</Badge></TableCell>
+                            <TableCell>
+                              <Badge
+                                className={
+                                  match.status === 'Live'
+                                    ? 'bg-destructive text-destructive-foreground'
+                                    : 'bg-secondary text-secondary-foreground'
+                                }
+                              >
+                                {match.status}
+                              </Badge>
+                            </TableCell>
                             <TableCell>
                                  <DropdownMenu>
                                     <DropdownMenuTrigger asChild>
-                                        <Button aria-haspopup="true" size="icon" variant="ghost">
+                                        <Button aria-haspopup="true" className="h-9 w-9 bg-transparent hover:bg-accent hover:text-accent-foreground">
                                             <MoreHorizontal className="h-4 w-4" />
                                         </Button>
                                     </DropdownMenuTrigger>
@@ -345,11 +316,7 @@ export function MatchSchedulingPage() {
                                 </DropdownMenu>
                             </TableCell>
                         </TableRow>
-<<<<<<< Updated upstream
-                    )))}
-=======
                     ))}
->>>>>>> Stashed changes
                   </TableBody>
                 </Table>
               </CardContent>

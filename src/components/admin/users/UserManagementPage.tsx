@@ -10,11 +10,8 @@ import {
   PlusCircle,
   Search,
   Brain,
-<<<<<<< Updated upstream
   Loader2,
   ShieldAlert,
-=======
->>>>>>> Stashed changes
 } from 'lucide-react';
 
 import {
@@ -61,7 +58,6 @@ import { ThemeToggle } from '@/components/ThemeToggle';
 import { UserMenu } from '../UserMenu';
 import { mobileNavItems } from '../navItems';
 import { useToast } from '@/hooks/use-toast';
-<<<<<<< Updated upstream
 import { User } from '@/models/types';
 import { getUsers, deleteUser, updateUserRole } from '@/services/userService';
 
@@ -138,50 +134,13 @@ export function UserManagementPage() {
         setSelectedUser(null);
       }
     };
-=======
-
-type User = {
-    id: string;
-    name: string;
-    email: string;
-    role: string;
-    status: string;
-    joined: string;
-};
-
-const usersData: User[] = [
-    { id: 'usr_1', name: 'Liam Johnson', email: 'liam@example.com', role: 'User', status: 'Active', joined: '2024-07-20' },
-    { id: 'usr_2', name: 'Olivia Smith', email: 'olivia@example.com', role: 'User', status: 'Active', joined: '2024-07-19' },
-    { id: 'usr_3', name: 'Noah Williams', email: 'noah@example.com', role: 'User', status: 'Inactive', joined: '2024-07-18' },
-    { id: 'usr_4', name: 'Emma Brown', email: 'emma@example.com', role: 'Admin', status: 'Active', joined: '2024-07-17' },
-    { id: 'usr_5', name: 'Ava Jones', email: 'ava@example.com', role: 'User', status: 'Active', joined: '2024-07-16' },
-];
-
-export function UserManagementPage() {
-    const { toast } = useToast();
-    const [openDeleteDialog, setOpenDeleteDialog] = React.useState(false);
-    const [selectedUser, setSelectedUser] = React.useState<User | null>(null);
-
-    const handleDelete = () => {
-        if (!selectedUser) return;
-        console.log("Deleting user", selectedUser);
-        toast({
-            title: "User Deleted",
-            description: `User ${selectedUser.name} has been successfully deleted.`,
-            variant: "destructive"
-        });
-        // Here you would typically filter out the user from your state
-        setOpenDeleteDialog(false);
-        setSelectedUser(null);
-    }
->>>>>>> Stashed changes
 
   return (
     <>
       <header className="flex h-14 items-center gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6">
         <Sheet>
           <SheetTrigger asChild>
-            <Button variant="outline" size="icon" className="shrink-0 md:hidden">
+            <Button className="shrink-0 md:hidden border border-input bg-background hover:bg-accent hover:text-accent-foreground h-9 w-9" type="button">
               <Menu className="h-5 w-5" />
               <span className="sr-only">Toggle navigation menu</span>
             </Button>
@@ -240,7 +199,7 @@ export function UserManagementPage() {
             <div className="ml-auto flex items-center gap-2">
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="outline" size="sm" className="h-8 gap-1">
+                  <Button className="h-8 gap-1 border border-input bg-background hover:bg-accent hover:text-accent-foreground" type="button">
                     <ListFilter className="h-3.5 w-3.5" />
                     <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
                       Filter
@@ -256,13 +215,13 @@ export function UserManagementPage() {
                   <DropdownMenuCheckboxItem>Status</DropdownMenuCheckboxItem>
                 </DropdownMenuContent>
               </DropdownMenu>
-              <Button size="sm" variant="outline" className="h-8 gap-1">
+              <Button className="h-8 gap-1 border border-input bg-background hover:bg-accent hover:text-accent-foreground">
                 <File className="h-3.5 w-3.5" />
                 <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
                   Export
                 </span>
               </Button>
-              <Button size="sm" className="h-8 gap-1">
+              <Button className="h-8 gap-1">
                 <PlusCircle className="h-3.5 w-3.5" />
                 <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
                   Add User
@@ -296,7 +255,6 @@ export function UserManagementPage() {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-<<<<<<< Updated upstream
                     {isLoading ? (
                       <TableRow>
                         <TableCell colSpan={5} className="h-24 text-center">
@@ -314,17 +272,13 @@ export function UserManagementPage() {
                         <TableRow key={user.id}>
                             <TableCell className="font-medium">
                                 <div>{user.fullName}</div>
-=======
-                    {usersData.map((user) => (
-                        <TableRow key={user.id}>
-                            <TableCell className="font-medium">
-                                <div>{user.name}</div>
->>>>>>> Stashed changes
                                 <div className="text-sm text-muted-foreground md:hidden">{user.email}</div>
                             </TableCell>
                             <TableCell>{user.role}</TableCell>
                             <TableCell className="hidden md:table-cell">
-                                <Badge variant={user.status === 'Active' ? 'default' : 'secondary'}>{user.status}</Badge>
+                                <Badge className={user.status === 'Active' ? 'bg-primary text-primary-foreground' : 'bg-secondary text-secondary-foreground'}>
+                                  {user.status}
+                                </Badge>
                             </TableCell>
                             <TableCell className="hidden md:table-cell">
                                 {user.joined}
@@ -334,8 +288,7 @@ export function UserManagementPage() {
                                 <DropdownMenuTrigger asChild>
                                     <Button
                                     aria-haspopup="true"
-                                    size="icon"
-                                    variant="ghost"
+                                    className="bg-transparent hover:bg-accent hover:text-accent-foreground h-9 w-9"
                                     >
                                     <MoreHorizontal className="h-4 w-4" />
                                     <span className="sr-only">Toggle menu</span>
@@ -344,15 +297,11 @@ export function UserManagementPage() {
                                 <DropdownMenuContent align="end">
                                     <DropdownMenuLabel>Actions</DropdownMenuLabel>
                                     <DropdownMenuItem>View</DropdownMenuItem>
-<<<<<<< Updated upstream
                                     {user.role !== 'Admin' && (
                                       <DropdownMenuItem onClick={() => { setSelectedUser(user); setOpenPromoteDialog(true); }}>
                                         Promote to Admin
                                       </DropdownMenuItem>
                                     )}
-=======
-                                    <DropdownMenuItem>Promote to Admin</DropdownMenuItem>
->>>>>>> Stashed changes
                                     <DropdownMenuSeparator />
                                     <DropdownMenuItem className="text-destructive" onClick={() => { setSelectedUser(user); setOpenDeleteDialog(true); }}>
                                         Delete
@@ -361,21 +310,13 @@ export function UserManagementPage() {
                                 </DropdownMenu>
                             </TableCell>
                         </TableRow>
-<<<<<<< Updated upstream
-                    )))}
-=======
                     ))}
->>>>>>> Stashed changes
                   </TableBody>
                 </Table>
               </CardContent>
               <CardFooter>
                 <div className="text-xs text-muted-foreground">
-<<<<<<< Updated upstream
                   Showing <strong>{users.length}</strong> users
-=======
-                  Showing <strong>1-5</strong> of <strong>32</strong> users
->>>>>>> Stashed changes
                 </div>
               </CardFooter>
             </Card>
@@ -386,11 +327,7 @@ export function UserManagementPage() {
                 <AlertDialogHeader>
                     <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
                     <AlertDialogDescription>
-<<<<<<< Updated upstream
                         This action cannot be undone. This will permanently delete the user account for {selectedUser?.fullName} and remove their data from our servers.
-=======
-                        This action cannot be undone. This will permanently delete the user account for {selectedUser?.name} and remove their data from our servers.
->>>>>>> Stashed changes
                     </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
@@ -399,7 +336,6 @@ export function UserManagementPage() {
                 </AlertDialogFooter>
             </AlertDialogContent>
         </AlertDialog>
-<<<<<<< Updated upstream
         <AlertDialog open={openPromoteDialog} onOpenChange={setOpenPromoteDialog}>
           <AlertDialogContent>
             <AlertDialogHeader>
@@ -417,8 +353,6 @@ export function UserManagementPage() {
             </AlertDialogFooter>
           </AlertDialogContent>
         </AlertDialog>
-=======
->>>>>>> Stashed changes
       </main>
     </>
   );

@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import * as React from 'react';
 import Link from 'next/link';
@@ -14,8 +14,7 @@ import { useToast } from '@/hooks/use-toast';
 import { Loader2, LogIn, ShieldCheck } from 'lucide-react';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
-import { auth } from '@/lib/firebase';
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import { useAuth } from '@/context/AuthContext';
 
 const formSchema = z.object({
   role: z.enum(['User', 'Admin']),
@@ -44,10 +43,7 @@ const formSchema = z.object({
 export function LoginPage() {
   const { toast } = useToast();
   const router = useRouter();
-<<<<<<< Updated upstream
-=======
   const { login } = useAuth();
->>>>>>> Stashed changes
   const [isLoading, setIsLoading] = React.useState(false);
   const [role, setRole] = React.useState<'User' | 'Admin'>('User');
 
@@ -88,68 +84,19 @@ export function LoginPage() {
       setIsLoading(false);
       return;
     }
-<<<<<<< Updated upstream
-    
-    // Regular user login with Firebase
-    try {
-        if (!auth) throw new Error("Firebase Auth is not configured.");
-        if (!values.email || !values.password) throw new Error("Email and password are required.");
-        
-        await signInWithEmailAndPassword(auth, values.email, values.password);
-        
-        toast({
-            title: "Login Successful!",
-            description: "Welcome back! Redirecting you now...",
-        });
-        router.push('/');
-    } catch (error: any) {
-        let title = "Login Failed";
-        let description = "An unexpected error occurred. Please try again.";
 
-        switch (error.code) {
-            case 'auth/user-not-found':
-            case 'auth/wrong-password':
-            case 'auth/invalid-credential':
-                title = "Invalid Credentials";
-                description = "The email or password you entered is incorrect.";
-                break;
-            case 'auth/too-many-requests':
-                title = "Too Many Attempts";
-                description = "Access to this account has been temporarily disabled due to many failed login attempts. You can immediately restore it by resetting your password or you can try again later.";
-                break;
-        }
-
-        toast({
-            title,
-            description,
-            variant: "destructive",
-        });
-    } finally {
-        setIsLoading(false);
-    }
-=======
-    
-    // Regular user login
+    // Regular user login with our auth context
     if (values.email && values.password) {
       const result = await login(values.email, values.password);
-      
       if (result.success) {
-        toast({
-          title: "Login Successful!",
-          description: "Redirecting to home...",
-        });
+        toast({ title: 'Login Successful!', description: 'Redirecting to home...' });
         router.push('/');
       } else {
-        toast({
-          title: "Login Failed",
-          description: result.message,
-          variant: "destructive",
-        });
+        toast({ title: 'Login Failed', description: result.message, variant: 'destructive' });
       }
     }
-    
+
     setIsLoading(false);
->>>>>>> Stashed changes
   }
 
   return (
@@ -162,7 +109,6 @@ export function LoginPage() {
       </CardHeader>
       <CardContent>
         <Form {...form}>
-<<<<<<< Updated upstream
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             <div className="flex items-center justify-center space-x-2 pt-2">
               <Label htmlFor="role-switch" className={`transition-colors ${role === 'User' ? 'text-primary font-semibold' : 'text-muted-foreground'}`}>User</Label>
@@ -176,98 +122,15 @@ export function LoginPage() {
             </div>
 
             {role === 'User' ? (
-                <div className="space-y-4 animate-in fade-in-50 duration-500">
-                    <FormField
-                    control={form.control}
-                    name="email"
-                    render={({ field }) => (
-                        <FormItem>
-                        <FormLabel>Email Address</FormLabel>
-                        <FormControl>
-                            <Input type="email" placeholder="you@example.com" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                        </FormItem>
-                    )}
-                    />
-                    <FormField
-                    control={form.control}
-                    name="password"
-                    render={({ field }) => (
-                        <FormItem>
-                        <div className="flex items-center justify-between">
-                            <FormLabel>Password</FormLabel>
-                            <Link href="#" className="text-sm font-medium text-primary hover:underline">
-                            Forgot Password?
-                            </Link>
-                        </div>
-                        <FormControl>
-                            <Input type="password" placeholder="••••••••" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                        </FormItem>
-                    )}
-                    />
-                </div>
-            ) : (
-                <Card className="p-4 bg-muted/50 border-primary/20 animate-in fade-in-50 duration-500">
-                    <div className="space-y-4">
-                    <CardDescription className="text-center flex items-center justify-center gap-2"><ShieldCheck className="h-4 w-4" /> Admin Login</CardDescription>
-                    <FormField
-                        control={form.control}
-                        name="adminId"
-                        render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>Admin ID</FormLabel>
-                            <FormControl>
-                            <Input placeholder="Enter Admin ID" {...field} disabled={isLoading} />
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                        )}
-                    />
-                    <FormField
-                        control={form.control}
-                        name="adminPassword"
-                        render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>Admin Password</FormLabel>
-                            <FormControl>
-                            <Input type="password" placeholder="Enter Admin Password" {...field} disabled={isLoading} />
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                        )}
-                    />
-                    </div>
-              </Card>
-=======
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-            <div className="flex items-center space-x-2">
-              <Switch
-                id="role-toggle"
-                checked={role === 'Admin'}
-                onCheckedChange={(checked) => setRole(checked ? 'Admin' : 'User')}
-              />
-              <Label htmlFor="role-toggle" className="text-sm font-medium">
-                {role === 'Admin' ? 'Admin Login' : 'User Login'}
-              </Label>
-            </div>
-
-            {role === 'User' ? (
-              <>
+              <div className="space-y-4 animate-in fade-in-50 duration-500">
                 <FormField
                   control={form.control}
                   name="email"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Email</FormLabel>
+                      <FormLabel>Email Address</FormLabel>
                       <FormControl>
-                        <Input
-                          placeholder="Enter your email"
-                          type="email"
-                          {...field}
-                        />
+                        <Input type="email" placeholder="you@example.com" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -278,56 +141,52 @@ export function LoginPage() {
                   name="password"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Password</FormLabel>
+                      <div className="flex items-center justify-between">
+                        <FormLabel>Password</FormLabel>
+                        <Link href="#" className="text-sm font-medium text-primary hover:underline">
+                          Forgot Password?
+                        </Link>
+                      </div>
                       <FormControl>
-                        <Input
-                          placeholder="Enter your password"
-                          type="password"
-                          {...field}
-                        />
+                        <Input type="password" placeholder="••••••••" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
-              </>
+              </div>
             ) : (
-              <>
-                <FormField
-                  control={form.control}
-                  name="adminId"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Admin ID</FormLabel>
-                      <FormControl>
-                        <Input
-                          placeholder="Enter admin ID"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="adminPassword"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Admin Password</FormLabel>
-                      <FormControl>
-                        <Input
-                          placeholder="Enter admin password"
-                          type="password"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </>
->>>>>>> Stashed changes
+              <Card className="p-4 bg-muted/50 border-primary/20 animate-in fade-in-50 duration-500">
+                <div className="space-y-4">
+                  <CardDescription className="text-center flex items-center justify-center gap-2"><ShieldCheck className="h-4 w-4" /> Admin Login</CardDescription>
+                  <FormField
+                    control={form.control}
+                    name="adminId"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Admin ID</FormLabel>
+                        <FormControl>
+                          <Input placeholder="Enter Admin ID" {...field} disabled={isLoading} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="adminPassword"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Admin Password</FormLabel>
+                        <FormControl>
+                          <Input type="password" placeholder="Enter Admin Password" {...field} disabled={isLoading} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              </Card>
             )}
 
             <Button type="submit" className="w-full" disabled={isLoading}>

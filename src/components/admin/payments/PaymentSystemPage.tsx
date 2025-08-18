@@ -6,13 +6,8 @@ import {
   File,
   Menu,
   MoreHorizontal,
-<<<<<<< Updated upstream
   Brain,
   Loader2,
-=======
-  Search,
-  Brain,
->>>>>>> Stashed changes
 } from 'lucide-react';
 
 import { Badge } from '@/components/ui/badge';
@@ -32,10 +27,6 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-<<<<<<< Updated upstream
-=======
-import { Input } from '@/components/ui/input';
->>>>>>> Stashed changes
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import {
   Table,
@@ -50,7 +41,6 @@ import { ThemeToggle } from '@/components/ThemeToggle';
 import { UserMenu } from '../UserMenu';
 import { mobileNavItems } from '../navItems';
 import { ManualPaymentDialog } from './ManualPaymentDialog';
-<<<<<<< Updated upstream
 import { Payment } from '@/models/types';
 import { getPayments } from '@/services/paymentService';
 import { useToast } from '@/hooks/use-toast';
@@ -82,18 +72,6 @@ export function PaymentSystemPage() {
   }, [fetchPayments]);
 
 
-=======
-
-const paymentsData = [
-    { id: 'pay_1', email: 'liam@example.com', amount: '$29.00', status: 'Completed', date: '2024-07-20' },
-    { id: 'pay_2', email: 'olivia@example.com', amount: '$49.00', status: 'Completed', date: '2024-07-19' },
-    { id: 'pay_3', email: 'noah@example.com', amount: '$99.00', status: 'Pending', date: '2024-07-18' },
-    { id: 'pay_4', email: 'emma@example.com', amount: '$29.00', status: 'Completed', date: '2024-07-17' },
-    { id: 'pay_5', email: 'ava@example.com', amount: '$49.00', status: 'Failed', date: '2024-07-16' },
-]
-
-export function PaymentSystemPage() {
->>>>>>> Stashed changes
   return (
     <>
       <header className="flex h-14 items-center gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6">
@@ -148,11 +126,7 @@ export function PaymentSystemPage() {
                     Export
                     </span>
                 </Button>
-<<<<<<< Updated upstream
                 <ManualPaymentDialog onSuccess={fetchPayments} />
-=======
-                <ManualPaymentDialog />
->>>>>>> Stashed changes
             </div>
           </div>
           <TabsContent value="all">
@@ -177,7 +151,6 @@ export function PaymentSystemPage() {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-<<<<<<< Updated upstream
                     {isLoading ? (
                        <TableRow>
                         <TableCell colSpan={5} className="h-24 text-center">
@@ -197,26 +170,22 @@ export function PaymentSystemPage() {
                                 <div className="font-medium">{payment.userEmail.split('@')[0]}</div>
                                 <div className="hidden text-sm text-muted-foreground md:inline">
                                 {payment.userEmail}
-=======
-                    {paymentsData.map(payment => (
-                        <TableRow key={payment.id}>
-                            <TableCell>
-                                <div className="font-medium">{payment.email.split('@')[0]}</div>
-                                <div className="hidden text-sm text-muted-foreground md:inline">
-                                {payment.email}
->>>>>>> Stashed changes
                                 </div>
                             </TableCell>
                             <TableCell>
-                                <Badge variant={payment.status === 'Completed' ? 'default' : payment.status === 'Pending' ? 'secondary' : 'destructive'}>
-                                {payment.status}
+                                <Badge
+                                  className={
+                                    payment.status === 'Completed'
+                                      ? 'bg-primary text-primary-foreground'
+                                      : payment.status === 'Pending'
+                                      ? 'bg-secondary text-secondary-foreground'
+                                      : 'bg-destructive text-destructive-foreground'
+                                  }
+                                >
+                                  {payment.status}
                                 </Badge>
                             </TableCell>
-<<<<<<< Updated upstream
                             <TableCell>${payment.amount.toFixed(2)}</TableCell>
-=======
-                            <TableCell>{payment.amount}</TableCell>
->>>>>>> Stashed changes
                             <TableCell>{payment.date}</TableCell>
                             <TableCell>
                                 <DropdownMenu>
@@ -235,21 +204,13 @@ export function PaymentSystemPage() {
                                 </DropdownMenu>
                             </TableCell>
                         </TableRow>
-<<<<<<< Updated upstream
-                    )))}
-=======
                     ))}
->>>>>>> Stashed changes
                   </TableBody>
                 </Table>
               </CardContent>
               <CardFooter>
                 <div className="text-xs text-muted-foreground">
-<<<<<<< Updated upstream
                   Showing <strong>{payments.length}</strong> payments
-=======
-                  Showing <strong>1-5</strong> of <strong>32</strong> payments
->>>>>>> Stashed changes
                 </div>
               </CardFooter>
             </Card>

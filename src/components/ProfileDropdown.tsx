@@ -34,7 +34,7 @@ export default function ProfileDropdown() {
       <DropdownMenuTrigger asChild>
         <div className="flex items-center cursor-pointer hover:opacity-80 transition-opacity">
           <Avatar className="h-8 w-8">
-            <AvatarImage src={user.avatar} />
+            <AvatarImage src={user.avatar || "/default-avatar.jpg"} />
             <AvatarFallback className="text-xs">
               {getInitials(user.name)}
             </AvatarFallback>
@@ -45,16 +45,16 @@ export default function ProfileDropdown() {
         </div>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-56">
-        <DropdownMenuItem onClick={() => router.push("/profile")}>
+        <DropdownMenuItem onClick={() => router.push("/Profile")}>
           <User className="mr-2 h-4 w-4" /> My Profile
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => router.push("/profile#history")}>
+        <DropdownMenuItem onClick={() => router.push("/Profile#history")}>
           <Star className="mr-2 h-4 w-4" /> Prediction History
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => router.push("/profile#watchlist")}>
+        <DropdownMenuItem onClick={() => router.push("/Profile#watchlist")}>
           <Star className="mr-2 h-4 w-4" /> Watchlist
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => router.push("/profile#alerts")}>
+        <DropdownMenuItem onClick={() => router.push("/Profile#alerts")}>
           <Bell className="mr-2 h-4 w-4" /> Alert Settings
         </DropdownMenuItem>
         <DropdownMenuItem onClick={handleLogout}>

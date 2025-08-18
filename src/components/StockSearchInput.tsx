@@ -14,7 +14,7 @@ interface Stock {
 }
 
 interface StockSearchInputProps {
-  onStockSelect: (stock: Stock) => void;
+  onStockSelect?: (symbol: string) => void;
   placeholder?: string;
   className?: string;
 }
@@ -66,7 +66,7 @@ export default function StockSearchInput({
     setSelectedStock(stock);
     setSearchTerm(stock.symbol);
     setShowSuggestions(false);
-    onStockSelect(stock);
+    if (onStockSelect) onStockSelect(stock.symbol);
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -176,7 +176,7 @@ export default function StockSearchInput({
                 <p className="text-xs text-gray-500 dark:text-gray-500">{selectedStock.sector}</p>
               </div>
               <Button 
-                onClick={() => onStockSelect(selectedStock)}
+                onClick={() => onStockSelect && onStockSelect(selectedStock.symbol)}
                 className="bg-blue-600 hover:bg-blue-700"
               >
                 Get Prediction

@@ -11,6 +11,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { useToast } from '@/hooks/use-toast';
 import { Loader2, TrendingUp } from 'lucide-react';
 import StockSearchInput from '@/components/StockSearchInput';
+import { useStocks } from '@/hooks/useStocks';
 
 interface Stock {
   symbol: string;
@@ -33,6 +34,7 @@ export function InterestForm({ formType }: InterestFormProps) {
   const { toast } = useToast();
   const [isLoading, setIsLoading] = React.useState(false);
   const [selectedStock, setSelectedStock] = React.useState<Stock | null>(null);
+  const { getStockBySymbol } = useStocks();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -44,9 +46,10 @@ export function InterestForm({ formType }: InterestFormProps) {
     },
   });
 
-  const handleStockSelect = (stock: Stock) => {
+  const handleStockSelect = (symbol: string) => {
+    const stock = getStockBySymbol(symbol) || null;
     setSelectedStock(stock);
-    form.setValue('selectedStock', stock.symbol);
+    form.setValue('selectedStock', symbol);
   };
 
   async function onSubmit(values: z.infer<typeof formSchema>) {

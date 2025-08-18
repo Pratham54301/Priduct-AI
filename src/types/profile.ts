@@ -5,6 +5,8 @@ export interface User {
   name: string;
   email: string;
   phone?: string;
+  address?: string;
+  dob?: string; // ISO date string
   avatar?: string;
   plan?: string;
   usage?: number;

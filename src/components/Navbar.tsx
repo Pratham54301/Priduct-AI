@@ -2,6 +2,7 @@
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import Link from "next/link";
 import ProfileDropdown from "@/components/ProfileDropdown";
 
 export default function Navbar() {
@@ -14,15 +15,13 @@ export default function Navbar() {
       <div className="text-xl font-bold cursor-pointer" onClick={() => router.push("/")}>
         Product.AI
       </div>
-      <div>
-        {!auth?.user ? (
+      <div className="flex items-center gap-3">
+        {auth?.user ? (
           <>
-            <button onClick={() => router.push("/login")} className="mr-2">Login</button>
-            <button onClick={() => router.push("/register")}>Join Now</button>
+            <Link href="/Profile" className="text-sm font-medium hover:underline">Profile</Link>
+            <ProfileDropdown />
           </>
-        ) : (
-          <ProfileDropdown />
-        )}
+        ) : null}
       </div>
     </nav>
   );

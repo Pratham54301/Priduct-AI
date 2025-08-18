@@ -43,7 +43,7 @@ export function AdminDashboard() {
       <header className="flex h-14 items-center gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6">
         <Sheet>
           <SheetTrigger asChild>
-            <Button variant="outline" size="icon" className="shrink-0 md:hidden">
+            <Button variant="outline" size="icon" className="shrink-0 md:hidden" type="button">
               <Menu className="h-5 w-5" />
               <span className="sr-only">Toggle navigation menu</span>
             </Button>
@@ -138,11 +138,7 @@ export function AdminDashboard() {
         </div>
         <div className="grid gap-4 md:gap-8 lg:grid-cols-2 xl:grid-cols-3">
           <div className="xl:col-span-2">
-<<<<<<< Updated upstream
             <DashboardChart />
-=======
-           
->>>>>>> Stashed changes
           </div>
           <Card>
             <CardHeader>

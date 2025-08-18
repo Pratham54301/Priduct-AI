@@ -73,7 +73,7 @@ export default function ProfileCard() {
   return (
     <div className="bg-card rounded-lg shadow p-6 flex flex-col items-center dark:bg-[#18181b] w-full max-w-md mx-auto">
       <Avatar className="w-24 h-24 mb-4">
-        <AvatarImage src={user?.avatar} />
+        <AvatarImage src={user?.avatar || "/default-avatar.jpg"} />
         <AvatarFallback>
           {user?.name
             ? user.name

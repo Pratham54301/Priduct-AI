@@ -3,6 +3,7 @@
 
 import React, { useState } from 'react';
 import StockSearchInput from '@/components/StockSearchInput';
+import { useStocks } from '@/hooks/useStocks';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -16,12 +17,18 @@ interface Stock {
 
 export default function StockSearchPage() {
   const [selectedStock, setSelectedStock] = useState<Stock | null>(null);
+  const { getStockBySymbol } = useStocks();
   const [prediction, setPrediction] = useState<any>(null);
   const [loading, setLoading] = useState(false);
 
-  const handleStockSelect = (stock: Stock) => {
+  const handleStockSelect = async (symbol: string) => {
+    const stock = getStockBySymbol(symbol) || null;
     setSelectedStock(stock);
     setPrediction(null);
+    // Example fetch on selection (commented; user can enable as needed)
+    // await fetch(`/api/predict?symbol=${encodeURIComponent(symbol)}`)
+    //   .then(res => res.json())
+    //   .then(data => console.log('Prediction:', data));
   };
 
   const getPrediction = async () => {
