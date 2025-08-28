@@ -20,6 +20,14 @@ const nextConfig: NextConfig = {
     ],
   },
   serverComponentsExternalPackages: ['@genkit-ai/googleai', 'genkit'],
+  async rewrites() {
+    return [
+      {
+        source: '/api/:path*',
+        destination: 'http://localhost:5000/api/:path*',
+      },
+    ];
+  },
 };
 
 export default nextConfig;

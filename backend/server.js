@@ -1,33 +1,49 @@
-require('dotenv').config({ path: __dirname + '/.env' });
-const express = require('express');
-const mongoose = require('mongoose');
-const cors = require('cors');
+import dotenv from 'dotenv';
+import express from 'express';
+import mongoose from 'mongoose';
+import cors from 'cors';
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
+import path from 'path';
+
+// Load environment variables
+dotenv.config();
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const app = express();
-app.use(express.json());
+
+// Middleware
 app.use(cors());
+app.use(express.json());
+app.use(express.static(join(__dirname, 'public')));
 
-console.log('MONGO_URI:', process.env.MONGO_URI);
+// Serve uploaded files
+app.use('/uploads', express.static(join(__dirname, 'uploads')));
 
-// MongoDB connection
-mongoose.connect(process.env.MONGO_URI, {
-  // useNewUrlParser: true,
-  // useUnifiedTopology: true,
-}).then(() => console.log('MongoDB connected'))
-  .catch((err) => console.error('MongoDB connection error:', err));
-
-app.get('/', (req, res) => {
-  res.send('Product.AI backend running');
-});
-
-const authRoutes = require('./routes/auth');
-const predictRoutes = require('./routes/predict');
-const historyRoutes = require('./routes/history');
-require('./jobs/dailyReport');
+// Routes
+import authRoutes from './routes/auth.js';
+import predictRoutes from './routes/predict.js';
+import historyRoutes from './routes/history.js';
+import searchHistoryRoutes from './routes/searchHistory.js';
+import customerRoutes from './routes/customer.js';
 
 app.use('/api/auth', authRoutes);
 app.use('/api/predict', predictRoutes);
 app.use('/api/history', historyRoutes);
+app.use('/api/search-history', searchHistoryRoutes);
+app.use('/api/customer', customerRoutes);
+
+// MongoDB connection
+mongoose.connect(process.env.MONGO_URI)
+  .then(() => console.log('MongoDB connected'))
+  .catch(err => console.log(err));
+
+// Import and start scheduled jobs
+import './jobs/dailyReport.js';
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`)); 
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+}); 

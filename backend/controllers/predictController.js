@@ -1,4 +1,4 @@
-const Prediction = require('../models/Prediction');
+import Prediction from '../models/Prediction.js';
 
 // Dummy AI logic for prediction
 function generatePrediction(ticker) {
@@ -13,7 +13,7 @@ function generatePrediction(ticker) {
   };
 }
 
-exports.predict = async (req, res) => {
+export const predict = async (req, res) => {
   const { ticker } = req.body;
   if (!ticker || typeof ticker !== 'string') {
     return res.status(400).json({ message: 'Ticker symbol is required' });

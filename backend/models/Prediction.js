@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const predictionSchema = new mongoose.Schema({
   ticker: { type: String, required: true },
@@ -7,4 +7,4 @@ const predictionSchema = new mongoose.Schema({
   createdAt: { type: Date, default: Date.now },
 });
 
-module.exports = mongoose.model('Prediction', predictionSchema); 
+export default mongoose.model('Prediction', predictionSchema); 

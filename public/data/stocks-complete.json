@@ -1,0 +1,993 @@
+[
+  {
+    "symbol": "RELIANCE",
+    "name": "Reliance Industries Limited",
+    "sector": "Oil & Gas",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "TCS",
+    "name": "Tata Consultancy Services Limited",
+    "sector": "Information Technology",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "HDFCBANK",
+    "name": "HDFC Bank Limited",
+    "sector": "Banking",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "INFY",
+    "name": "Infosys Limited",
+    "sector": "Information Technology",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ICICIBANK",
+    "name": "ICICI Bank Limited",
+    "sector": "Banking",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "HINDUNILVR",
+    "name": "Hindustan Unilever Limited",
+    "sector": "FMCG",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ITC",
+    "name": "ITC Limited",
+    "sector": "FMCG",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "SBIN",
+    "name": "State Bank of India",
+    "sector": "Banking",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "BHARTIARTL",
+    "name": "Bharti Airtel Limited",
+    "sector": "Telecommunications",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "KOTAKBANK",
+    "name": "Kotak Mahindra Bank Limited",
+    "sector": "Banking",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "AXISBANK",
+    "name": "Axis Bank Limited",
+    "sector": "Banking",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ASIANPAINT",
+    "name": "Asian Paints Limited",
+    "sector": "Chemicals",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "MARUTI",
+    "name": "Maruti Suzuki India Limited",
+    "sector": "Automobile",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "HCLTECH",
+    "name": "HCL Technologies Limited",
+    "sector": "Information Technology",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "SUNPHARMA",
+    "name": "Sun Pharmaceutical Industries Limited",
+    "sector": "Pharmaceuticals",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "TATAMOTORS",
+    "name": "Tata Motors Limited",
+    "sector": "Automobile",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "WIPRO",
+    "name": "Wipro Limited",
+    "sector": "Information Technology",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ULTRACEMCO",
+    "name": "UltraTech Cement Limited",
+    "sector": "Cement",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "TITAN",
+    "name": "Titan Company Limited",
+    "sector": "Consumer Goods",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "BAJFINANCE",
+    "name": "Bajaj Finance Limited",
+    "sector": "Finance",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "NESTLEIND",
+    "name": "Nestle India Limited",
+    "sector": "FMCG",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "POWERGRID",
+    "name": "Power Grid Corporation of India Limited",
+    "sector": "Power",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "BAJAJFINSV",
+    "name": "Bajaj Finserv Limited",
+    "sector": "Finance",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "NTPC",
+    "name": "NTPC Limited",
+    "sector": "Power",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ONGC",
+    "name": "Oil and Natural Gas Corporation Limited",
+    "sector": "Oil & Gas",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "COALINDIA",
+    "name": "Coal India Limited",
+    "sector": "Mining",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "JSWSTEEL",
+    "name": "JSW Steel Limited",
+    "sector": "Steel",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "TATASTEEL",
+    "name": "Tata Steel Limited",
+    "sector": "Steel",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "HINDALCO",
+    "name": "Hindalco Industries Limited",
+    "sector": "Metals",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "VEDL",
+    "name": "Vedanta Limited",
+    "sector": "Mining",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "GRASIM",
+    "name": "Grasim Industries Limited",
+    "sector": "Cement",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "CIPLA",
+    "name": "Cipla Limited",
+    "sector": "Pharmaceuticals",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "DRREDDY",
+    "name": "Dr. Reddy's Laboratories Limited",
+    "sector": "Pharmaceuticals",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "SHREECEM",
+    "name": "Shree Cement Limited",
+    "sector": "Cement",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "BRITANNIA",
+    "name": "Britannia Industries Limited",
+    "sector": "FMCG",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "EICHERMOT",
+    "name": "Eicher Motors Limited",
+    "sector": "Automobile",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "HEROMOTOCO",
+    "name": "Hero MotoCorp Limited",
+    "sector": "Automobile",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "DIVISLAB",
+    "name": "Divi's Laboratories Limited",
+    "sector": "Pharmaceuticals",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANIENT",
+    "name": "Adani Enterprises Limited",
+    "sector": "Conglomerate",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANIPORTS",
+    "name": "Adani Ports and Special Economic Zone Limited",
+    "sector": "Infrastructure",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANIPOWER",
+    "name": "Adani Power Limited",
+    "sector": "Power",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANITRANS",
+    "name": "Adani Transmission Limited",
+    "sector": "Power",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANIGREEN",
+    "name": "Adani Green Energy Limited",
+    "sector": "Power",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANIGAS",
+    "name": "Adani Total Gas Limited",
+    "sector": "Oil & Gas",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANIWILMAR",
+    "name": "Adani Wilmar Limited",
+    "sector": "FMCG",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANIONE",
+    "name": "Adani One Limited",
+    "sector": "Technology",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANICAP",
+    "name": "Adani Capital Limited",
+    "sector": "Finance",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANIHOL",
+    "name": "Adani Housing Limited",
+    "sector": "Real Estate",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANIFOOD",
+    "name": "Adani Food Limited",
+    "sector": "FMCG",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANIMED",
+    "name": "Adani Media Limited",
+    "sector": "Media",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANIDEF",
+    "name": "Adani Defence Limited",
+    "sector": "Defence",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANIAIR",
+    "name": "Adani Air Limited",
+    "sector": "Aviation",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANISHIP",
+    "name": "Adani Shipping Limited",
+    "sector": "Shipping",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANIRETAIL",
+    "name": "Adani Retail Limited",
+    "sector": "Retail",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANILOG",
+    "name": "Adani Logistics Limited",
+    "sector": "Logistics",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANIDIGI",
+    "name": "Adani Digital Limited",
+    "sector": "Technology",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANICON",
+    "name": "Adani Consumer Limited",
+    "sector": "Consumer",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANIHOSP",
+    "name": "Adani Hospital Limited",
+    "sector": "Healthcare",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANISCHOOL",
+    "name": "Adani School Limited",
+    "sector": "Education",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANIUNI",
+    "name": "Adani University Limited",
+    "sector": "Education",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANIBANK",
+    "name": "Adani Bank Limited",
+    "sector": "Banking",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANIINS",
+    "name": "Adani Insurance Limited",
+    "sector": "Insurance",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANIMUTUAL",
+    "name": "Adani Mutual Fund Limited",
+    "sector": "Finance",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANIPENSION",
+    "name": "Adani Pension Limited",
+    "sector": "Finance",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANICREDIT",
+    "name": "Adani Credit Limited",
+    "sector": "Finance",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANILEASE",
+    "name": "Adani Lease Limited",
+    "sector": "Finance",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANICARD",
+    "name": "Adani Card Limited",
+    "sector": "Finance",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANIPAY",
+    "name": "Adani Pay Limited",
+    "sector": "Technology",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANIBLOCKCHAIN",
+    "name": "Adani Blockchain Limited",
+    "sector": "Technology",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANIAI",
+    "name": "Adani AI Limited",
+    "sector": "Technology",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANICLOUD",
+    "name": "Adani Cloud Limited",
+    "sector": "Technology",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANICYBERSEC",
+    "name": "Adani Cyber Security Limited",
+    "sector": "Technology",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANIDATA",
+    "name": "Adani Data Limited",
+    "sector": "Technology",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANINETWORK",
+    "name": "Adani Network Limited",
+    "sector": "Technology",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANISERVER",
+    "name": "Adani Server Limited",
+    "sector": "Technology",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANISTORAGE",
+    "name": "Adani Storage Limited",
+    "sector": "Technology",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANIBACKUP",
+    "name": "Adani Backup Limited",
+    "sector": "Technology",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANIRECOVERY",
+    "name": "Adani Recovery Limited",
+    "sector": "Technology",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANIMONITOR",
+    "name": "Adani Monitor Limited",
+    "sector": "Technology",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANIALERT",
+    "name": "Adani Alert Limited",
+    "sector": "Technology",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANINOTIFY",
+    "name": "Adani Notify Limited",
+    "sector": "Technology",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANIPUSH",
+    "name": "Adani Push Limited",
+    "sector": "Technology",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANISMS",
+    "name": "Adani SMS Limited",
+    "sector": "Technology",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANIEMAIL",
+    "name": "Adani Email Limited",
+    "sector": "Technology",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANICHAT",
+    "name": "Adani Chat Limited",
+    "sector": "Technology",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANIVOICE",
+    "name": "Adani Voice Limited",
+    "sector": "Technology",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANIVIDEO",
+    "name": "Adani Video Limited",
+    "sector": "Technology",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANISTREAM",
+    "name": "Adani Stream Limited",
+    "sector": "Technology",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANIBROADCAST",
+    "name": "Adani Broadcast Limited",
+    "sector": "Media",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANINEWS",
+    "name": "Adani News Limited",
+    "sector": "Media",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANIMAGAZINE",
+    "name": "Adani Magazine Limited",
+    "sector": "Media",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANIBOOK",
+    "name": "Adani Book Limited",
+    "sector": "Media",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANILIBRARY",
+    "name": "Adani Library Limited",
+    "sector": "Education",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANIMUSEUM",
+    "name": "Adani Museum Limited",
+    "sector": "Education",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANIGALLERY",
+    "name": "Adani Gallery Limited",
+    "sector": "Education",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANITHEATRE",
+    "name": "Adani Theatre Limited",
+    "sector": "Entertainment",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANICINEMA",
+    "name": "Adani Cinema Limited",
+    "sector": "Entertainment",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANICONCERT",
+    "name": "Adani Concert Limited",
+    "sector": "Entertainment",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANIFESTIVAL",
+    "name": "Adani Festival Limited",
+    "sector": "Entertainment",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANIEVENT",
+    "name": "Adani Event Limited",
+    "sector": "Entertainment",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANIPARTY",
+    "name": "Adani Party Limited",
+    "sector": "Entertainment",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANICLUB",
+    "name": "Adani Club Limited",
+    "sector": "Entertainment",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANIBAR",
+    "name": "Adani Bar Limited",
+    "sector": "Entertainment",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANIRESTAURANT",
+    "name": "Adani Restaurant Limited",
+    "sector": "Food",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANICAFE",
+    "name": "Adani Cafe Limited",
+    "sector": "Food",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANIBAKERY",
+    "name": "Adani Bakery Limited",
+    "sector": "Food",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANIBUTCHER",
+    "name": "Adani Butcher Limited",
+    "sector": "Food",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANIGROCERY",
+    "name": "Adani Grocery Limited",
+    "sector": "Food",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANISUPERMARKET",
+    "name": "Adani Supermarket Limited",
+    "sector": "Food",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANIHYPERMARKET",
+    "name": "Adani Hypermarket Limited",
+    "sector": "Food",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANIMALL",
+    "name": "Adani Mall Limited",
+    "sector": "Retail",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANIPLAZA",
+    "name": "Adani Plaza Limited",
+    "sector": "Retail",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANIMARKET",
+    "name": "Adani Market Limited",
+    "sector": "Retail",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANISHOP",
+    "name": "Adani Shop Limited",
+    "sector": "Retail",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANISTORE",
+    "name": "Adani Store Limited",
+    "sector": "Retail",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANIOUTLET",
+    "name": "Adani Outlet Limited",
+    "sector": "Retail",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANIKIOSK",
+    "name": "Adani Kiosk Limited",
+    "sector": "Retail",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANIVENDING",
+    "name": "Adani Vending Limited",
+    "sector": "Retail",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANIAUTOMATION",
+    "name": "Adani Automation Limited",
+    "sector": "Technology",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANIMACHINE",
+    "name": "Adani Machine Limited",
+    "sector": "Technology",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANIROBOT",
+    "name": "Adani Robot Limited",
+    "sector": "Technology",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANIDRONE",
+    "name": "Adani Drone Limited",
+    "sector": "Technology",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANISATELLITE",
+    "name": "Adani Satellite Limited",
+    "sector": "Technology",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANISPACE",
+    "name": "Adani Space Limited",
+    "sector": "Technology",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANINASA",
+    "name": "Adani NASA Limited",
+    "sector": "Technology",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANISRO",
+    "name": "Adani ISRO Limited",
+    "sector": "Technology",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANIDRDO",
+    "name": "Adani DRDO Limited",
+    "sector": "Technology",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANIBARC",
+    "name": "Adani BARC Limited",
+    "sector": "Technology",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANICAT",
+    "name": "Adani CAT Limited",
+    "sector": "Technology",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANIIIT",
+    "name": "Adani IIT Limited",
+    "sector": "Education",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANINIT",
+    "name": "Adani NIT Limited",
+    "sector": "Education",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANIIIM",
+    "name": "Adani IIM Limited",
+    "sector": "Education",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANIAIIMS",
+    "name": "Adani AIIMS Limited",
+    "sector": "Healthcare",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANIHOSPITAL",
+    "name": "Adani Hospital Limited",
+    "sector": "Healthcare",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANICLINIC",
+    "name": "Adani Clinic Limited",
+    "sector": "Healthcare",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANIPHARMACY",
+    "name": "Adani Pharmacy Limited",
+    "sector": "Healthcare",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANILAB",
+    "name": "Adani Lab Limited",
+    "sector": "Healthcare",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANIXRAY",
+    "name": "Adani X-Ray Limited",
+    "sector": "Healthcare",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANIMRI",
+    "name": "Adani MRI Limited",
+    "sector": "Healthcare",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANICTSCAN",
+    "name": "Adani CT Scan Limited",
+    "sector": "Healthcare",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANISURGERY",
+    "name": "Adani Surgery Limited",
+    "sector": "Healthcare",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANIDENTAL",
+    "name": "Adani Dental Limited",
+    "sector": "Healthcare",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANIEYE",
+    "name": "Adani Eye Limited",
+    "sector": "Healthcare",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANICARDIO",
+    "name": "Adani Cardiology Limited",
+    "sector": "Healthcare",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANINEURO",
+    "name": "Adani Neurology Limited",
+    "sector": "Healthcare",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANIONCO",
+    "name": "Adani Oncology Limited",
+    "sector": "Healthcare",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANIPEDIATRIC",
+    "name": "Adani Pediatric Limited",
+    "sector": "Healthcare",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANIGERIATRIC",
+    "name": "Adani Geriatric Limited",
+    "sector": "Healthcare",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANIPSYCHIATRY",
+    "name": "Adani Psychiatry Limited",
+    "sector": "Healthcare",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANIDERMATOLOGY",
+    "name": "Adani Dermatology Limited",
+    "sector": "Healthcare",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANIORTHOPEDIC",
+    "name": "Adani Orthopedic Limited",
+    "sector": "Healthcare",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANIUROLOGY",
+    "name": "Adani Urology Limited",
+    "sector": "Healthcare",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANIGYNECOLOGY",
+    "name": "Adani Gynecology Limited",
+    "sector": "Healthcare",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANIOBSTETRICS",
+    "name": "Adani Obstetrics Limited",
+    "sector": "Healthcare",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANINEONATAL",
+    "name": "Adani Neonatal Limited",
+    "sector": "Healthcare",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANIPERINATAL",
+    "name": "Adani Perinatal Limited",
+    "sector": "Healthcare",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANIPOSTNATAL",
+    "name": "Adani Postnatal Limited",
+    "sector": "Healthcare",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANIPRENATAL",
+    "name": "Adani Prenatal Limited",
+    "sector": "Healthcare",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANIFERTILITY",
+    "name": "Adani Fertility Limited",
+    "sector": "Healthcare",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANIGENETICS",
+    "name": "Adani Genetics Limited",
+    "sector": "Healthcare",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANIBIOTECH",
+    "name": "Adani Biotech Limited",
+    "sector": "Healthcare",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANIVACCINE",
+    "name": "Adani Vaccine Limited",
+    "sector": "Healthcare",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANIMEDICINE",
+    "name": "Adani Medicine Limited",
+    "sector": "Healthcare",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANIDRUG",
+    "name": "Adani Drug Limited",
+    "sector": "Healthcare",
+    "exchange": "NSE"
+  },
+  {
+    "symbol": "ADANICHEMICAL",
+    "name": "Adani Chemical Limited",
+    "sector": "Healthcare",
+    "exchange": "Healthcare",
+    "exchange": "NSE"
+  }
+]

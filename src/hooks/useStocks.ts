@@ -1,15 +1,18 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 
 interface Stock {
   symbol: string;
   name: string;
-  sector: string;
+  sector?: string;
 }
 
 export function useStocks() {
   const [stocks, setStocks] = useState<Stock[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  // Memoized stocks data for performance
+  const memoizedStocks = useMemo(() => stocks, [stocks]);
 
   useEffect(() => {
     const loadStocks = async () => {
@@ -35,22 +38,47 @@ export function useStocks() {
   }, []);
 
   const searchStocks = (query: string, limit: number = 10): Stock[] => {
-    if (!query.trim()) return [];
+    if (!query.trim() || !memoizedStocks.length) return [];
     
-    const filtered = stocks.filter(stock => 
-      stock.symbol.toLowerCase().includes(query.toLowerCase()) ||
-      stock.name.toLowerCase().includes(query.toLowerCase())
+    const queryLower = query.toLowerCase();
+    const results: Stock[] = [];
+    
+    // First priority: exact symbol matches
+    const exactSymbolMatches = memoizedStocks.filter(stock => 
+      stock.symbol.toLowerCase() === queryLower
     );
+    results.push(...exactSymbolMatches);
     
-    return filtered.slice(0, limit);
+    // Second priority: symbol starts with query
+    const symbolStartsWith = memoizedStocks.filter(stock => 
+      stock.symbol.toLowerCase().startsWith(queryLower) && 
+      !exactSymbolMatches.some(exact => exact.symbol === stock.symbol)
+    );
+    results.push(...symbolStartsWith);
+    
+    // Third priority: name contains query
+    const nameContains = memoizedStocks.filter(stock => 
+      stock.name.toLowerCase().includes(queryLower) && 
+      !results.some(result => result.symbol === stock.symbol)
+    );
+    results.push(...nameContains);
+    
+    // Fourth priority: symbol contains query
+    const symbolContains = memoizedStocks.filter(stock => 
+      stock.symbol.toLowerCase().includes(queryLower) && 
+      !results.some(result => result.symbol === stock.symbol)
+    );
+    results.push(...symbolContains);
+    
+    return results.slice(0, limit);
   };
 
   const getStockBySymbol = (symbol: string): Stock | undefined => {
-    return stocks.find(stock => stock.symbol.toLowerCase() === symbol.toLowerCase());
+    return memoizedStocks.find(stock => stock.symbol.toLowerCase() === symbol.toLowerCase());
   };
 
   return {
-    stocks,
+    stocks: memoizedStocks,
     loading,
     error,
     searchStocks,

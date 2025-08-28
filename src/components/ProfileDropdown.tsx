@@ -8,7 +8,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { LogOut, User, Bell, Star, Settings } from "lucide-react";
+import { LogOut, User, Bell, Star, Settings, TrendingUp, CreditCard } from "lucide-react";
 
 export default function ProfileDropdown() {
   const { user, logout } = useAuth();
@@ -45,17 +45,20 @@ export default function ProfileDropdown() {
         </div>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-56">
-        <DropdownMenuItem onClick={() => router.push("/profile")}>
+        <DropdownMenuItem onClick={() => router.push("/customer/profile")}>
           <User className="mr-2 h-4 w-4" /> My Profile
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => router.push("/profile#history")}>
-          <Star className="mr-2 h-4 w-4" /> Prediction History
+        <DropdownMenuItem onClick={() => router.push("/customer/profile?tab=predictions")}>
+          <TrendingUp className="mr-2 h-4 w-4" /> Prediction History
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => router.push("/profile#watchlist")}>
-          <Star className="mr-2 h-4 w-4" /> Watchlist
+        <DropdownMenuItem onClick={() => router.push("/customer/profile?tab=offers")}>
+          <CreditCard className="mr-2 h-4 w-4" /> Offers & Plans
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => router.push("/profile#alerts")}>
-          <Bell className="mr-2 h-4 w-4" /> Alert Settings
+        <DropdownMenuItem onClick={() => router.push("/customer/profile?tab=notifications")}>
+          <Bell className="mr-2 h-4 w-4" /> Notifications
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={() => router.push("/customer/profile?tab=security")}>
+          <Settings className="mr-2 h-4 w-4" /> Security
         </DropdownMenuItem>
         <DropdownMenuItem onClick={handleLogout}>
           <LogOut className="mr-2 h-4 w-4" /> Logout

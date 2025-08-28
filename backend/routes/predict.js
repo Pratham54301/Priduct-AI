@@ -1,8 +1,9 @@
-const express = require('express');
+import express from 'express';
+import auth from '../middleware/auth.js';
+import { predict } from '../controllers/predictController.js';
+
 const router = express.Router();
-const auth = require('../middleware/auth');
-const { predict } = require('../controllers/predictController');
 
 router.post('/', auth, predict);
 
-module.exports = router; 
+export default router; 

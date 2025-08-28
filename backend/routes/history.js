@@ -1,8 +1,9 @@
-const express = require('express');
+import express from 'express';
+import auth from '../middleware/auth.js';
+import { getHistory } from '../controllers/historyController.js';
+
 const router = express.Router();
-const auth = require('../middleware/auth');
-const { getHistory } = require('../controllers/historyController');
 
 router.get('/', auth, getHistory);
 
-module.exports = router; 
+export default router; 

@@ -1,6 +1,6 @@
-const Prediction = require('../models/Prediction');
+import Prediction from '../models/Prediction.js';
 
-exports.getHistory = async (req, res) => {
+export const getHistory = async (req, res) => {
   try {
     const predictions = await Prediction.find({ user: req.user }).sort({ createdAt: -1 });
     res.json(predictions);

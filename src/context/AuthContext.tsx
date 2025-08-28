@@ -6,17 +6,21 @@ interface User {
   id: string;
   name: string;
   email: string;
+  phone?: string;
+  address?: string;
   avatar?: string;
+  isProfileComplete: boolean;
 }
 
 interface AuthContextType {
   user: User | null;
   token: string | null;
   loading: boolean;
-  login: (email: string, password: string) => Promise<{ success: boolean; message: string }>;
-  register: (name: string, email: string, password: string) => Promise<{ success: boolean; message: string }>;
+  login: (email: string, password: string) => Promise<{ success: boolean; message: string; redirectTo?: string }>;
+  register: (name: string, email: string, password: string, phone?: string, address?: string) => Promise<{ success: boolean; message: string; redirectTo?: string }>;
   logout: () => void;
   checkAuth: () => Promise<void>;
+  updateProfile: (data: Partial<User>) => Promise<{ success: boolean; message: string }>;
 }
 
 const AuthContext = createContext<AuthContextType | null>(null);
@@ -52,19 +56,16 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         const userData = await response.json();
         setUser(userData);
         setToken(storedToken);
+        // Removed auto-redirect to /signup to avoid bouncing; routing handled by pages
       } else {
         // Token is invalid, clear storage
         localStorage.removeItem("token");
-        localStorage.removeItem("user");
         setUser(null);
         setToken(null);
       }
     } catch (error) {
       console.error("Auth check failed:", error);
-      // If backend is not available, still clear loading state
-      // but don't clear stored data immediately
       localStorage.removeItem("token");
-      localStorage.removeItem("user");
       setUser(null);
       setToken(null);
     } finally {
@@ -72,7 +73,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
-  const login = async (email: string, password: string): Promise<{ success: boolean; message: string }> => {
+  const login = async (email: string, password: string): Promise<{ success: boolean; message: string; redirectTo?: string }> => {
     try {
       setLoading(true);
       const response = await fetch("/api/auth/login", {
@@ -88,9 +89,12 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       if (response.ok) {
         setUser(data.user);
         setToken(data.token);
-        localStorage.setItem("user", JSON.stringify(data.user));
         localStorage.setItem("token", data.token);
-        return { success: true, message: "Login successful" };
+        return { 
+          success: true, 
+          message: "Login successful",
+          redirectTo: data.redirectTo
+        };
       } else {
         return { success: false, message: data.message || "Login failed" };
       }
@@ -101,7 +105,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
-  const register = async (name: string, email: string, password: string): Promise<{ success: boolean; message: string }> => {
+  const register = async (name: string, email: string, password: string, phone?: string, address?: string): Promise<{ success: boolean; message: string; redirectTo?: string }> => {
     try {
       setLoading(true);
       const response = await fetch("/api/auth/register", {
@@ -109,14 +113,20 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ name, email, password }),
+        body: JSON.stringify({ name, email, password, phone, address }),
       });
 
       const data = await response.json();
 
       if (response.ok) {
-        // After successful registration, automatically log in
-        return await login(email, password);
+        setUser(data.user);
+        setToken(data.token);
+        localStorage.setItem("token", data.token);
+        return { 
+          success: true, 
+          message: "Registration successful",
+          redirectTo: data.redirectTo
+        };
       } else {
         return { success: false, message: data.message || "Registration failed" };
       }
@@ -127,11 +137,38 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
+  const updateProfile = async (data: Partial<User>): Promise<{ success: boolean; message: string }> => {
+    try {
+      if (!token) {
+        return { success: false, message: "Not authenticated" };
+      }
+
+      const response = await fetch("/api/auth/me", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(data),
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        setUser(result.user);
+        return { success: true, message: result.message };
+      } else {
+        return { success: false, message: result.message || "Update failed" };
+      }
+    } catch (error) {
+      return { success: false, message: "Network error" };
+    }
+  };
+
   const logout = () => {
+    localStorage.removeItem("token");
     setUser(null);
     setToken(null);
-    localStorage.removeItem("user");
-    localStorage.removeItem("token");
     router.push("/");
   };
 
@@ -139,11 +176,18 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     checkAuth();
   }, []);
 
-  return (
-    <AuthContext.Provider value={{ user, token, loading, login, register, logout, checkAuth }}>
-      {children}
-    </AuthContext.Provider>
-  );
+  const value = {
+    user,
+    token,
+    loading,
+    login,
+    register,
+    logout,
+    checkAuth,
+    updateProfile,
+  };
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
 export const useAuth = () => {

@@ -5,3 +5,11 @@ runConfig:
   # Increase this value if you'd like to automatically spin up
   # more instances in response to increased traffic.
   maxInstances: 1
+
+
+
+
+# MONGO_URI=mongodb+srv://vedteic:Pratham%4054301@vedteix.yby9dng.mongodb.net/priduct-db
+# EMAIL_USER=prathams54301@gmail.com
+# EMAIL_PASS=Pratham@0405
+# JWT_SECRET=pratham54301@sakariya,7777967668

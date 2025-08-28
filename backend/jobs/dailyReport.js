@@ -1,7 +1,7 @@
-const cron = require('node-cron');
-const transporter = require('../utils/email');
-const User = require('../models/User');
-const Prediction = require('../models/Prediction');
+import cron from 'node-cron';
+import transporter from '../utils/email.js';
+import User from '../models/User.js';
+import Prediction from '../models/Prediction.js';
 
 async function sendDailyReports() {
   const users = await User.find();
@@ -20,4 +20,4 @@ async function sendDailyReports() {
 
 cron.schedule('0 8 * * *', sendDailyReports); // Runs every day at 8 AM
 
-module.exports = sendDailyReports; 
+export default sendDailyReports; 

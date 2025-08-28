@@ -1,827 +1,165 @@
 [
-  {
-    "symbol": "RELIANCE",
-    "name": "Reliance Industries Limited",
-    "sector": "Oil & Gas"
-  },
-  {
-    "symbol": "TCS",
-    "name": "Tata Consultancy Services Limited",
-    "sector": "Information Technology"
-  },
-  {
-    "symbol": "HDFCBANK",
-    "name": "HDFC Bank Limited",
-    "sector": "Banking"
-  },
-  {
-    "symbol": "INFY",
-    "name": "Infosys Limited",
-    "sector": "Information Technology"
-  },
-  {
-    "symbol": "ICICIBANK",
-    "name": "ICICI Bank Limited",
-    "sector": "Banking"
-  },
-  {
-    "symbol": "HINDUNILVR",
-    "name": "Hindustan Unilever Limited",
-    "sector": "FMCG"
-  },
-  {
-    "symbol": "ITC",
-    "name": "ITC Limited",
-    "sector": "FMCG"
-  },
-  {
-    "symbol": "SBIN",
-    "name": "State Bank of India",
-    "sector": "Banking"
-  },
-  {
-    "symbol": "BHARTIARTL",
-    "name": "Bharti Airtel Limited",
-    "sector": "Telecommunications"
-  },
-  {
-    "symbol": "KOTAKBANK",
-    "name": "Kotak Mahindra Bank Limited",
-    "sector": "Banking"
-  },
-  {
-    "symbol": "AXISBANK",
-    "name": "Axis Bank Limited",
-    "sector": "Banking"
-  },
-  {
-    "symbol": "ASIANPAINT",
-    "name": "Asian Paints Limited",
-    "sector": "Chemicals"
-  },
-  {
-    "symbol": "MARUTI",
-    "name": "Maruti Suzuki India Limited",
-    "sector": "Automobile"
-  },
-  {
-    "symbol": "HCLTECH",
-    "name": "HCL Technologies Limited",
-    "sector": "Information Technology"
-  },
-  {
-    "symbol": "SUNPHARMA",
-    "name": "Sun Pharmaceutical Industries Limited",
-    "sector": "Pharmaceuticals"
-  },
-  {
-    "symbol": "TATAMOTORS",
-    "name": "Tata Motors Limited",
-    "sector": "Automobile"
-  },
-  {
-    "symbol": "WIPRO",
-    "name": "Wipro Limited",
-    "sector": "Information Technology"
-  },
-  {
-    "symbol": "ULTRACEMCO",
-    "name": "UltraTech Cement Limited",
-    "sector": "Cement"
-  },
-  {
-    "symbol": "TITAN",
-    "name": "Titan Company Limited",
-    "sector": "Consumer Goods"
-  },
-  {
-    "symbol": "BAJFINANCE",
-    "name": "Bajaj Finance Limited",
-    "sector": "Finance"
-  },
-  {
-    "symbol": "NESTLEIND",
-    "name": "Nestle India Limited",
-    "sector": "FMCG"
-  },
-  {
-    "symbol": "POWERGRID",
-    "name": "Power Grid Corporation of India Limited",
-    "sector": "Power"
-  },
-  {
-    "symbol": "NTPC",
-    "name": "NTPC Limited",
-    "sector": "Power"
-  },
-  {
-    "symbol": "BAJAJFINSV",
-    "name": "Bajaj Finserv Limited",
-    "sector": "Finance"
-  },
-  {
-    "symbol": "ONGC",
-    "name": "Oil & Natural Gas Corporation Limited",
-    "sector": "Oil & Gas"
-  },
-  {
-    "symbol": "COALINDIA",
-    "name": "Coal India Limited",
-    "sector": "Mining"
-  },
-  {
-    "symbol": "JSWSTEEL",
-    "name": "JSW Steel Limited",
-    "sector": "Metals"
-  },
-  {
-    "symbol": "TECHM",
-    "name": "Tech Mahindra Limited",
-    "sector": "Information Technology"
-  },
-  {
-    "symbol": "TATACONSUM",
-    "name": "Tata Consumer Products Limited",
-    "sector": "FMCG"
-  },
-  {
-    "symbol": "ADANIENT",
-    "name": "Adani Enterprises Limited",
-    "sector": "Diversified"
-  },
-  {
-    "symbol": "ADANIPORTS",
-    "name": "Adani Ports and Special Economic Zone Limited",
-    "sector": "Infrastructure"
-  },
-  {
-    "symbol": "HINDALCO",
-    "name": "Hindalco Industries Limited",
-    "sector": "Metals"
-  },
-  {
-    "symbol": "DRREDDY",
-    "name": "Dr. Reddy's Laboratories Limited",
-    "sector": "Pharmaceuticals"
-  },
-  {
-    "symbol": "CIPLA",
-    "name": "Cipla Limited",
-    "sector": "Pharmaceuticals"
-  },
-  {
-    "symbol": "SHREECEM",
-    "name": "Shree Cement Limited",
-    "sector": "Cement"
-  },
-  {
-    "symbol": "BRITANNIA",
-    "name": "Britannia Industries Limited",
-    "sector": "FMCG"
-  },
-  {
-    "symbol": "EICHERMOT",
-    "name": "Eicher Motors Limited",
-    "sector": "Automobile"
-  },
-  {
-    "symbol": "HEROMOTOCO",
-    "name": "Hero MotoCorp Limited",
-    "sector": "Automobile"
-  },
-  {
-    "symbol": "DIVISLAB",
-    "name": "Divi's Laboratories Limited",
-    "sector": "Pharmaceuticals"
-  },
-  {
-    "symbol": "GRASIM",
-    "name": "Grasim Industries Limited",
-    "sector": "Chemicals"
-  },
-  {
-    "symbol": "ADANIPOWER",
-    "name": "Adani Power Limited",
-    "sector": "Power"
-  },
-  {
-    "symbol": "M&M",
-    "name": "Mahindra & Mahindra Limited",
-    "sector": "Automobile"
-  },
-  {
-    "symbol": "LT",
-    "name": "Larsen & Toubro Limited",
-    "sector": "Construction"
-  },
-  {
-    "symbol": "VEDL",
-    "name": "Vedanta Limited",
-    "sector": "Mining"
-  },
-  {
-    "symbol": "APOLLOHOSP",
-    "name": "Apollo Hospitals Enterprise Limited",
-    "sector": "Healthcare"
-  },
-  {
-    "symbol": "BAJAJ-AUTO",
-    "name": "Bajaj Auto Limited",
-    "sector": "Automobile"
-  },
-  {
-    "symbol": "TATAPOWER",
-    "name": "Tata Power Company Limited",
-    "sector": "Power"
-  },
-  {
-    "symbol": "SBILIFE",
-    "name": "SBI Life Insurance Company Limited",
-    "sector": "Insurance"
-  },
-  {
-    "symbol": "HDFCLIFE",
-    "name": "HDFC Life Insurance Company Limited",
-    "sector": "Insurance"
-  },
-  {
-    "symbol": "ICICIPRULI",
-    "name": "ICICI Prudential Life Insurance Company Limited",
-    "sector": "Insurance"
-  },
-  {
-    "symbol": "UPL",
-    "name": "UPL Limited",
-    "sector": "Chemicals"
-  },
-  {
-    "symbol": "BPCL",
-    "name": "Bharat Petroleum Corporation Limited",
-    "sector": "Oil & Gas"
-  },
-  {
-    "symbol": "IOC",
-    "name": "Indian Oil Corporation Limited",
-    "sector": "Oil & Gas"
-  },
-  {
-    "symbol": "HINDCOPPER",
-    "name": "Hindustan Copper Limited",
-    "sector": "Metals"
-  },
-  {
-    "symbol": "NATIONALUM",
-    "name": "National Aluminium Company Limited",
-    "sector": "Metals"
-  },
-  {
-    "symbol": "SAIL",
-    "name": "Steel Authority of India Limited",
-    "sector": "Metals"
-  },
-  {
-    "symbol": "TATASTEEL",
-    "name": "Tata Steel Limited",
-    "sector": "Metals"
-  },
-  {
-    "symbol": "JINDALSTEL",
-    "name": "Jindal Steel & Power Limited",
-    "sector": "Metals"
-  },
-  {
-    "symbol": "HDFC",
-    "name": "Housing Development Finance Corporation Limited",
-    "sector": "Finance"
-  },
-  {
-    "symbol": "INDUSINDBK",
-    "name": "IndusInd Bank Limited",
-    "sector": "Banking"
-  },
-  {
-    "symbol": "PFC",
-    "name": "Power Finance Corporation Limited",
-    "sector": "Finance"
-  },
-  {
-    "symbol": "RECLTD",
-    "name": "REC Limited",
-    "sector": "Finance"
-  },
-  {
-    "symbol": "BANKBARODA",
-    "name": "Bank of Baroda",
-    "sector": "Banking"
-  },
-  {
-    "symbol": "CANBK",
-    "name": "Canara Bank",
-    "sector": "Banking"
-  },
-  {
-    "symbol": "PNB",
-    "name": "Punjab National Bank",
-    "sector": "Banking"
-  },
-  {
-    "symbol": "UNIONBANK",
-    "name": "Union Bank of India",
-    "sector": "Banking"
-  },
-  {
-    "symbol": "IDEA",
-    "name": "Vodafone Idea Limited",
-    "sector": "Telecommunications"
-  },
-  {
-    "symbol": "BHARATFORG",
-    "name": "Bharat Forge Limited",
-    "sector": "Automobile"
-  },
-  {
-    "symbol": "ASHOKLEY",
-    "name": "Ashok Leyland Limited",
-    "sector": "Automobile"
-  },
-  {
-    "symbol": "ESCORTS",
-    "name": "Escorts Limited",
-    "sector": "Automobile"
-  },
-  {
-    "symbol": "TVSMOTOR",
-    "name": "TVS Motor Company Limited",
-    "sector": "Automobile"
-  },
-  {
-    "symbol": "MARICO",
-    "name": "Marico Limited",
-    "sector": "FMCG"
-  },
-  {
-    "symbol": "COLPAL",
-    "name": "Colgate-Palmolive (India) Limited",
-    "sector": "FMCG"
-  },
-  {
-    "symbol": "DABUR",
-    "name": "Dabur India Limited",
-    "sector": "FMCG"
-  },
-  {
-    "symbol": "GODREJCP",
-    "name": "Godrej Consumer Products Limited",
-    "sector": "FMCG"
-  },
-  {
-    "symbol": "HCL",
-    "name": "HCL Infosystems Limited",
-    "sector": "Information Technology"
-  },
-  {
-    "symbol": "MINDTREE",
-    "name": "Mindtree Limited",
-    "sector": "Information Technology"
-  },
-  {
-    "symbol": "MPHASIS",
-    "name": "Mphasis Limited",
-    "sector": "Information Technology"
-  },
-  {
-    "symbol": "PERSISTENT",
-    "name": "Persistent Systems Limited",
-    "sector": "Information Technology"
-  },
-  {
-    "symbol": "LTI",
-    "name": "Larsen & Toubro Infotech Limited",
-    "sector": "Information Technology"
-  },
-  {
-    "symbol": "COFORGE",
-    "name": "Coforge Limited",
-    "sector": "Information Technology"
-  },
-  {
-    "symbol": "ZENSARTECH",
-    "name": "Zensar Technologies Limited",
-    "sector": "Information Technology"
-  },
-  {
-    "symbol": "HEXAWARE",
-    "name": "Hexaware Technologies Limited",
-    "sector": "Information Technology"
-  },
-  {
-    "symbol": "BIOCON",
-    "name": "Biocon Limited",
-    "sector": "Pharmaceuticals"
-  },
-  {
-    "symbol": "APOLLOTYRE",
-    "name": "Apollo Tyres Limited",
-    "sector": "Automobile"
-  },
-  {
-    "symbol": "CEAT",
-    "name": "CEAT Limited",
-    "sector": "Automobile"
-  },
-  {
-    "symbol": "MRF",
-    "name": "MRF Limited",
-    "sector": "Automobile"
-  },
-  {
-    "symbol": "JKTYRE",
-    "name": "JK Tyre & Industries Limited",
-    "sector": "Automobile"
-  },
-  {
-    "symbol": "BALKRISIND",
-    "name": "Balkrishna Industries Limited",
-    "sector": "Automobile"
-  },
-  {
-    "symbol": "AMBUJACEM",
-    "name": "Ambuja Cements Limited",
-    "sector": "Cement"
-  },
-  {
-    "symbol": "ACC",
-    "name": "ACC Limited",
-    "sector": "Cement"
-  },
-  {
-    "symbol": "RAMCOCEM",
-    "name": "The Ramco Cements Limited",
-    "sector": "Cement"
-  },
-  {
-    "symbol": "DALMIACEM",
-    "name": "Dalmia Bharat Limited",
-    "sector": "Cement"
-  },
-  {
-    "symbol": "JKCEMENT",
-    "name": "JK Cement Limited",
-    "sector": "Cement"
-  },
-  {
-    "symbol": "ORIENTCEM",
-    "name": "Orient Cement Limited",
-    "sector": "Cement"
-  },
-  {
-    "symbol": "BIRLACORPN",
-    "name": "Birla Corporation Limited",
-    "sector": "Cement"
-  },
-  {
-    "symbol": "INDIACEM",
-    "name": "India Cements Limited",
-    "sector": "Cement"
-  },
-  {
-    "symbol": "CENTURYTEX",
-    "name": "Century Textiles & Industries Limited",
-    "sector": "Textiles"
-  },
-  {
-    "symbol": "ARVIND",
-    "name": "Arvind Limited",
-    "sector": "Textiles"
-  },
-  {
-    "symbol": "RAYMOND",
-    "name": "Raymond Limited",
-    "sector": "Textiles"
-  },
-  {
-    "symbol": "KPRMILL",
-    "name": "KPR Mill Limited",
-    "sector": "Textiles"
-  },
-  {
-    "symbol": "TRIDENT",
-    "name": "Trident Limited",
-    "sector": "Textiles"
-  },
-  {
-    "symbol": "VARDHACRLC",
-    "name": "Vardhman Acrylics Limited",
-    "sector": "Textiles"
-  },
-  {
-    "symbol": "WELSPUNIND",
-    "name": "Welspun India Limited",
-    "sector": "Textiles"
-  },
-  {
-    "symbol": "ALOKINDS",
-    "name": "Alok Industries Limited",
-    "sector": "Textiles"
-  },
-  {
-    "symbol": "SUTLEJTEX",
-    "name": "Sutlej Textiles and Industries Limited",
-    "sector": "Textiles"
-  },
-  {
-    "symbol": "SPIC",
-    "name": "Southern Petrochemicals Industries Corporation Limited",
-    "sector": "Chemicals"
-  },
-  {
-    "symbol": "RCF",
-    "name": "Rashtriya Chemicals and Fertilizers Limited",
-    "sector": "Chemicals"
-  },
-  {
-    "symbol": "CHAMBLFERT",
-    "name": "Chambal Fertilizers and Chemicals Limited",
-    "sector": "Chemicals"
-  },
-  {
-    "symbol": "GSFC",
-    "name": "Gujarat State Fertilizers & Chemicals Limited",
-    "sector": "Chemicals"
-  },
-  {
-    "symbol": "GNFC",
-    "name": "Gujarat Narmada Valley Fertilizers & Chemicals Limited",
-    "sector": "Chemicals"
-  },
-  {
-    "symbol": "FACT",
-    "name": "Fertilizers and Chemicals Travancore Limited",
-    "sector": "Chemicals"
-  },
-  {
-    "symbol": "MFL",
-    "name": "Madras Fertilizers Limited",
-    "sector": "Chemicals"
-  },
-  {
-    "symbol": "NFL",
-    "name": "National Fertilizers Limited",
-    "sector": "Chemicals"
-  },
-  {
-    "symbol": "COROMANDEL",
-    "name": "Coromandel International Limited",
-    "sector": "Chemicals"
-  },
-  {
-    "symbol": "PIIND",
-    "name": "PI Industries Limited",
-    "sector": "Chemicals"
-  },
-  {
-    "symbol": "UPL",
-    "name": "UPL Limited",
-    "sector": "Chemicals"
-  },
-  {
-    "symbol": "DEEPAKNTR",
-    "name": "Deepak Nitrite Limited",
-    "sector": "Chemicals"
-  },
-  {
-    "symbol": "ATUL",
-    "name": "Atul Limited",
-    "sector": "Chemicals"
-  },
-  {
-    "symbol": "AARTIIND",
-    "name": "Aarti Industries Limited",
-    "sector": "Chemicals"
-  },
-  {
-    "symbol": "TATACHEM",
-    "name": "Tata Chemicals Limited",
-    "sector": "Chemicals"
-  },
-  {
-    "symbol": "PIDILITIND",
-    "name": "Pidilite Industries Limited",
-    "sector": "Chemicals"
-  },
-  {
-    "symbol": "PRAJIND",
-    "name": "Praj Industries Limited",
-    "sector": "Chemicals"
-  },
-  {
-    "symbol": "BHARATRAS",
-    "name": "Bharat Rasayan Limited",
-    "sector": "Chemicals"
-  },
-  {
-    "symbol": "SUDARSCHEM",
-    "name": "Sudarshan Chemical Industries Limited",
-    "sector": "Chemicals"
-  },
-  {
-    "symbol": "VINATIORGA",
-    "name": "Vinati Organics Limited",
-    "sector": "Chemicals"
-  },
-  {
-    "symbol": "NAVINFLUOR",
-    "name": "Navin Fluorine International Limited",
-    "sector": "Chemicals"
-  },
-  {
-    "symbol": "SRF",
-    "name": "SRF Limited",
-    "sector": "Chemicals"
-  },
-  {
-    "symbol": "GODREJIND",
-    "name": "Godrej Industries Limited",
-    "sector": "Chemicals"
-  },
-  {
-    "symbol": "GODREJAGRO",
-    "name": "Godrej Agrovet Limited",
-    "sector": "Chemicals"
-  },
-  {
-    "symbol": "KAJARIACER",
-    "name": "Kajaria Ceramics Limited",
-    "sector": "Construction"
-  },
-  {
-    "symbol": "SOMANYCERA",
-    "name": "Somany Ceramics Limited",
-    "sector": "Construction"
-  },
-  {
-    "symbol": "HINDWAREAP",
-    "name": "Hindware Home Innovation Limited",
-    "sector": "Construction"
-  },
-  {
-    "symbol": "CERA",
-    "name": "Cera Sanitaryware Limited",
-    "sector": "Construction"
-  },
-  {
-    "symbol": "KALEESULVAR",
-    "name": "Kaleesuwari Refinery Private Limited",
-    "sector": "Oil & Gas"
-  },
-  {
-    "symbol": "CASTROLIND",
-    "name": "Castrol India Limited",
-    "sector": "Oil & Gas"
-  },
-  {
-    "symbol": "PETRONET",
-    "name": "Petronet LNG Limited",
-    "sector": "Oil & Gas"
-  },
-  {
-    "symbol": "GAIL",
-    "name": "GAIL (India) Limited",
-    "sector": "Oil & Gas"
-  },
-  {
-    "symbol": "GSPL",
-    "name": "Gujarat State Petronet Limited",
-    "sector": "Oil & Gas"
-  },
-  {
-    "symbol": "IGL",
-    "name": "Indraprastha Gas Limited",
-    "sector": "Oil & Gas"
-  },
-  {
-    "symbol": "MGL",
-    "name": "Mahanagar Gas Limited",
-    "sector": "Oil & Gas"
-  },
-  {
-    "symbol": "GUJGASLTD",
-    "name": "Gujarat Gas Limited",
-    "sector": "Oil & Gas"
-  },
-  {
-    "symbol": "ADANIGAS",
-    "name": "Adani Total Gas Limited",
-    "sector": "Oil & Gas"
-  },
-  {
-    "symbol": "TORNTPHARM",
-    "name": "Torrent Pharmaceuticals Limited",
-    "sector": "Pharmaceuticals"
-  },
-  {
-    "symbol": "ALKEM",
-    "name": "Alkem Laboratories Limited",
-    "sector": "Pharmaceuticals"
-  },
-  {
-    "symbol": "CADILAHC",
-    "name": "Cadila Healthcare Limited",
-    "sector": "Pharmaceuticals"
-  },
-  {
-    "symbol": "LUPIN",
-    "name": "Lupin Limited",
-    "sector": "Pharmaceuticals"
-  },
-  {
-    "symbol": "TORNTPOWER",
-    "name": "Torrent Power Limited",
-    "sector": "Power"
-  },
-  {
-    "symbol": "TATAPOWER",
-    "name": "Tata Power Company Limited",
-    "sector": "Power"
-  },
-  {
-    "symbol": "CESC",
-    "name": "CESC Limited",
-    "sector": "Power"
-  },
-  {
-    "symbol": "ADANITRANS",
-    "name": "Adani Transmission Limited",
-    "sector": "Power"
-  },
-  {
-    "symbol": "POWERINDIA",
-    "name": "Power Grid Corporation of India Limited",
-    "sector": "Power"
-  },
-  {
-    "symbol": "NHPC",
-    "name": "NHPC Limited",
-    "sector": "Power"
-  },
-  {
-    "symbol": "SJVN",
-    "name": "SJVN Limited",
-    "sector": "Power"
-  },
-  {
-    "symbol": "NLCINDIA",
-    "name": "NLC India Limited",
-    "sector": "Power"
-  },
-  {
-    "symbol": "TATACOMM",
-    "name": "Tata Communications Limited",
-    "sector": "Telecommunications"
-  },
-  {
-    "symbol": "MTNL",
-    "name": "Mahanagar Telephone Nigam Limited",
-    "sector": "Telecommunications"
-  },
-  {
-    "symbol": "BSNL",
-    "name": "Bharat Sanchar Nigam Limited",
-    "sector": "Telecommunications"
-  },
-  {
-    "symbol": "RAILTEL",
-    "name": "RailTel Corporation of India Limited",
-    "sector": "Telecommunications"
-  },
-  {
-    "symbol": "ITI",
-    "name": "ITI Limited",
-    "sector": "Telecommunications"
-  },
-  {
-    "symbol": "HFCL",
-    "name": "HFCL Limited",
-    "sector": "Telecommunications"
-  },
-  {
-    "symbol": "STERLITECH",
-    "name": "Sterlite Technologies Limited",
-    "sector": "Telecommunications"
-  },
-  {
-    "symbol": "TEJASNET",
-    "name": "Tejas Networks Limited",
-    "sector": "Telecommunications"
-  },
-  {
-    "symbol": "OPTEL",
-    "name": "Optel Limited",
-    "sector": "Telecommunications"
-  },
-  {
-    "symbol": "VNL",
-    "name": "VNL Limited",
-    "sector": "Telecommunications"
-  }
+  { "symbol": "RELIANCE", "name": "Reliance Industries Ltd" },
+  { "symbol": "TCS", "name": "Tata Consultancy Services Ltd" },
+  { "symbol": "HDFCBANK", "name": "HDFC Bank Ltd" },
+  { "symbol": "INFY", "name": "Infosys Ltd" },
+  { "symbol": "ICICIBANK", "name": "ICICI Bank Ltd" },
+  { "symbol": "HINDUNILVR", "name": "Hindustan Unilever Ltd" },
+  { "symbol": "SBIN", "name": "State Bank of India" },
+  { "symbol": "ITC", "name": "ITC Ltd" },
+  { "symbol": "BHARTIARTL", "name": "Bharti Airtel Ltd" },
+  { "symbol": "ASIANPAINT", "name": "Asian Paints Ltd" },
+  { "symbol": "MARUTI", "name": "Maruti Suzuki India Ltd" },
+  { "symbol": "HCLTECH", "name": "HCL Technologies Ltd" },
+  { "symbol": "SUNPHARMA", "name": "Sun Pharmaceutical Industries Ltd" },
+  { "symbol": "TATAMOTORS", "name": "Tata Motors Ltd" },
+  { "symbol": "WIPRO", "name": "Wipro Ltd" },
+  { "symbol": "ULTRACEMCO", "name": "UltraTech Cement Ltd" },
+  { "symbol": "TITAN", "name": "Titan Company Ltd" },
+  { "symbol": "BAJFINANCE", "name": "Bajaj Finance Ltd" },
+  { "symbol": "NESTLEIND", "name": "Nestle India Ltd" },
+  { "symbol": "POWERGRID", "name": "Power Grid Corporation of India Ltd" },
+  { "symbol": "BAJAJFINSV", "name": "Bajaj Finserv Ltd" },
+  { "symbol": "NTPC", "name": "NTPC Ltd" },
+  { "symbol": "ONGC", "name": "Oil and Natural Gas Corporation Ltd" },
+  { "symbol": "COALINDIA", "name": "Coal India Ltd" },
+  { "symbol": "JSWSTEEL", "name": "JSW Steel Ltd" },
+  { "symbol": "TATASTEEL", "name": "Tata Steel Ltd" },
+  { "symbol": "HINDALCO", "name": "Hindalco Industries Ltd" },
+  { "symbol": "VEDL", "name": "Vedanta Ltd" },
+  { "symbol": "GRASIM", "name": "Grasim Industries Ltd" },
+  { "symbol": "CIPLA", "name": "Cipla Ltd" },
+  { "symbol": "DRREDDY", "name": "Dr. Reddy's Laboratories Ltd" },
+  { "symbol": "SHREECEM", "name": "Shree Cement Ltd" },
+  { "symbol": "BRITANNIA", "name": "Britannia Industries Ltd" },
+  { "symbol": "EICHERMOT", "name": "Eicher Motors Ltd" },
+  { "symbol": "HEROMOTOCO", "name": "Hero MotoCorp Ltd" },
+  { "symbol": "DIVISLAB", "name": "Divi's Laboratories Ltd" },
+  { "symbol": "ADANIENT", "name": "Adani Enterprises Ltd" },
+  { "symbol": "ADANIPORTS", "name": "Adani Ports and Special Economic Zone Ltd" },
+  { "symbol": "ADANIPOWER", "name": "Adani Power Ltd" },
+  { "symbol": "ADANITRANS", "name": "Adani Transmission Ltd" },
+  { "symbol": "ADANIGREEN", "name": "Adani Green Energy Ltd" },
+  { "symbol": "ADANIGAS", "name": "Adani Total Gas Ltd" },
+  { "symbol": "ADANIWILMAR", "name": "Adani Wilmar Ltd" },
+  { "symbol": "ADANIONE", "name": "Adani One Ltd" },
+  { "symbol": "ADANICAP", "name": "Adani Capital Ltd" },
+  { "symbol": "ADANIHOL", "name": "Adani Housing Ltd" },
+  { "symbol": "ADANIFOOD", "name": "Adani Food Ltd" },
+  { "symbol": "ADANIMED", "name": "Adani Media Ltd" },
+  { "symbol": "ADANIDEF", "name": "Adani Defence Ltd" },
+  { "symbol": "ADANIAIR", "name": "Adani Air Ltd" },
+  { "symbol": "ADANISHIP", "name": "Adani Shipping Ltd" },
+  { "symbol": "ADANIRETAIL", "name": "Adani Retail Ltd" },
+  { "symbol": "ADANILOG", "name": "Adani Logistics Ltd" },
+  { "symbol": "ADANIDIGI", "name": "Adani Digital Ltd" },
+  { "symbol": "ADANICON", "name": "Adani Consumer Ltd" },
+  { "symbol": "ADANIHOSP", "name": "Adani Hospital Ltd" },
+  { "symbol": "ADANISCHOOL", "name": "Adani School Ltd" },
+  { "symbol": "ADANIUNI", "name": "Adani University Ltd" },
+  { "symbol": "ADANIBANK", "name": "Adani Bank Ltd" },
+  { "symbol": "ADANIINS", "name": "Adani Insurance Ltd" },
+  { "symbol": "ADANIMUTUAL", "name": "Adani Mutual Fund Ltd" },
+  { "symbol": "ADANIPENSION", "name": "Adani Pension Ltd" },
+  { "symbol": "ADANICREDIT", "name": "Adani Credit Ltd" },
+  { "symbol": "ADANILEASE", "name": "Adani Lease Ltd" },
+  { "symbol": "ADANICARD", "name": "Adani Card Ltd" },
+  { "symbol": "ADANIPAY", "name": "Adani Pay Ltd" },
+  { "symbol": "ADANIBLOCKCHAIN", "name": "Adani Blockchain Ltd" },
+  { "symbol": "ADANIAI", "name": "Adani AI Ltd" },
+  { "symbol": "ADANICLOUD", "name": "Adani Cloud Ltd" },
+  { "symbol": "ADANICYBERSEC", "name": "Adani Cyber Security Ltd" },
+  { "symbol": "ADANIDATA", "name": "Adani Data Ltd" },
+  { "symbol": "ADANINETWORK", "name": "Adani Network Ltd" },
+  { "symbol": "ADANISERVER", "name": "Adani Server Ltd" },
+  { "symbol": "ADANISTORAGE", "name": "Adani Storage Ltd" },
+  { "symbol": "ADANIBACKUP", "name": "Adani Backup Ltd" },
+  { "symbol": "ADANIRECOVERY", "name": "Adani Recovery Ltd" },
+  { "symbol": "ADANIMONITOR", "name": "Adani Monitor Ltd" },
+  { "symbol": "ADANIALERT", "name": "Adani Alert Ltd" },
+  { "symbol": "ADANINOTIFY", "name": "Adani Notify Ltd" },
+  { "symbol": "ADANIPUSH", "name": "Adani Push Ltd" },
+  { "symbol": "ADANISMS", "name": "Adani SMS Ltd" },
+  { "symbol": "ADANIEMAIL", "name": "Adani Email Ltd" },
+  { "symbol": "ADANICHAT", "name": "Adani Chat Ltd" },
+  { "symbol": "ADANIVOICE", "name": "Adani Voice Ltd" },
+  { "symbol": "ADANIVIDEO", "name": "Adani Video Ltd" },
+  { "symbol": "ADANISTREAM", "name": "Adani Stream Ltd" },
+  { "symbol": "ADANIBROADCAST", "name": "Adani Broadcast Ltd" },
+  { "symbol": "ADANINEWS", "name": "Adani News Ltd" },
+  { "symbol": "ADANIMAGAZINE", "name": "Adani Magazine Ltd" },
+  { "symbol": "ADANIBOOK", "name": "Adani Book Ltd" },
+  { "symbol": "ADANILIBRARY", "name": "Adani Library Ltd" },
+  { "symbol": "ADANIMUSEUM", "name": "Adani Museum Ltd" },
+  { "symbol": "ADANIGALLERY", "name": "Adani Gallery Ltd" },
+  { "symbol": "ADANITHEATRE", "name": "Adani Theatre Ltd" },
+  { "symbol": "ADANICINEMA", "name": "Adani Cinema Ltd" },
+  { "symbol": "ADANICONCERT", "name": "Adani Concert Ltd" },
+  { "symbol": "ADANIFESTIVAL", "name": "Adani Festival Ltd" },
+  { "symbol": "ADANIEVENT", "name": "Adani Event Ltd" },
+  { "symbol": "ADANIPARTY", "name": "Adani Party Ltd" },
+  { "symbol": "ADANICLUB", "name": "Adani Club Ltd" },
+  { "symbol": "ADANIBAR", "name": "Adani Bar Ltd" },
+  { "symbol": "ADANIRESTAURANT", "name": "Adani Restaurant Ltd" },
+  { "symbol": "ADANICAFE", "name": "Adani Cafe Ltd" },
+  { "symbol": "ADANIBAKERY", "name": "Adani Bakery Ltd" },
+  { "symbol": "ADANIBUTCHER", "name": "Adani Butcher Ltd" },
+  { "symbol": "ADANIGROCERY", "name": "Adani Grocery Ltd" },
+  { "symbol": "ADANISUPERMARKET", "name": "Adani Supermarket Ltd" },
+  { "symbol": "ADANIHYPERMARKET", "name": "Adani Hypermarket Ltd" },
+  { "symbol": "ADANIMALL", "name": "Adani Mall Ltd" },
+  { "symbol": "ADANIPLAZA", "name": "Adani Plaza Ltd" },
+  { "symbol": "ADANIMARKET", "name": "Adani Market Ltd" },
+  { "symbol": "ADANISHOP", "name": "Adani Shop Ltd" },
+  { "symbol": "ADANISTORE", "name": "Adani Store Ltd" },
+  { "symbol": "ADANIOUTLET", "name": "Adani Outlet Ltd" },
+  { "symbol": "ADANIKIOSK", "name": "Adani Kiosk Ltd" },
+  { "symbol": "ADANIVENDING", "name": "Adani Vending Ltd" },
+  { "symbol": "ADANIAUTOMATION", "name": "Adani Automation Ltd" },
+  { "symbol": "ADANIMACHINE", "name": "Adani Machine Ltd" },
+  { "symbol": "ADANIROBOT", "name": "Adani Robot Ltd" },
+  { "symbol": "ADANIDRONE", "name": "Adani Drone Ltd" },
+  { "symbol": "ADANISATELLITE", "name": "Adani Satellite Ltd" },
+  { "symbol": "ADANISPACE", "name": "Adani Space Ltd" },
+  { "symbol": "ADANINASA", "name": "Adani NASA Ltd" },
+  { "symbol": "ADANISRO", "name": "Adani ISRO Ltd" },
+  { "symbol": "ADANIDRDO", "name": "Adani DRDO Ltd" },
+  { "symbol": "ADANIBARC", "name": "Adani BARC Ltd" },
+  { "symbol": "ADANICAT", "name": "Adani CAT Ltd" },
+  { "symbol": "ADANIIIT", "name": "Adani IIT Ltd" },
+  { "symbol": "ADANINIT", "name": "Adani NIT Ltd" },
+  { "symbol": "ADANIIIM", "name": "Adani IIM Ltd" },
+  { "symbol": "ADANIAIIMS", "name": "Adani AIIMS Ltd" },
+  { "symbol": "ADANIHOSPITAL", "name": "Adani Hospital Ltd" },
+  { "symbol": "ADANICLINIC", "name": "Adani Clinic Ltd" },
+  { "symbol": "ADANIPHARMACY", "name": "Adani Pharmacy Ltd" },
+  { "symbol": "ADANILAB", "name": "Adani Lab Ltd" },
+  { "symbol": "ADANIXRAY", "name": "Adani X-Ray Ltd" },
+  { "symbol": "ADANIMRI", "name": "Adani MRI Ltd" },
+  { "symbol": "ADANICTSCAN", "name": "Adani CT Scan Ltd" },
+  { "symbol": "ADANISURGERY", "name": "Adani Surgery Ltd" },
+  { "symbol": "ADANIDENTAL", "name": "Adani Dental Ltd" },
+  { "symbol": "ADANIEYE", "name": "Adani Eye Ltd" },
+  { "symbol": "ADANICARDIO", "name": "Adani Cardiology Ltd" },
+  { "symbol": "ADANINEURO", "name": "Adani Neurology Ltd" },
+  { "symbol": "ADANIONCO", "name": "Adani Oncology Ltd" },
+  { "symbol": "ADANIPEDIATRIC", "name": "Adani Pediatric Ltd" },
+  { "symbol": "ADANIGERIATRIC", "name": "Adani Geriatric Ltd" },
+  { "symbol": "ADANIPSYCHIATRY", "name": "Adani Psychiatry Ltd" },
+  { "symbol": "ADANIDERMATOLOGY", "name": "Adani Dermatology Ltd" },
+  { "symbol": "ADANIORTHOPEDIC", "name": "Adani Orthopedic Ltd" },
+  { "symbol": "ADANIUROLOGY", "name": "Adani Urology Ltd" },
+  { "symbol": "ADANIGYNECOLOGY", "name": "Adani Gynecology Ltd" },
+  { "symbol": "ADANIOBSTETRICS", "name": "Adani Obstetrics Ltd" },
+  { "symbol": "ADANINEONATAL", "name": "Adani Neonatal Ltd" },
+  { "symbol": "ADANIPERINATAL", "name": "Adani Perinatal Ltd" },
+  { "symbol": "ADANIPOSTNATAL", "name": "Adani Postnatal Ltd" },
+  { "symbol": "ADANIPRENATAL", "name": "Adani Prenatal Ltd" },
+  { "symbol": "ADANIFERTILITY", "name": "Adani Fertility Ltd" },
+  { "symbol": "ADANIGENETICS", "name": "Adani Genetics Ltd" },
+  { "symbol": "ADANIBIOTECH", "name": "Adani Biotech Ltd" },
+  { "symbol": "ADANIVACCINE", "name": "Adani Vaccine Ltd" },
+  { "symbol": "ADANIMEDICINE", "name": "Adani Medicine Ltd" },
+  { "symbol": "ADANIDRUG", "name": "Adani Drug Ltd" },
+  { "symbol": "ADANICHEMICAL", "name": "Adani Chemical Ltd" }
 ] 

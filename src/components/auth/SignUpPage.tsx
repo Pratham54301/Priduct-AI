@@ -14,15 +14,16 @@ import { useToast } from '@/hooks/use-toast';
 import { Loader2, UserPlus, ShieldCheck } from 'lucide-react';
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
-import { auth } from '@/lib/firebase';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { addUser } from '@/services/userService';
+import { Textarea } from '@/components/ui/textarea';
+import { useAuth } from '@/context/AuthContext';
 
 const signUpSchema = z.object({
   role: z.enum(['User', 'Admin']),
   fullName: z.string().optional(),
   email: z.string().optional(),
   password: z.string().optional(),
+  phone: z.string().optional(),
+  address: z.string().optional(),
   adminId: z.string().optional(),
   adminPassword: z.string().optional(),
 }).superRefine((data, ctx) => {
@@ -47,12 +48,18 @@ const signUpSchema = z.object({
   }
 });
 
-
 export function SignUpPage() {
   const { toast } = useToast();
   const router = useRouter();
+  const { register: registerUser, user } = useAuth();
   const [isLoading, setIsLoading] = React.useState(false);
   const [role, setRole] = React.useState<'User' | 'Admin'>('User');
+
+  React.useEffect(() => {
+    if (user) {
+      router.replace('/');
+    }
+  }, [user, router]);
 
   const form = useForm<z.infer<typeof signUpSchema>>({
     resolver: zodResolver(signUpSchema),
@@ -60,6 +67,8 @@ export function SignUpPage() {
       fullName: '',
       email: '',
       password: '',
+      phone: '',
+      address: '',
       role: 'User',
       adminId: '',
       adminPassword: '',
@@ -93,37 +102,43 @@ export function SignUpPage() {
       return;
     }
 
-    // Regular user signup with Firebase
+    // Regular user signup with custom backend API
     try {
-        if (!auth) throw new Error("Firebase Auth is not configured.");
-        if (!values.email || !values.password || !values.fullName) throw new Error("Full name, email and password are required.");
-        
-        const userCredential = await createUserWithEmailAndPassword(auth, values.email, values.password);
-        const user = userCredential.user;
-
-        // Add user to Firestore database
-        await addUser({
-            fullName: values.fullName,
-            email: user.email!,
-            role: 'User',
-            status: 'Active',
-            joined: new Date().toISOString()
-        });
-
-        toast({
-            title: "Account Created Successfully!",
-            description: "Welcome! Redirecting you to the home page...",
-        });
-        router.push('/');
-    } catch (error: any) {
-        let title = "Sign Up Failed";
-        let description = "An unexpected error occurred. Please try again.";
-        
-        if (error.code === 'auth/email-already-in-use') {
-            title = "Email Already Registered";
-            description = "An account with this email address already exists. Please try logging in instead.";
+        if (!values.email || !values.password || !values.fullName) {
+            throw new Error("Full name, email and password are required.");
         }
         
+        const result = await registerUser(
+            values.fullName, 
+            values.email, 
+            values.password,
+            values.phone,
+            values.address
+        );
+        
+        if (result.success) {
+            toast({
+                title: "Registration Successful!",
+                description: "Welcome! Redirecting you now...",
+            });
+            
+            // Always redirect to home after signup
+            router.push('/');
+        } else {
+            throw new Error(result.message);
+        }
+    } catch (error: any) {
+        let title = "Registration Failed";
+        let description = "An unexpected error occurred. Please try again.";
+
+        if (error.message === "User already exists") {
+            title = "User Already Exists";
+            description = "An account with this email already exists. Please login instead.";
+        } else if (error.message.includes("required")) {
+            title = "Missing Information";
+            description = error.message;
+        }
+
         toast({
             title,
             description,
@@ -192,6 +207,32 @@ export function SignUpPage() {
                       <FormLabel>Password</FormLabel>
                       <FormControl>
                         <Input type="password" placeholder="••••••••" {...field} disabled={isLoading} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="phone"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Phone Number</FormLabel>
+                      <FormControl>
+                        <Input placeholder="123-456-7890" {...field} disabled={isLoading} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="address"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Address</FormLabel>
+                      <FormControl>
+                        <Textarea placeholder="123 Main St, City, Country" {...field} disabled={isLoading} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>

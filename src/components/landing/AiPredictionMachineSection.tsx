@@ -8,6 +8,7 @@ import { Search, Briefcase, Landmark, Coins, Gem, Droplet, Bitcoin, DollarSign, 
 import { getAssetPrediction, type AssetPredictionOutput } from '@/ai/flows/get-asset-prediction';
 import { PredictionResultCard } from './PredictionResultCard';
 import { useToast } from '@/hooks/use-toast';
+import { useRouter } from 'next/navigation';
 
 interface MarketItem {
   name: string;
@@ -69,6 +70,7 @@ const ItemLogoButton: React.FC<{ item: MarketItem, onClick: (ticker: string) => 
 export function AiPredictionMachineSection() {
   
   const { toast } = useToast();
+  const router = useRouter();
   const [searchTerm, setSearchTerm] = React.useState('');
   const [isLoading, setIsLoading] = React.useState(false);
   const [prediction, setPrediction] = React.useState<AssetPredictionOutput | null>(null);
@@ -118,6 +120,8 @@ export function AiPredictionMachineSection() {
     try {
       const result = await getAssetPrediction({ ticker });
       setPrediction(result);
+      // Redirect to dashboard after a valid prediction request
+      router.push('/dashboard');
     } catch (error) {
       console.error("Prediction failed:", error);
       toast({

@@ -14,8 +14,7 @@ import { useToast } from '@/hooks/use-toast';
 import { Loader2, LogIn, ShieldCheck } from 'lucide-react';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
-import { auth } from '@/lib/firebase';
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import { useAuth } from '@/context/AuthContext';
 
 const formSchema = z.object({
   role: z.enum(['User', 'Admin']),
@@ -44,8 +43,15 @@ const formSchema = z.object({
 export function LoginPage() {
   const { toast } = useToast();
   const router = useRouter();
+  const { login, user } = useAuth();
   const [isLoading, setIsLoading] = React.useState(false);
   const [role, setRole] = React.useState<'User' | 'Admin'>('User');
+
+  React.useEffect(() => {
+    if (user) {
+      router.replace('/');
+    }
+  }, [user, router]);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -85,33 +91,33 @@ export function LoginPage() {
       return;
     }
     
-    // Regular user login with Firebase
+    // Regular user login with custom backend API
     try {
-        if (!auth) throw new Error("Firebase Auth is not configured.");
         if (!values.email || !values.password) throw new Error("Email and password are required.");
         
-        await signInWithEmailAndPassword(auth, values.email, values.password);
+        const result = await login(values.email, values.password);
         
-        toast({
-            title: "Login Successful!",
-            description: "Welcome back! Redirecting you now...",
-        });
-        router.push('/');
+        if (result.success) {
+            toast({
+                title: "Login Successful!",
+                description: "Welcome back! Redirecting you now...",
+            });
+            
+            // Always redirect to home after login
+            router.push('/');
+        } else {
+            throw new Error(result.message);
+        }
     } catch (error: any) {
         let title = "Login Failed";
         let description = "An unexpected error occurred. Please try again.";
 
-        switch (error.code) {
-            case 'auth/user-not-found':
-            case 'auth/wrong-password':
-            case 'auth/invalid-credential':
-                title = "Invalid Credentials";
-                description = "The email or password you entered is incorrect.";
-                break;
-            case 'auth/too-many-requests':
-                title = "Too Many Attempts";
-                description = "Access to this account has been temporarily disabled due to many failed login attempts. You can immediately restore it by resetting your password or you can try again later.";
-                break;
+        if (error.message === "Invalid credentials") {
+            title = "Invalid Credentials";
+            description = "The email or password you entered is incorrect.";
+        } else if (error.message === "User not found") {
+            title = "User Not Found";
+            description = "No account found with this email address.";
         }
 
         toast({
