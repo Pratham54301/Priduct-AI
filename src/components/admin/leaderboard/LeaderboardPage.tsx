@@ -235,28 +235,20 @@ export function LeaderboardPage() {
                       <Loader2 className="mx-auto h-6 w-6 animate-spin text-primary" />
                     </TableCell>
                   </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {isLoading ? (
-                       <TableRow>
-                        <TableCell colSpan={6} className="h-24 text-center">
-                          <Loader2 className="mx-auto h-6 w-6 animate-spin text-primary" />
-                        </TableCell>
-                      </TableRow>
-                    ) : leaderboard.length === 0 ? (
-                       <TableRow>
-                        <TableCell colSpan={6} className="h-24 text-center">
-                          No leaderboard data found.
-                        </TableCell>
-                      </TableRow>
-                    ) : (
+                ) : leaderboard.length === 0 ? (
+                  <TableRow>
+                    <TableCell colSpan={6} className="h-24 text-center">
+                      No leaderboard data found.
+                    </TableCell>
+                  </TableRow>
+                ) : (
                   leaderboard.map((user) => (
                     <TableRow key={user.rank}>
                       <TableCell className="font-medium">{user.rank}</TableCell>
                       <TableCell>{user.name}</TableCell>
                       <TableCell>{user.score}</TableCell>
                       <TableCell>
-                        <Badge variant={parseFloat(user.accuracy) > 90 ? "default" : "secondary"}>
+                        <Badge className={badgeVariantClass(parseFloat(user.accuracy) > 90 ? 'default' : 'secondary')}>
                           {user.accuracy}
                         </Badge>
                       </TableCell>
@@ -264,7 +256,7 @@ export function LeaderboardPage() {
                       <TableCell>
                         <DropdownMenu>
                           <DropdownMenuTrigger asChild>
-                            <Button aria-haspopup="true" className="icon-button" variant="ghost">
+                            <Button aria-haspopup="true" className={`icon-button ${buttonVariantClass('ghost')}`}>
                               <MoreHorizontal className="h-4 w-4" />
                               <span className="sr-only">Toggle menu</span>
                             </Button>
@@ -281,8 +273,9 @@ export function LeaderboardPage() {
                         </DropdownMenu>
                       </TableCell>
                     </TableRow>
-                  )))}
-                </TableBody>
+                  ))
+                )}
+              </TableBody>
               </Table>
             </CardContent>
             <CardFooter>
