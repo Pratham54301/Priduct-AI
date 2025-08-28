@@ -34,7 +34,7 @@ export default function ProfileDropdown() {
       <DropdownMenuTrigger asChild>
         <div className="flex items-center cursor-pointer hover:opacity-80 transition-opacity">
           <Avatar className="h-8 w-8">
-            <AvatarImage src={user.avatar} />
+            <AvatarImage src={user.avatar || "/default-avatar.jpg"} />
             <AvatarFallback className="text-xs">
               {getInitials(user.name)}
             </AvatarFallback>

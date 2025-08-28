@@ -16,6 +16,8 @@ export default function EditProfileDialog({ user, onSave }: EditProfileDialogPro
     name: user.name,
     email: user.email,
     phone: user.phone,
+    address: user.address,
+    dob: user.dob,
     avatar: user.avatar,
   });
   const [loading, setLoading] = useState(false);
@@ -170,6 +172,8 @@ export default function EditProfileDialog({ user, onSave }: EditProfileDialogPro
           <Input name="name" value={form.name || ""} onChange={handleChange} placeholder="Full Name" />
           <Input name="email" value={form.email || ""} onChange={handleChange} placeholder="Email" type="email" />
           <Input name="phone" value={form.phone || ""} onChange={handleChange} placeholder="Phone" />
+          <Input name="address" value={form.address || ""} onChange={handleChange} placeholder="Address" />
+          <Input name="dob" value={form.dob || ""} onChange={handleChange} placeholder="Date of Birth (YYYY-MM-DD)" />
         </div>
         <DialogFooter>
           <DialogClose asChild>

@@ -143,7 +143,7 @@ export function MatchSchedulingPage() {
       <header className="flex h-14 items-center gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6">
         <Sheet>
           <SheetTrigger asChild>
-            <Button variant="outline" size="icon" className="shrink-0 md:hidden">
+            <Button className="shrink-0 md:hidden h-9 w-9 border border-input bg-background hover:bg-accent hover:text-accent-foreground">
               <Menu className="h-5 w-5" />
               <span className="sr-only">Toggle navigation menu</span>
             </Button>
@@ -200,7 +200,7 @@ export function MatchSchedulingPage() {
                                         <Popover>
                                             <PopoverTrigger asChild>
                                                 <FormControl>
-                                                    <Button variant="outline" className={cn("pl-3 text-left font-normal", !field.value && "text-muted-foreground")}>
+                                                    <Button className={cn("pl-3 text-left font-normal border border-input bg-background hover:bg-accent hover:text-accent-foreground", !field.value && "text-muted-foreground")}>
                                                         {field.value ? format(field.value, "PPP") : <span>Pick a date</span>}
                                                         <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                                                     </Button>
@@ -289,11 +289,21 @@ export function MatchSchedulingPage() {
                             <TableCell className="font-medium">{match.title}</TableCell>
                             <TableCell>{match.type}</TableCell>
                             <TableCell>{match.date}</TableCell>
-                            <TableCell><Badge variant={match.status === 'Live' ? 'destructive' : 'secondary'}>{match.status}</Badge></TableCell>
+                            <TableCell>
+                              <Badge
+                                className={
+                                  match.status === 'Live'
+                                    ? 'bg-destructive text-destructive-foreground'
+                                    : 'bg-secondary text-secondary-foreground'
+                                }
+                              >
+                                {match.status}
+                              </Badge>
+                            </TableCell>
                             <TableCell>
                                  <DropdownMenu>
                                     <DropdownMenuTrigger asChild>
-                                        <Button aria-haspopup="true" size="icon" variant="ghost">
+                                        <Button aria-haspopup="true" className="h-9 w-9 bg-transparent hover:bg-accent hover:text-accent-foreground">
                                             <MoreHorizontal className="h-4 w-4" />
                                         </Button>
                                     </DropdownMenuTrigger>

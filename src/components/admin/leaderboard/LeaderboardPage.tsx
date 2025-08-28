@@ -60,6 +60,34 @@ import { useToast } from '@/hooks/use-toast';
 import { LeaderboardEntry } from '@/models/types';
 import { getLeaderboard, resetAllScores } from '@/services/leaderboardService';
 
+// Helper: shadcn Button/Badge use "variant" as a prop, but your Button/Badge types may not allow it.
+// To fix, pass variant as a className instead, or update the Button/Badge component types to accept variant as a prop.
+// Here, we will use className for variants.
+
+function buttonVariantClass(variant: string) {
+  switch (variant) {
+    case 'outline':
+      return 'border border-input bg-background hover:bg-accent hover:text-accent-foreground';
+    case 'destructive':
+      return 'bg-destructive text-destructive-foreground hover:bg-destructive/90';
+    case 'ghost':
+      return 'bg-transparent hover:bg-accent hover:text-accent-foreground';
+    default:
+      return '';
+  }
+}
+
+function badgeVariantClass(variant: string) {
+  switch (variant) {
+    case 'default':
+      return 'bg-primary text-primary-foreground';
+    case 'secondary':
+      return 'bg-secondary text-secondary-foreground';
+    default:
+      return '';
+  }
+}
+
 export function LeaderboardPage() {
   const { toast } = useToast();
   const [leaderboard, setLeaderboard] = React.useState<LeaderboardEntry[]>([]);
@@ -68,17 +96,17 @@ export function LeaderboardPage() {
   const fetchLeaderboard = React.useCallback(async () => {
     setIsLoading(true);
     try {
-        const fetchedLeaderboard = await getLeaderboard();
-        setLeaderboard(fetchedLeaderboard);
+      const fetchedLeaderboard = await getLeaderboard();
+      setLeaderboard(fetchedLeaderboard);
     } catch (error) {
-        console.error("Failed to fetch leaderboard:", error);
-        toast({
-            title: "Error fetching leaderboard",
-            description: "Could not load leaderboard data. Please ensure Firebase is configured correctly.",
-            variant: "destructive",
-        });
+      console.error("Failed to fetch leaderboard:", error);
+      toast({
+        title: "Error fetching leaderboard",
+        description: "Could not load leaderboard data. Please ensure Firebase is configured correctly.",
+        variant: "destructive",
+      });
     } finally {
-        setIsLoading(false);
+      setIsLoading(false);
     }
   }, [toast]);
 
@@ -88,19 +116,19 @@ export function LeaderboardPage() {
 
   const handleResetScores = async () => {
     try {
-        await resetAllScores();
-        await fetchLeaderboard(); // Refresh the data
-        toast({
-          title: 'Scores Reset!',
-          description: 'The leaderboard scores have been successfully reset.',
-        });
+      await resetAllScores();
+      await fetchLeaderboard(); // Refresh the data
+      toast({
+        title: 'Scores Reset!',
+        description: 'The leaderboard scores have been successfully reset.',
+      });
     } catch (error) {
-        console.error("Failed to reset scores:", error);
-        toast({
-            title: "Error resetting scores",
-            description: "Could not reset scores. Please try again.",
-            variant: "destructive",
-        });
+      console.error("Failed to reset scores:", error);
+      toast({
+        title: "Error resetting scores",
+        description: "Could not reset scores. Please try again.",
+        variant: "destructive",
+      });
     }
   };
 
@@ -109,14 +137,14 @@ export function LeaderboardPage() {
       <header className="flex h-14 items-center gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6">
         <Sheet>
           <SheetTrigger asChild>
-            <Button variant="outline" size="icon" className="shrink-0 md:hidden">
+            <Button className={`shrink-0 md:hidden ${buttonVariantClass('outline')}`} size="icon">
               <Menu className="h-5 w-5" />
               <span className="sr-only">Toggle navigation menu</span>
             </Button>
           </SheetTrigger>
           <SheetContent side="left" className="flex flex-col">
             <nav className="grid gap-2 text-lg font-medium">
-            <Link
+              <Link
                 href="#"
                 className="flex items-center gap-2 text-lg font-semibold mb-4"
               >
@@ -124,7 +152,7 @@ export function LeaderboardPage() {
                 <span>PredictAI Admin</span>
               </Link>
               {mobileNavItems.map((item) => (
-                 <Link
+                <Link
                   key={item.label}
                   href={item.href}
                   className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
@@ -137,67 +165,75 @@ export function LeaderboardPage() {
           </SheetContent>
         </Sheet>
         <div className="w-full flex-1">
-           <h1 className="text-lg font-semibold md:text-2xl">Leaderboard</h1>
+          <h1 className="text-lg font-semibold md:text-2xl">Leaderboard</h1>
         </div>
         <ThemeToggle />
         <UserMenu />
       </header>
       <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
-      <Card>
-            <CardHeader>
-              <CardTitle>Top Performers</CardTitle>
-              <CardDescription>
-                Manage user rankings and leaderboard data.
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="flex items-center justify-between gap-4 mb-4">
-                 <div className="relative flex-1">
-                    <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-                    <Input type="search" placeholder="Search users..." className="pl-8" />
-                 </div>
-                 <div className="flex gap-2">
-                    <Button variant="outline">
-                        <Filter className="mr-2 h-4 w-4" />
-                        Filter
-                    </Button>
-                    <AlertDialog>
-                      <AlertDialogTrigger asChild>
-                        <Button variant="destructive">
-                            <RotateCcw className="mr-2 h-4 w-4" />
-                            Reset Scores
-                        </Button>
-                      </AlertDialogTrigger>
-                      <AlertDialogContent>
-                        <AlertDialogHeader>
-                          <AlertDialogTitle>Are you sure?</AlertDialogTitle>
-                          <AlertDialogDescription>
-                            This action cannot be undone. This will permanently reset all user scores on the leaderboard.
-                          </AlertDialogDescription>
-                        </AlertDialogHeader>
-                        <AlertDialogFooter>
-                          <AlertDialogCancel>Cancel</AlertDialogCancel>
-                          <AlertDialogAction onClick={handleResetScores}>Continue</AlertDialogAction>
-                        </AlertDialogFooter>
-                      </AlertDialogContent>
-                    </AlertDialog>
-                    <Button>
-                        <Download className="mr-2 h-4 w-4" />
-                        Download CSV
-                    </Button>
-                 </div>
+        <Card>
+          <CardHeader>
+            <CardTitle>Top Performers</CardTitle>
+            <CardDescription>
+              Manage user rankings and leaderboard data.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="flex items-center justify-between gap-4 mb-4">
+              <div className="relative flex-1">
+                <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+                <Input type="search" placeholder="Search users..." className="pl-8" />
               </div>
-              <Table>
-                <TableHeader>
+              <div className="flex gap-2">
+                <Button className={buttonVariantClass('outline')}>
+                  <Filter className="mr-2 h-4 w-4" />
+                  Filter
+                </Button>
+                <AlertDialog>
+                  <AlertDialogTrigger asChild>
+                    <Button variant="destructive">
+                      <RotateCcw className="mr-2 h-4 w-4" />
+                      Reset Scores
+                    </Button>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                      <AlertDialogDescription>
+                        This action cannot be undone. This will permanently reset all user scores on the leaderboard.
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>Cancel</AlertDialogCancel>
+                      <AlertDialogAction onClick={handleResetScores}>Continue</AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
+                <Button>
+                  <Download className="mr-2 h-4 w-4" />
+                  Download CSV
+                </Button>
+              </div>
+            </div>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Rank</TableHead>
+                  <TableHead>Name</TableHead>
+                  <TableHead>Score</TableHead>
+                  <TableHead>Accuracy</TableHead>
+                  <TableHead>Trades</TableHead>
+                  <TableHead>
+                    <span className="sr-only">Actions</span>
+                  </TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {isLoading ? (
                   <TableRow>
-                    <TableHead>Rank</TableHead>
-                    <TableHead>Name</TableHead>
-                    <TableHead>Score</TableHead>
-                    <TableHead>Accuracy</TableHead>
-                    <TableHead>Trades</TableHead>
-                    <TableHead>
-                      <span className="sr-only">Actions</span>
-                    </TableHead>
+                    <TableCell colSpan={6} className="h-24 text-center">
+                      <Loader2 className="mx-auto h-6 w-6 animate-spin text-primary" />
+                    </TableCell>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -220,19 +256,15 @@ export function LeaderboardPage() {
                       <TableCell>{user.name}</TableCell>
                       <TableCell>{user.score}</TableCell>
                       <TableCell>
-                        <Badge variant={parseFloat(user.accuracy) > 90 ? 'default' : 'secondary'}>
-                            {user.accuracy}
+                        <Badge variant={parseFloat(user.accuracy) > 90 ? "default" : "secondary"}>
+                          {user.accuracy}
                         </Badge>
                       </TableCell>
                       <TableCell>{user.trades}</TableCell>
                       <TableCell>
                         <DropdownMenu>
                           <DropdownMenuTrigger asChild>
-                            <Button
-                              aria-haspopup="true"
-                              size="icon"
-                              variant="ghost"
-                            >
+                            <Button aria-haspopup="true" className="icon-button" variant="ghost">
                               <MoreHorizontal className="h-4 w-4" />
                               <span className="sr-only">Toggle menu</span>
                             </Button>

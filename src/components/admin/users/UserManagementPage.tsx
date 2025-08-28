@@ -140,7 +140,7 @@ export function UserManagementPage() {
       <header className="flex h-14 items-center gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6">
         <Sheet>
           <SheetTrigger asChild>
-            <Button variant="outline" size="icon" className="shrink-0 md:hidden">
+            <Button className="shrink-0 md:hidden border border-input bg-background hover:bg-accent hover:text-accent-foreground h-9 w-9" type="button">
               <Menu className="h-5 w-5" />
               <span className="sr-only">Toggle navigation menu</span>
             </Button>
@@ -199,7 +199,7 @@ export function UserManagementPage() {
             <div className="ml-auto flex items-center gap-2">
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="outline" size="sm" className="h-8 gap-1">
+                  <Button className="h-8 gap-1 border border-input bg-background hover:bg-accent hover:text-accent-foreground" type="button">
                     <ListFilter className="h-3.5 w-3.5" />
                     <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
                       Filter
@@ -215,13 +215,13 @@ export function UserManagementPage() {
                   <DropdownMenuCheckboxItem>Status</DropdownMenuCheckboxItem>
                 </DropdownMenuContent>
               </DropdownMenu>
-              <Button size="sm" variant="outline" className="h-8 gap-1">
+              <Button className="h-8 gap-1 border border-input bg-background hover:bg-accent hover:text-accent-foreground">
                 <File className="h-3.5 w-3.5" />
                 <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
                   Export
                 </span>
               </Button>
-              <Button size="sm" className="h-8 gap-1">
+              <Button className="h-8 gap-1">
                 <PlusCircle className="h-3.5 w-3.5" />
                 <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
                   Add User
@@ -276,7 +276,9 @@ export function UserManagementPage() {
                             </TableCell>
                             <TableCell>{user.role}</TableCell>
                             <TableCell className="hidden md:table-cell">
-                                <Badge variant={user.status === 'Active' ? 'default' : 'secondary'}>{user.status}</Badge>
+                                <Badge className={user.status === 'Active' ? 'bg-primary text-primary-foreground' : 'bg-secondary text-secondary-foreground'}>
+                                  {user.status}
+                                </Badge>
                             </TableCell>
                             <TableCell className="hidden md:table-cell">
                                 {user.joined}
@@ -286,8 +288,7 @@ export function UserManagementPage() {
                                 <DropdownMenuTrigger asChild>
                                     <Button
                                     aria-haspopup="true"
-                                    size="icon"
-                                    variant="ghost"
+                                    className="bg-transparent hover:bg-accent hover:text-accent-foreground h-9 w-9"
                                     >
                                     <MoreHorizontal className="h-4 w-4" />
                                     <span className="sr-only">Toggle menu</span>

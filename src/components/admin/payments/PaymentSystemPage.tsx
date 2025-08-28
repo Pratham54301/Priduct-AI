@@ -173,8 +173,16 @@ export function PaymentSystemPage() {
                                 </div>
                             </TableCell>
                             <TableCell>
-                                <Badge variant={payment.status === 'Completed' ? 'default' : payment.status === 'Pending' ? 'secondary' : 'destructive'}>
-                                {payment.status}
+                                <Badge
+                                  className={
+                                    payment.status === 'Completed'
+                                      ? 'bg-primary text-primary-foreground'
+                                      : payment.status === 'Pending'
+                                      ? 'bg-secondary text-secondary-foreground'
+                                      : 'bg-destructive text-destructive-foreground'
+                                  }
+                                >
+                                  {payment.status}
                                 </Badge>
                             </TableCell>
                             <TableCell>${payment.amount.toFixed(2)}</TableCell>
