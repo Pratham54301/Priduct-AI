@@ -9,19 +9,18 @@ import { useStocks } from '@/hooks/useStocks';
 import { Stock } from '@/types/stock';
 import searchHistoryService from '@/services/searchHistoryService';
 import { useAuth } from '@/context/AuthContext';
+import { useRouter } from 'next/navigation';
 
 interface StockSearchInputProps {
   onStockSelect: (stock: Stock) => void;
-  onPredictionRequest?: (stock: Stock) => void;
   placeholder?: string;
   className?: string;
   showSectorFilter?: boolean;
   trackSearchHistory?: boolean;
 }
 
-export default function StockSearchInput({ 
-  onStockSelect, 
-  onPredictionRequest,
+export default function StockSearchInput({
+  onStockSelect,
   placeholder = "Search for stocks...",
   className = "",
   showSectorFilter = true,
@@ -29,6 +28,7 @@ export default function StockSearchInput({
 }: StockSearchInputProps) {
   const { stocks, loading, error } = useStocks();
   const { user } = useAuth();
+  const router = useRouter();
   const [searchTerm, setSearchTerm] = useState('');
   const [suggestions, setSuggestions] = useState<Stock[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
@@ -36,6 +36,8 @@ export default function StockSearchInput({
   const [highlightedIndex, setHighlightedIndex] = useState(-1);
   const [selectedSector, setSelectedSector] = useState<string>('');
   const [isTrackingSearch, setIsTrackingSearch] = useState(false);
+  const [isLoadingPrediction, setIsLoadingPrediction] = useState(false);
+  const [predictionError, setPredictionError] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const suggestionsRef = useRef<HTMLDivElement>(null);
 
@@ -218,6 +220,8 @@ export default function StockSearchInput({
     setSelectedStock(null);
     setShowSuggestions(false);
     setHighlightedIndex(-1);
+    setIsLoadingPrediction(false);
+    setPredictionError(null);
     if (inputRef.current) {
       inputRef.current.focus();
     }
@@ -230,9 +234,42 @@ export default function StockSearchInput({
     setShowSuggestions(false);
   };
 
-  const handlePredictionRequest = () => {
-    if (selectedStock && onPredictionRequest) {
-      onPredictionRequest(selectedStock);
+  const handleGetPrediction = async () => {
+    if (!selectedStock) {
+      setPredictionError("Please select a stock first.");
+      return;
+    }
+    if (!user) {
+      setPredictionError("Please log in to get predictions.");
+      return;
+    }
+
+    setIsLoadingPrediction(true);
+    setPredictionError(null);
+
+    try {
+      const response = await fetch('/api/predictions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        },
+        body: JSON.stringify({ symbol: selectedStock.symbol, exchange: 'NSE', timeframe: '1day' }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to generate prediction.');
+      }
+
+      const predictionData = await response.json();
+      // Redirect to dashboard with the predicted stock symbol
+      router.push(`/dashboard?symbol=${selectedStock.symbol}`);
+    } catch (err: any) {
+      console.error('Error generating prediction:', err);
+      setPredictionError(err.message || 'An unexpected error occurred.');
+    } finally {
+      setIsLoadingPrediction(false);
     }
   };
 
@@ -376,19 +413,23 @@ export default function StockSearchInput({
                 >
                   Select Stock
                 </Button>
-                {onPredictionRequest && (
-                  <Button 
-                    onClick={handlePredictionRequest}
-                    className="bg-green-600 hover:bg-green-700"
-                  >
-                    <Sparkles className="h-4 w-4 mr-2" />
-                    Get AI Prediction
-                  </Button>
-                )}
+                <Button 
+                  onClick={handleGetPrediction}
+                  className="bg-green-600 hover:bg-green-700"
+                  disabled={isLoadingPrediction}
+                >
+                  {isLoadingPrediction ? "Getting Prediction..." : <><Sparkles className="h-4 w-4 mr-2" />Get AI Prediction</>}
+                </Button>
               </div>
             </div>
           </CardContent>
         </Card>
+      )}
+
+      {predictionError && (
+        <div className="mt-3 p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-600 dark:text-red-400 rounded-md">
+          {predictionError}
+        </div>
       )}
 
       {/* Loading State */}

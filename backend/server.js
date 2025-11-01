@@ -28,12 +28,14 @@ import predictRoutes from './routes/predict.js';
 import historyRoutes from './routes/history.js';
 import searchHistoryRoutes from './routes/searchHistory.js';
 import customerRoutes from './routes/customer.js';
+import predictionRoutes from './routes/prediction.js';
 
 app.use('/api/auth', authRoutes);
 app.use('/api/predict', predictRoutes);
 app.use('/api/history', historyRoutes);
 app.use('/api/search-history', searchHistoryRoutes);
 app.use('/api/customer', customerRoutes);
+app.use('/api', predictionRoutes);
 
 // MongoDB connection
 mongoose.connect(process.env.MONGO_URI)

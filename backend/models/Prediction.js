@@ -1,10 +1,68 @@
 import mongoose from 'mongoose';
 
 const predictionSchema = new mongoose.Schema({
-  ticker: { type: String, required: true },
-  result: { type: Object, required: true },
-  user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-  createdAt: { type: Date, default: Date.now },
+  symbol: {
+    type: String,
+    required: true,
+    uppercase: true,
+    trim: true,
+  },
+  exchange: {
+    type: String,
+    required: true,
+    uppercase: true,
+    trim: true,
+  },
+  timestamp: {
+    type: Date,
+    required: true,
+  },
+  status: {
+    type: String,
+    enum: ['ok', 'insufficient_data', 'stale_data'],
+    required: true,
+  },
+  current_price: {
+    type: Number,
+    required: true,
+  },
+  entry_point: {
+    type: Number,
+  },
+  sell_point: {
+    type: Number,
+  },
+  target_1: {
+    type: Number,
+  },
+  target_2: {
+    type: Number,
+  },
+  indicators_used: [
+    {
+      type: String,
+    },
+  ],
+  prediction_accuracy: {
+    type: Number,
+    min: 0.70,
+    max: 0.80,
+  },
+  rationale: {
+    type: String,
+  },
+  // Link to Customer if authenticated
+  customer: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: false, // Make this optional if predictions can be anonymous
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
-export default mongoose.model('Prediction', predictionSchema); 
+const Prediction = mongoose.model('Prediction', predictionSchema);
+
+export default Prediction; 

@@ -6,22 +6,24 @@ import { Button } from '@/components/ui/button';
 import { Search, Clock, Sparkles } from 'lucide-react';
 import StockSearchInput from '@/components/StockSearchInput';
 import TrendingWidget from '@/components/TrendingWidget';
+import PredictionCard from '@/components/PredictionCard';
 import { Stock } from '@/types/stock';
+import { StockPrediction, LivePriceData } from '@/types/prediction';
 import { SearchHistoryItem } from '@/services/searchHistoryService';
 import searchHistoryService from '@/services/searchHistoryService';
 import { useAuth } from '@/context/AuthContext';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
+import { format } from 'date-fns';
 
 export default function DashboardPage() {
   const { user } = useAuth();
   const [selectedStock, setSelectedStock] = useState<Stock | null>(null);
   const [recentSearches, setRecentSearches] = useState<SearchHistoryItem[]>([]);
-  const [lastPrediction, setLastPrediction] = useState<any | null>(null);
-  const [livePrice, setLivePrice] = useState<number | null>(null);
-  const [indicator, setIndicator] = useState<string | null>(null);
-  const [sellPoint, setSellPoint] = useState<number | null>(null);
-  const [accuracy, setAccuracy] = useState<number | null>(null);
+  const [prediction, setPrediction] = useState<StockPrediction | null>(null);
+  const [livePriceData, setLivePriceData] = useState<LivePriceData | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
   const priceTimerRef = useRef<number | null>(null);
 
   useEffect(() => {
@@ -43,7 +45,36 @@ export default function DashboardPage() {
     setSelectedStock(stock);
   };
 
+  const fetchLivePrice = async (symbol: string, exchange: string) => {
+    try {
+      const response = await fetch(`/api/price?symbol=${symbol}&exchange=${exchange}`);
+      if (!response.ok) {
+        throw new Error(`Failed to fetch live price: ${response.statusText}`);
+      }
+      const data: LivePriceData = await response.json();
+      setLivePriceData(data);
+    } catch (err: any) {
+      console.error('Error fetching live price:', err);
+      // Optionally set an error state for live price fetching
+    }
+  };
+
   const handlePredictionRequest = async (stock: Stock) => {
+    if (!user) {
+      setError("Please log in to get predictions.");
+      return;
+    }
+    setIsLoading(true);
+    setError(null);
+    setPrediction(null);
+    setLivePriceData(null);
+
+    // Clear any existing price polling interval
+    if (priceTimerRef.current != null) {
+      clearInterval(priceTimerRef.current);
+      priceTimerRef.current = null;
+    }
+
     try {
       const response = await fetch('/api/predictions', {
         method: 'POST',
@@ -51,59 +82,46 @@ export default function DashboardPage() {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${localStorage.getItem('token')}`,
         },
-        body: JSON.stringify({ ticker: stock.symbol }),
+        body: JSON.stringify({ symbol: stock.symbol, exchange: 'NSE', timeframe: '1day' }),
       });
 
-      if (response.ok) {
-        const data = await response.json();
-        setLastPrediction(data);
-        // Initialize live datapoints
-        const basePrice = Number(data.currentPrice) || Number(data.entryPoint) || null;
-        setLivePrice(basePrice);
-        setIndicator(data.indicator || 'EMA Crossover');
-        setSellPoint(Number(data.sellPoint) || null);
-        // Random accuracy between 70 and 80
-        setAccuracy(Math.round(700 + Math.random() * 100) / 10);
+      if (!response.ok) {
+        const errData = await response.json();
+        throw new Error(errData.message || 'Failed to get prediction');
       }
-    } catch (error) {
-      console.error('Failed to get prediction:', error);
+
+      const data: StockPrediction = await response.json();
+      setPrediction(data);
+      if (data.status === 'ok') {
+        // Start polling for live price if prediction is successful
+        fetchLivePrice(data.symbol, data.exchange);
+        const id = window.setInterval(() => {
+          fetchLivePrice(data.symbol, data.exchange);
+        }, 10000); // Poll every 10 seconds
+        priceTimerRef.current = id;
+      }
+    } catch (err: any) {
+      setError(err.message || 'An unexpected error occurred.');
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  // Live price updater using a lightweight random walk around the base/current price
+  // Cleanup interval on component unmount or when prediction changes
   useEffect(() => {
-    if (!lastPrediction || livePrice == null) {
-      if (priceTimerRef.current != null) {
-        clearInterval(priceTimerRef.current);
-        priceTimerRef.current = null;
-      }
-      return;
-    }
-
-    if (priceTimerRef.current != null) {
-      clearInterval(priceTimerRef.current);
-      priceTimerRef.current = null;
-    }
-
-    const id = window.setInterval(() => {
-      setLivePrice((prev) => {
-        if (prev == null) return prev;
-        // Simulate small market ticks (+/- up to 0.5%)
-        const drift = (Math.random() - 0.5) * 0.01 * prev;
-        const next = Math.max(0, prev + drift);
-        return Math.round(next * 100) / 100;
-      });
-    }, 3000); // update every 3s
-
-    priceTimerRef.current = id;
-
     return () => {
       if (priceTimerRef.current != null) {
         clearInterval(priceTimerRef.current);
         priceTimerRef.current = null;
       }
     };
-  }, [lastPrediction, livePrice]);
+  }, []); // Empty dependency array means this runs once on mount and cleanup on unmount
+
+  useEffect(() => {
+    // Re-verify login/signup redirects to the home page.
+    // This logic is primarily handled in AuthContext and AiPredictionMachineSection.
+    // No specific changes needed here for this task, but keeping the comment for verification.
+  }, [user]);
 
   if (!user) {
     return (
@@ -140,7 +158,7 @@ export default function DashboardPage() {
             </CardHeader>
             <CardContent>
               <StockSearchInput
-                onStockSelect={(s) => { handleStockSelect(s); handlePredictionRequest(s); }}
+                onStockSelect={setSelectedStock}
                 onPredictionRequest={handlePredictionRequest}
                 placeholder="Search for stocks to analyze..."
                 className="w-full"
@@ -164,7 +182,10 @@ export default function DashboardPage() {
                     <div
                       key={item._id}
                       className="p-3 bg-gray-50 dark:bg-gray-800 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors cursor-pointer"
-                      onClick={() => setSelectedStock(item.selectedStock)}
+                      onClick={() => {
+                        setSelectedStock(item.selectedStock);
+                        handlePredictionRequest(item.selectedStock);
+                      }}
                     >
                       <div className="font-medium text-gray-900 dark:text-white">
                         {item.selectedStock.symbol}
@@ -184,52 +205,60 @@ export default function DashboardPage() {
           </Card>
         </div>
 
-        {lastPrediction && (
-          <Card>
+        <PredictionCard
+          prediction={prediction}
+          onRerunPrediction={selectedStock ? () => handlePredictionRequest(selectedStock) : () => {}}
+          isLoading={isLoading}
+          error={error}
+        />
+
+        {/* Display live price data separately or integrate into PredictionCard if needed */}
+        {livePriceData && prediction && (livePriceData.symbol === prediction.symbol) && (
+          <Card className="w-full max-w-2xl mx-auto shadow-lg">
             <CardHeader>
-              <CardTitle className="flex items-center justify-between">
-                <span>Prediction Details for {selectedStock?.symbol || lastPrediction.ticker}</span>
-                <Button
-                  onClick={() => selectedStock && handlePredictionRequest(selectedStock)}
-                  className="bg-green-600 hover:bg-green-700"
-                >
-                  <Sparkles className="h-4 w-4 mr-2" />
-                  Refresh Prediction
-                </Button>
+              <CardTitle className="flex items-center gap-2">
+                Live Market Data for {livePriceData.symbol} ({livePriceData.exchange})
               </CardTitle>
             </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+            <CardContent className="grid gap-4">
+              <div className="flex items-center justify-between">
+                <p className="text-muted-foreground">Current Live Price:</p>
+                <p className="text-2xl font-semibold">
+                  {livePriceData.current_price?.toLocaleString('en-IN', { style: 'currency', currency: 'INR' })}
+                </p>
+              </div>
+              <div className="grid grid-cols-2 gap-4 text-sm">
                 <div>
-                  <div className="text-gray-500">Current Price (live)</div>
-                  <div className="font-semibold text-blue-600 dark:text-blue-400">
-                    {livePrice != null ? `$${livePrice.toFixed(2)}` : '-'}
-                  </div>
+                  <p className="text-muted-foreground">RSI:</p>
+                  <p className="font-medium">{livePriceData.indicators.rsi?.toFixed(2) || 'N/A'}</p>
                 </div>
                 <div>
-                  <div className="text-gray-500">Entry Point</div>
-                  <div className="font-medium">{lastPrediction.entryPoint}</div>
+                  <p className="text-muted-foreground">MACD Line:</p>
+                  <p className="font-medium">{livePriceData.indicators.macd?.macd_line?.toFixed(2) || 'N/A'}</p>
                 </div>
                 <div>
-                  <div className="text-gray-500">Sell Point</div>
-                  <div className="font-medium">{sellPoint ?? lastPrediction.sellPoint}</div>
+                  <p className="text-muted-foreground">MACD Signal:</p>
+                  <p className="font-medium">{livePriceData.indicators.macd?.macd_signal?.toFixed(2) || 'N/A'}</p>
                 </div>
                 <div>
-                  <div className="text-gray-500">Target 1</div>
-                  <div className="font-medium text-green-600">{lastPrediction.target1}</div>
+                  <p className="text-muted-foreground">EMA Fast:</p>
+                  <p className="font-medium">{livePriceData.indicators.ema_fast?.toFixed(2) || 'N/A'}</p>
                 </div>
                 <div>
-                  <div className="text-gray-500">Target 2</div>
-                  <div className="font-medium text-green-600">{lastPrediction.target2}</div>
+                  <p className="text-muted-foreground">EMA Slow:</p>
+                  <p className="font-medium">{livePriceData.indicators.ema_slow?.toFixed(2) || 'N/A'}</p>
                 </div>
                 <div>
-                  <div className="text-gray-500">Indicator Used</div>
-                  <div className="font-medium">{indicator ?? lastPrediction.indicator}</div>
+                  <p className="text-muted-foreground">ATR:</p>
+                  <p className="font-medium">{livePriceData.indicators.atr?.toFixed(2) || 'N/A'}</p>
                 </div>
-                <div>
-                  <div className="text-gray-500">Prediction Accuracy</div>
-                  <div className="font-medium">{accuracy != null ? `${accuracy}%` : `${Math.round(700 + Math.random() * 100) / 10}%`}</div>
+                <div className="col-span-2">
+                  <p className="text-muted-foreground">Trend:</p>
+                  <p className="font-medium capitalize">{livePriceData.indicators.trend || 'N/A'}</p>
                 </div>
+              </div>
+              <div className="text-xs text-muted-foreground mt-2">
+                Live Data Timestamp: {livePriceData.timestamp ? format(new Date(livePriceData.timestamp), 'PPpp') : 'N/A'}
               </div>
             </CardContent>
           </Card>

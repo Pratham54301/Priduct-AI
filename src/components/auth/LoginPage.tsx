@@ -98,13 +98,13 @@ export function LoginPage() {
         const result = await login(values.email, values.password);
         
         if (result.success) {
-            toast({
-                title: "Login Successful!",
-                description: "Welcome back! Redirecting you now...",
-            });
+        toast({
+            title: "Login Successful!",
+            description: "Welcome back! Redirecting you now...",
+        });
             
             // Always redirect to home after login
-            router.push('/');
+        router.push('/');
         } else {
             throw new Error(result.message);
         }
@@ -113,8 +113,8 @@ export function LoginPage() {
         let description = "An unexpected error occurred. Please try again.";
 
         if (error.message === "Invalid credentials") {
-            title = "Invalid Credentials";
-            description = "The email or password you entered is incorrect.";
+                title = "Invalid Credentials";
+                description = "The email or password you entered is incorrect.";
         } else if (error.message === "User not found") {
             title = "User Not Found";
             description = "No account found with this email address.";
