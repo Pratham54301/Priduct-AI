@@ -70,7 +70,7 @@ EMAIL_USER=your_email@example.com
 EMAIL_PASS=your_email_password
 ```
 
-Create a `.env.local` file in the `src` (frontend) directory with the following variable:
+Create a `.env.local` file in the root directory with the following variable:
 
 ```env
 NEXT_PUBLIC_BACKEND_URL=http://localhost:5000 # Or your backend's staging/production URL
@@ -83,7 +83,7 @@ In the `backend` directory, run:
 npm install
 ```
 
-In the `frontend` (root) directory, run:
+In the root directory, run:
 ```bash
 npm install
 ```
@@ -95,7 +95,7 @@ In the `backend` directory, start the server:
 npm run dev
 ```
 
-In the `frontend` (root) directory, start the Next.js development server:
+In the root directory, start the Next.js development server:
 ```bash
 npm run dev
 ```

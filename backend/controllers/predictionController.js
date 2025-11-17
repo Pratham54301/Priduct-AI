@@ -9,7 +9,17 @@ const OPENAI_MODEL = process.env.OPENAI_MODEL || 'gpt-4o';
 const MARKET_API_KEY = process.env.MARKET_API_KEY;
 const MARKET_PROVIDER = process.env.MARKET_PROVIDER || 'twelve-data';
 
-const openai = new OpenAI({ apiKey: OPENAI_API_KEY });
+// Lazy initialization of OpenAI client to prevent errors if API key is missing
+let openai = null;
+const getOpenAIClient = () => {
+  if (!openai) {
+    if (!OPENAI_API_KEY) {
+      throw new Error('OPENAI_API_KEY environment variable is not set. Please add it to your .env file.');
+    }
+    openai = new OpenAI({ apiKey: OPENAI_API_KEY });
+  }
+  return openai;
+};
 
 // Simple in-memory cache for live prices
 const priceCache = {};
@@ -182,7 +192,8 @@ export const generatePrediction = async (req, res) => {
       `  \"rationale\": string\n` +
       `}`; 
 
-    const response = await openai.chat.completions.create({
+    const openaiClient = getOpenAIClient();
+    const response = await openaiClient.chat.completions.create({
       model: OPENAI_MODEL,
       messages: [
         { role: 'system', content: systemMessage },
@@ -202,7 +213,7 @@ export const generatePrediction = async (req, res) => {
     const newPrediction = new Prediction({
       ...predictionOutput,
       timestamp: new Date(predictionOutput.timestamp),
-      customer: req.user ? req.user.userId : null, // Attach user ID if authenticated
+      customer: req.user || null, // Attach user ID if authenticated
     });
 
     await newPrediction.save();

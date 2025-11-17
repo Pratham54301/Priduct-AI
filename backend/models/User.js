@@ -1,18 +1,30 @@
 import mongoose from 'mongoose';
 
 const userSchema = new mongoose.Schema({
+  fullName: {
+    type: String,
+    required: [true, 'Full name is required']
+  },
   name: {
     type: String,
     required: true
   },
   email: {
     type: String,
-    required: true,
-    unique: true
+    required: [true, 'Email is required'],
+    unique: true,
+    lowercase: true,
+    trim: true
   },
   password: {
     type: String,
-    required: true
+    required: [true, 'Password is required']
+  },
+  phoneNumber: {
+    type: String,
+    unique: true,
+    sparse: true,
+    default: null
   },
   phone: {
     type: String,
@@ -22,9 +34,14 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: null
   },
+  role: {
+    type: String,
+    enum: ['user', 'admin'],
+    default: 'user'
+  },
   gender: {
     type: String,
-    enum: ['Male', 'Female', 'Other', 'Prefer not to say'],
+    enum: ['male', 'female', 'Male', 'Female', 'Other', 'Prefer not to say'],
     default: null
   },
   dateOfBirth: {
@@ -72,6 +89,21 @@ userSchema.pre('save', function(next) {
   if (this.loginHistory && this.loginHistory.length > 5) {
     this.loginHistory = this.loginHistory.slice(-5);
   }
+  
+  // Sync fullName with name for backward compatibility
+  if (this.fullName && !this.name) {
+    this.name = this.fullName;
+  } else if (this.name && !this.fullName) {
+    this.fullName = this.name;
+  }
+  
+  // Sync phoneNumber with phone for backward compatibility
+  if (this.phoneNumber && !this.phone) {
+    this.phone = this.phoneNumber;
+  } else if (this.phone && !this.phoneNumber) {
+    this.phoneNumber = this.phone;
+  }
+  
   next();
 });
 

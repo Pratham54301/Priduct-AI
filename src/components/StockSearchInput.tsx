@@ -257,17 +257,31 @@ export default function StockSearchInput({
         body: JSON.stringify({ symbol: selectedStock.symbol, exchange: 'NSE', timeframe: '1day' }),
       });
 
+      const result = await response.json();
+      
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'Failed to generate prediction.');
+        // Handle error response
+        const errorMessage = result.message || result.error || 'Failed to generate prediction.';
+        throw new Error(errorMessage);
       }
 
-      const predictionData = await response.json();
+      // Handle both success/data format and direct data format
+      const predictionData = result.success ? result.data : result;
+      
       // Redirect to dashboard with the predicted stock symbol
       router.push(`/dashboard?symbol=${selectedStock.symbol}`);
     } catch (err: any) {
       console.error('Error generating prediction:', err);
-      setPredictionError(err.message || 'An unexpected error occurred.');
+      
+      // Extract error message from various error types
+      let errorMessage = 'An unexpected error occurred. Please try again.';
+      if (err.message) {
+        errorMessage = err.message;
+      } else if (typeof err === 'string') {
+        errorMessage = err;
+      }
+      
+      setPredictionError(errorMessage);
     } finally {
       setIsLoadingPrediction(false);
     }

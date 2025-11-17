@@ -10,56 +10,30 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
-import { Loader2, UserPlus, ShieldCheck } from 'lucide-react';
-import { Switch } from '@/components/ui/switch';
-import { Label } from '@/components/ui/label';
+import { Loader2, UserPlus } from 'lucide-react';
 import { Textarea } from '@/components/ui/textarea';
 import { useAuth } from '@/context/AuthContext';
 
 const signUpSchema = z.object({
-  role: z.enum(['User', 'Admin']),
-  fullName: z.string().optional(),
-  email: z.string().optional(),
-  password: z.string().optional(),
-  phone: z.string().optional(),
-  address: z.string().optional(),
-  adminId: z.string().optional(),
-  adminPassword: z.string().optional(),
-}).superRefine((data, ctx) => {
-  if (data.role === 'User') {
-    if (!data.fullName || data.fullName.length < 2) {
-      ctx.addIssue({ code: z.ZodIssueCode.custom, message: "Full name must be at least 2 characters.", path: ['fullName'] });
-    }
-    const emailValidation = z.string().email().safeParse(data.email);
-    if (!data.email || !emailValidation.success) {
-      ctx.addIssue({ code: z.ZodIssueCode.custom, message: "Please enter a valid email address.", path: ['email'] });
-    }
-    if (!data.password || data.password.length < 6) {
-      ctx.addIssue({ code: z.ZodIssueCode.custom, message: "Password must be at least 6 characters.", path: ['password'] });
-    }
-  } else if (data.role === 'Admin') {
-    if (!data.adminId || data.adminId.trim() === '') {
-       ctx.addIssue({ code: z.ZodIssueCode.custom, message: "Admin ID is required.", path: ['adminId'] });
-    }
-    if (!data.adminPassword || data.adminPassword.trim() === '') {
-       ctx.addIssue({ code: z.ZodIssueCode.custom, message: "Admin Password is required.", path: ['adminPassword'] });
-    }
-  }
+  fullName: z.string().min(2, 'Full name must be at least 2 characters'),
+  email: z.string().email('Invalid email format'),
+  password: z.string().min(6, 'Password must be at least 6 characters'),
+  phoneNumber: z.string().regex(/^\d{10}$/, 'Phone number must be exactly 10 digits'),
+  address: z.string().min(1, 'Address is required'),
+  gender: z.enum(['male', 'female'], {
+    required_error: 'Please select a gender',
+    invalid_type_error: 'Please select a gender',
+  }),
+  role: z.enum(['user', 'admin']).default('user'),
 });
 
 export function SignUpPage() {
   const { toast } = useToast();
   const router = useRouter();
-  const { register: registerUser, user } = useAuth();
+  const { register: registerUser } = useAuth();
   const [isLoading, setIsLoading] = React.useState(false);
-  const [role, setRole] = React.useState<'User' | 'Admin'>('User');
-
-  React.useEffect(() => {
-    if (user) {
-      router.replace('/');
-    }
-  }, [user, router]);
 
   const form = useForm<z.infer<typeof signUpSchema>>({
     resolver: zodResolver(signUpSchema),
@@ -67,85 +41,63 @@ export function SignUpPage() {
       fullName: '',
       email: '',
       password: '',
-      phone: '',
+      phoneNumber: '',
       address: '',
-      role: 'User',
-      adminId: '',
-      adminPassword: '',
+      gender: undefined,
+      role: 'user',
     },
   });
-  
-  React.useEffect(() => {
-    form.setValue('role', role);
-    form.clearErrors();
-  }, [role, form]);
 
   async function onSubmit(values: z.infer<typeof signUpSchema>) {
     setIsLoading(true);
 
-    if (values.role === 'Admin') {
-      if (values.adminId === 'Priduct369' && values.adminPassword === 'Ai@0000') {
-        toast({
-          title: "Admin Validation Successful!",
-          description: "Redirecting to the admin panel...",
-        });
-        sessionStorage.setItem('isAdmin', 'true');
-        router.push('/admin');
-      } else {
-        toast({
-          title: "Invalid Admin Credentials",
-          description: "The Admin ID or Password is incorrect.",
-          variant: "destructive",
-        });
-      }
+    // Additional validation for gender (Zod already validates, but show toast if somehow empty)
+    if (!values.gender) {
+      toast({
+        title: 'Validation Error',
+        description: 'Please select a gender',
+        variant: 'destructive',
+      });
       setIsLoading(false);
       return;
     }
 
-    // Regular user signup with custom backend API
     try {
-        if (!values.email || !values.password || !values.fullName) {
-            throw new Error("Full name, email and password are required.");
-        }
-        
-        const result = await registerUser(
-            values.fullName, 
-            values.email, 
-            values.password,
-            values.phone,
-            values.address
-        );
-        
-        if (result.success) {
-            toast({
-                title: "Registration Successful!",
-                description: "Welcome! Redirecting you now...",
-            });
-            
-            // Always redirect to home after signup
-            router.push('/');
-        } else {
-            throw new Error(result.message);
-        }
-    } catch (error: any) {
-        let title = "Registration Failed";
-        let description = "An unexpected error occurred. Please try again.";
+      const result = await registerUser(
+        values.fullName,
+        values.email,
+        values.password,
+        values.phoneNumber,
+        values.address,
+        values.gender
+      );
 
-        if (error.message === "User already exists") {
-            title = "User Already Exists";
-            description = "An account with this email already exists. Please login instead.";
-        } else if (error.message.includes("required")) {
-            title = "Missing Information";
-            description = error.message;
-        }
-
+      if (result.success) {
         toast({
-            title,
-            description,
-            variant: "destructive",
+          title: 'Registration Successful!',
+          description: 'Your account has been created. Redirecting to login...',
         });
+
+        // Automatically redirect to login page
+        setTimeout(() => {
+          router.push('/login');
+        }, 1500);
+      } else {
+        // Show exact error message from backend
+        toast({
+          title: 'Registration Failed',
+          description: result.message || 'An error occurred. Please try again.',
+          variant: 'destructive',
+        });
+      }
+    } catch (error: any) {
+      toast({
+        title: 'Registration Failed',
+        description: error.message || 'An unexpected error occurred. Please try again.',
+        variant: 'destructive',
+      });
     } finally {
-        setIsLoading(false);
+      setIsLoading(false);
     }
   }
 
@@ -158,128 +110,113 @@ export function SignUpPage() {
       </CardHeader>
       <CardContent>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-            
-            <div className="flex items-center justify-center space-x-2 pt-2">
-              <Label htmlFor="role-switch" className={`transition-colors ${role === 'User' ? 'text-primary font-semibold' : 'text-muted-foreground'}`}>User</Label>
-              <Switch
-                id="role-switch"
-                checked={role === 'Admin'}
-                onCheckedChange={(checked) => setRole(checked ? 'Admin' : 'User')}
-                disabled={isLoading}
-              />
-              <Label htmlFor="role-switch" className={`transition-colors ${role === 'Admin' ? 'text-primary font-semibold' : 'text-muted-foreground'}`}>Admin</Label>
-            </div>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+            <FormField
+              control={form.control}
+              name="fullName"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Full Name *</FormLabel>
+                  <FormControl>
+                    <Input placeholder="John Doe" {...field} disabled={isLoading} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-            {role === 'User' ? (
-              <div className="space-y-4 animate-in fade-in-50 duration-500">
-                <FormField
-                  control={form.control}
-                  name="fullName"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Full Name</FormLabel>
-                      <FormControl>
-                        <Input placeholder="John Doe" {...field} disabled={isLoading} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="email"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Email Address</FormLabel>
-                      <FormControl>
-                        <Input type="email" placeholder="you@example.com" {...field} disabled={isLoading} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="password"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Password</FormLabel>
-                      <FormControl>
-                        <Input type="password" placeholder="••••••••" {...field} disabled={isLoading} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="phone"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Phone Number</FormLabel>
-                      <FormControl>
-                        <Input placeholder="123-456-7890" {...field} disabled={isLoading} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="address"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Address</FormLabel>
-                      <FormControl>
-                        <Textarea placeholder="123 Main St, City, Country" {...field} disabled={isLoading} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-            ) : (
-              <Card className="p-4 bg-muted/50 border-primary/20 animate-in fade-in-50 duration-500">
-                  <div className="space-y-4">
-                      <CardDescription className="text-center flex items-center justify-center gap-2"><ShieldCheck className="h-4 w-4" /> Admin Access</CardDescription>
-                      <FormField
-                          control={form.control}
-                          name="adminId"
-                          render={({ field }) => (
-                          <FormItem>
-                              <FormLabel>Admin ID</FormLabel>
-                              <FormControl>
-                              <Input placeholder="Enter Admin ID" {...field} disabled={isLoading} />
-                              </FormControl>
-                              <FormMessage />
-                          </FormItem>
-                          )}
-                      />
-                      <FormField
-                          control={form.control}
-                          name="adminPassword"
-                          render={({ field }) => (
-                          <FormItem>
-                              <FormLabel>Admin Password</FormLabel>
-                              <FormControl>
-                              <Input type="password" placeholder="Enter Admin Password" {...field} disabled={isLoading} />
-                              </FormControl>
-                              <FormMessage />
-                          </FormItem>
-                          )}
-                      />
-                  </div>
-              </Card>
-            )}
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Email Address *</FormLabel>
+                  <FormControl>
+                    <Input type="email" placeholder="you@example.com" {...field} disabled={isLoading} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Password *</FormLabel>
+                  <FormControl>
+                    <Input type="password" placeholder="••••••••" {...field} disabled={isLoading} />
+                  </FormControl>
+                  <FormMessage />
+                  <p className="text-xs text-muted-foreground">Must be at least 6 characters</p>
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="phoneNumber"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Phone Number *</FormLabel>
+                  <FormControl>
+                    <Input placeholder="1234567890" maxLength={10} {...field} disabled={isLoading} />
+                  </FormControl>
+                  <FormMessage />
+                  <p className="text-xs text-muted-foreground">10 digits only</p>
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="address"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Address *</FormLabel>
+                  <FormControl>
+                    <Textarea placeholder="123 Main St, City, Country" {...field} disabled={isLoading} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="gender"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Gender *</FormLabel>
+                  <Select onValueChange={field.onChange} value={field.value} disabled={isLoading}>
+                    <FormControl>
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder="Select Gender" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectItem value="male">Male</SelectItem>
+                      <SelectItem value="female">Female</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
             <Button type="submit" className="w-full" disabled={isLoading}>
               {isLoading ? (
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Creating Account...
+                </>
               ) : (
-                <UserPlus className="mr-2 h-4 w-4" />
+                <>
+                  <UserPlus className="mr-2 h-4 w-4" />
+                  Create Account
+                </>
               )}
-              {isLoading ? 'Processing...' : (role === 'Admin' ? 'Validate & Continue' : 'Create Account')}
             </Button>
           </form>
         </Form>

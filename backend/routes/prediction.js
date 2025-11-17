@@ -1,6 +1,6 @@
 import express from 'express';
 import { generatePrediction, getLivePriceAndIndicators } from '../controllers/predictionController.js';
-import { protect } from '../middleware/authMiddleware.js';
+import auth from '../middleware/auth.js';
 import rateLimit from 'express-rate-limit';
 import helmet from 'helmet';
 import cors from 'cors';
@@ -22,6 +22,6 @@ router.use(cors());
 router.get('/price', getLivePriceAndIndicators);
 
 // Protected route for generating predictions (requires authentication and rate limiting)
-router.post('/predictions', protect, predictionLimiter, generatePrediction);
+router.post('/predictions', auth, predictionLimiter, generatePrediction);
 
 export default router;

@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const analyticsSchema = new mongoose.Schema({
   numUsers: { type: Number, default: 0 },
@@ -6,4 +6,4 @@ const analyticsSchema = new mongoose.Schema({
   date: { type: Date, default: Date.now },
 });
 
-module.exports = mongoose.model('Analytics', analyticsSchema); 
+export default mongoose.model('Analytics', analyticsSchema); 

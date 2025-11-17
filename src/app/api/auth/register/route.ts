@@ -4,7 +4,8 @@ export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
     
-    const response = await fetch(`${process.env.BACKEND_URL || 'http://localhost:5000'}/api/auth/register`, {
+    const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5000';
+    const response = await fetch(`${backendUrl}/api/auth/register`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -16,9 +17,13 @@ export async function POST(request: NextRequest) {
     
     return NextResponse.json(data, { status: response.status });
   } catch (error) {
+    console.error('Register API error:', error);
     return NextResponse.json(
-      { message: 'Internal server error' },
+      { 
+        success: false,
+        message: 'Server error, please try again later' 
+      },
       { status: 500 }
     );
   }
-} 
+}

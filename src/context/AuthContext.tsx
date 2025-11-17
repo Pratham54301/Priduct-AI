@@ -4,11 +4,14 @@ import { useRouter } from "next/navigation";
 
 interface User {
   id: string;
+  fullName?: string;
   name: string;
   email: string;
+  phoneNumber?: string;
   phone?: string;
   address?: string;
   avatar?: string;
+  role?: string;
   isProfileComplete: boolean;
 }
 
@@ -17,7 +20,7 @@ interface AuthContextType {
   token: string | null;
   loading: boolean;
   login: (email: string, password: string) => Promise<{ success: boolean; message: string; redirectTo?: string }>;
-  register: (name: string, email: string, password: string, phone?: string, address?: string) => Promise<{ success: boolean; message: string; redirectTo?: string }>;
+  register: (fullName: string, email: string, password: string, phoneNumber?: string, address?: string, gender?: string) => Promise<{ success: boolean; message: string; redirectTo?: string }>;
   logout: () => void;
   checkAuth: () => Promise<void>;
   updateProfile: (data: Partial<User>) => Promise<{ success: boolean; message: string }>;
@@ -53,10 +56,13 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       clearTimeout(timeoutId);
 
       if (response.ok) {
-        const userData = await response.json();
-        setUser(userData);
-        setToken(storedToken);
-        // Removed auto-redirect to /signup to avoid bouncing; routing handled by pages
+        const result = await response.json();
+        if (result.success && result.data) {
+          setUser(result.data);
+          setToken(storedToken);
+        } else {
+          throw new Error('Invalid response');
+        }
       } else {
         // Token is invalid, clear storage
         localStorage.removeItem("token");
@@ -86,26 +92,33 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
       const data = await response.json();
 
-      if (response.ok) {
-        setUser(data.user);
-        setToken(data.token);
-        localStorage.setItem("token", data.token);
+      if (response.ok && data.success && data.data) {
+        const { token, user, redirectTo } = data.data;
+        setUser(user);
+        setToken(token);
+        localStorage.setItem("token", token);
         return { 
           success: true, 
-          message: "Login successful",
-          redirectTo: data.redirectTo
+          message: data.message || "Login successful",
+          redirectTo: redirectTo || (user.role === 'admin' ? '/admin/dashboard' : '/dashboard')
         };
       } else {
-        return { success: false, message: data.message || "Login failed" };
+        return { 
+          success: false, 
+          message: data.message || "Invalid email or password" 
+        };
       }
     } catch (error) {
-      return { success: false, message: "Network error" };
+      return { 
+        success: false, 
+        message: "Network error, please try again later" 
+      };
     } finally {
       setLoading(false);
     }
   };
 
-  const register = async (name: string, email: string, password: string, phone?: string, address?: string): Promise<{ success: boolean; message: string; redirectTo?: string }> => {
+  const register = async (fullName: string, email: string, password: string, phoneNumber?: string, address?: string, gender?: string): Promise<{ success: boolean; message: string; redirectTo?: string }> => {
     try {
       setLoading(true);
       const response = await fetch("/api/auth/register", {
@@ -113,25 +126,36 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ name, email, password, phone, address }),
+        body: JSON.stringify({ 
+          fullName, 
+          email, 
+          password, 
+          phoneNumber: phoneNumber || '', 
+          address: address || '',
+          gender: gender || ''
+        }),
       });
 
       const data = await response.json();
 
-      if (response.ok) {
-        setUser(data.user);
-        setToken(data.token);
-        localStorage.setItem("token", data.token);
+      if (response.ok && data.success) {
+        // Don't auto-login on signup, just return success
         return { 
           success: true, 
-          message: "Registration successful",
-          redirectTo: data.redirectTo
+          message: data.message || "Registration successful",
+          redirectTo: '/login'
         };
       } else {
-        return { success: false, message: data.message || "Registration failed" };
+        return { 
+          success: false, 
+          message: data.message || "Registration failed" 
+        };
       }
     } catch (error) {
-      return { success: false, message: "Network error" };
+      return { 
+        success: false, 
+        message: "Network error, please try again later" 
+      };
     } finally {
       setLoading(false);
     }
@@ -154,9 +178,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
       const result = await response.json();
 
-      if (response.ok) {
-        setUser(result.user);
-        return { success: true, message: result.message };
+      if (response.ok && result.success) {
+        if (result.data) {
+          setUser(result.data);
+        }
+        return { success: true, message: result.message || "Profile updated successfully" };
       } else {
         return { success: false, message: result.message || "Update failed" };
       }

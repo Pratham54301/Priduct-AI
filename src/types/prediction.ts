@@ -17,16 +17,10 @@ export interface StockPrediction {
 }
 
 export interface LivePriceData {
-  symbol: string;
-  exchange: string;
-  current_price: number;
+  success: boolean;
+  price: number;
+  change: number;
+  percent: number;
   timestamp: string;
-  indicators: {
-    rsi: number | null;
-    macd: { macd_line: number; macd_signal: number; macd_hist: number } | null;
-    ema_fast: number | null;
-    ema_slow: number | null;
-    atr: number | null;
-    trend: "uptrend" | "downtrend" | "sideways" | null;
-  };
+  message?: string;
 }
