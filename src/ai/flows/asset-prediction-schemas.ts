@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 export const AssetPredictionInputSchema = z.object({
-  ticker: z.string().describe('The stock or cryptocurrency ticker symbol (e.g., TSLA, BTC).'),
+  ticker: z.string().describe('The Indian stock ticker symbol from NSE or BSE (e.g., RELIANCE, TCS, HDFCBANK).'),
 });
 export type AssetPredictionInput = z.infer<typeof AssetPredictionInputSchema>;
 

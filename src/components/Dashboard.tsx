@@ -41,8 +41,8 @@ export default function Dashboard() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`,
         },
+        credentials: 'include',
         body: JSON.stringify({ ticker: stock.symbol }),
       });
 
@@ -84,7 +84,6 @@ export default function Dashboard() {
           <CardContent>
             <StockSearchInput
               onStockSelect={handleStockSelect}
-              onPredictionRequest={handlePredictionRequest}
               placeholder="Search for stocks to analyze..."
               className="w-full"
               showSectorFilter={true}

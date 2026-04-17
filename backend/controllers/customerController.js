@@ -1,5 +1,6 @@
 import User from '../models/User.js';
 import bcrypt from 'bcryptjs';
+import Prediction from '../models/Prediction.js';
 
 export const getProfile = async (req, res) => {
   try {
@@ -118,30 +119,10 @@ export const changePassword = async (req, res) => {
 
 export const getPredictions = async (req, res) => {
   try {
-    // This would typically fetch from a predictions collection
-    // For now, returning mock data
-    const mockPredictions = [
-      {
-        id: '1',
-        ticker: 'AAPL',
-        date: new Date('2024-01-15'),
-        prediction: 'Bullish',
-        accuracy: 85,
-        result: 'Target reached',
-        price: 150.25
-      },
-      {
-        id: '2',
-        ticker: 'TSLA',
-        date: new Date('2024-01-14'),
-        prediction: 'Bearish',
-        accuracy: 72,
-        result: 'Target missed',
-        price: 245.80
-      }
-    ];
-    
-    res.json(mockPredictions);
+    const predictions = await Prediction.find({ customer: req.user })
+      .sort({ createdAt: -1 })
+      .limit(200);
+    res.json(predictions);
   } catch (err) {
     console.error('Get predictions error:', err);
     res.status(500).json({ message: 'Server error' });
@@ -165,7 +146,7 @@ export const getOffers = async (req, res) => {
         originalPrice: 49.99,
         discount: '40%',
         validUntil: new Date('2024-02-15'),
-        isRecommended: user.membership === 'Free'
+        isRecommended: (user.membership || 'free') === 'free'
       },
       {
         id: '2',
@@ -175,7 +156,7 @@ export const getOffers = async (req, res) => {
         originalPrice: 599.99,
         discount: '50%',
         validUntil: new Date('2024-03-01'),
-        isRecommended: user.membership === 'Premium'
+        isRecommended: (user.membership || 'free') === 'premium'
       }
     ];
     

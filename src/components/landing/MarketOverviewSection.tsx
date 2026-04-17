@@ -7,60 +7,34 @@ import { AreaChart, Bitcoin, Gem, Droplet, Landmark, Sigma, Flame, Briefcase, Ar
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from '@/components/ui/input';
 
+// Indian Stock Market Data Only (NSE + BSE)
 const initialMarketData = [
-  // Indian Stocks
-  { name: 'Nifty 50', value: '23,501.10', change: '+183.45 (0.79%)', changeType: 'positive' as const, marketType: 'Stock' as const, icon: AreaChart },
-  { name: 'Sensex', value: '77,209.90', change: '+620.73 (0.80%)', changeType: 'positive' as const, marketType: 'Stock' as const, icon: AreaChart },
-  { name: 'Reliance', value: '₹2,908.45', change: '-15.20 (0.52%)', changeType: 'negative' as const, marketType: 'Stock' as const, icon: Briefcase },
+  // Indian Market Indices
+  { name: 'Nifty 50', value: '23,501.10', change: '+183.45 (0.79%)', changeType: 'positive' as const, marketType: 'Index' as const, icon: AreaChart },
+  { name: 'Sensex', value: '77,209.90', change: '+620.73 (0.80%)', changeType: 'positive' as const, marketType: 'Index' as const, icon: AreaChart },
+  { name: 'Bank Nifty', value: '51,234.50', change: '+245.30 (0.48%)', changeType: 'positive' as const, marketType: 'Index' as const, icon: Landmark },
+  { name: 'Nifty IT', value: '36,789.20', change: '+156.80 (0.43%)', changeType: 'positive' as const, marketType: 'Index' as const, icon: Briefcase },
+  { name: 'Nifty Fin Service', value: '21,456.30', change: '+98.50 (0.46%)', changeType: 'positive' as const, marketType: 'Index' as const, icon: Landmark },
+  
+  // Popular Indian Stocks - NSE
+  { name: 'Reliance (RELIANCE)', value: '₹2,908.45', change: '-15.20 (0.52%)', changeType: 'negative' as const, marketType: 'Stock' as const, icon: Briefcase },
   { name: 'TCS', value: '₹3,814.90', change: '+21.80 (0.57%)', changeType: 'positive' as const, marketType: 'Stock' as const, icon: Briefcase },
   { name: 'HDFC Bank', value: '₹1,710.80', change: '+12.10 (0.71%)', changeType: 'positive' as const, marketType: 'Stock' as const, icon: Landmark },
-  { name: 'Infosys', value: '₹1,525.50', change: '+10.10 (0.66%)', changeType: 'positive' as const, marketType: 'Stock' as const, icon: Briefcase },
+  { name: 'Infosys (INFY)', value: '₹1,525.50', change: '+10.10 (0.66%)', changeType: 'positive' as const, marketType: 'Stock' as const, icon: Briefcase },
   { name: 'ICICI Bank', value: '₹1,125.40', change: '-5.80 (0.51%)', changeType: 'negative' as const, marketType: 'Stock' as const, icon: Landmark },
-  { name: 'Zomato', value: '₹190.50', change: '+2.15 (1.14%)', changeType: 'positive' as const, marketType: 'Stock' as const, icon: Briefcase },
-  { name: 'Adani Ports', value: '₹1,450.70', change: '-25.10 (1.70%)', changeType: 'negative' as const, marketType: 'Stock' as const, icon: Briefcase },
   { name: 'SBI', value: '₹836.25', change: '+5.50 (0.66%)', changeType: 'positive' as const, marketType: 'Stock' as const, icon: Landmark },
   { name: 'L&T', value: '₹3,580.00', change: '+40.30 (1.14%)', changeType: 'positive' as const, marketType: 'Stock' as const, icon: Briefcase },
   { name: 'Axis Bank', value: '₹1,225.00', change: '-8.00 (0.65%)', changeType: 'negative' as const, marketType: 'Stock' as const, icon: Landmark },
-  
-  // US Stocks
-  { name: 'Apple (AAPL)', value: '$214.29', change: '-2.19 (1.01%)', changeType: 'negative' as const, marketType: 'Stock' as const, icon: Briefcase },
-  { name: 'Tesla (TSLA)', value: '$183.01', change: '+1.86 (1.03%)', changeType: 'positive' as const, marketType: 'Stock' as const, icon: Briefcase },
-  { name: 'Google (GOOGL)', value: '$180.79', change: '+1.53 (0.85%)', changeType: 'positive' as const, marketType: 'Stock' as const, icon: Briefcase },
-  { name: 'Nvidia (NVDA)', value: '$126.57', change: '-4.32 (3.30%)', changeType: 'negative' as const, marketType: 'Stock' as const, icon: Briefcase },
-  { name: 'Amazon (AMZN)', value: '$185.57', change: '-3.54 (1.87%)', changeType: 'negative' as const, marketType: 'Stock' as const, icon: Briefcase },
-  { name: 'Meta (META)', value: '$505.50', change: '+8.10 (1.63%)', changeType: 'positive' as const, marketType: 'Stock' as const, icon: Briefcase },
-  { name: 'Netflix (NFLX)', value: '$669.02', change: '-17.80 (2.59%)', changeType: 'negative' as const, marketType: 'Stock' as const, icon: Briefcase },
-  { name: 'J&J (JNJ)', value: '$146.50', change: '+0.25 (0.17%)', changeType: 'positive' as const, marketType: 'Stock' as const, icon: Briefcase },
-  { name: 'Microsoft (MSFT)', value: '$447.67', change: '+2.10 (0.47%)', changeType: 'positive' as const, marketType: 'Stock' as const, icon: Briefcase },
-  { name: 'JPMorgan (JPM)', value: '$198.88', change: '-1.50 (0.75%)', changeType: 'negative' as const, marketType: 'Stock' as const, icon: Landmark },
-  { name: 'Walmart (WMT)', value: '$67.80', change: '+0.10 (0.15%)', changeType: 'positive' as const, marketType: 'Stock' as const, icon: Briefcase },
-
-  // Cryptocurrencies
-  { name: 'Bitcoin (BTC)', value: '$65,123.45', change: '-500.12 (0.76%)', changeType: 'negative' as const, marketType: 'Crypto' as const, icon: Bitcoin },
-  { name: 'Ethereum (ETH)', value: '$3,518.60', change: '+25.41 (0.73%)', changeType: 'positive' as const, marketType: 'Crypto' as const, icon: Gem },
-  { name: 'Solana (SOL)', value: '$136.50', change: '-2.10 (1.51%)', changeType: 'negative' as const, marketType: 'Crypto' as const, icon: Bitcoin },
-  { name: 'Dogecoin (DOGE)', value: '$0.123', change: '+0.005 (4.21%)', changeType: 'positive' as const, marketType: 'Crypto' as const, icon: Bitcoin },
-  { name: 'XRP', value: '$0.475', change: '-0.012 (2.46%)', changeType: 'negative' as const, marketType: 'Crypto' as const, icon: Bitcoin },
-  { name: 'Cardano (ADA)', value: '$0.38', change: '+0.01 (2.70%)', changeType: 'positive' as const, marketType: 'Crypto' as const, icon: Bitcoin },
-  { name: 'BNB', value: '$585.20', change: '-10.50 (1.76%)', changeType: 'negative' as const, marketType: 'Crypto' as const, icon: Bitcoin },
-  { name: 'Polygon (MATIC)', value: '$0.57', change: '+0.02 (3.6%)', changeType: 'positive' as const, marketType: 'Crypto' as const, icon: Bitcoin },
-  { name: 'Litecoin (LTC)', value: '$74.20', change: '-1.80 (2.36%)', changeType: 'negative' as const, marketType: 'Crypto' as const, icon: Bitcoin },
-
-  // Currencies
-  { name: 'USD/INR', value: '₹83.55', change: '+0.02 (0.02%)', changeType: 'positive' as const, marketType: 'Currency' as const, icon: Landmark },
-  { name: 'EUR/USD', value: '$1.0715', change: '-0.0010 (0.09%)', changeType: 'negative' as const, marketType: 'Currency' as const, icon: ArrowRightLeft },
-  { name: 'GBP/JPY', value: '¥201.23', change: '-0.15 (0.07%)', changeType: 'negative' as const, marketType: 'Currency' as const, icon: ArrowRightLeft },
-  { name: 'AUD/USD', value: '$0.6650', change: '-0.0015 (0.22%)', changeType: 'negative' as const, marketType: 'Currency' as const, icon: ArrowRightLeft },
-  { name: 'GBP/INR', value: '₹106.10', change: '+0.05 (0.05%)', changeType: 'positive' as const, marketType: 'Currency' as const, icon: Landmark },
-  
-  // Commodities
-  { name: 'Gold (XAU)', value: '$2,320.50', change: '+5.20 (0.22%)', changeType: 'positive' as const, marketType: 'Commodity' as const, icon: Gem },
-  { name: 'Silver (XAG)', value: '$29.50', change: '+0.15 (0.51%)', changeType: 'positive' as const, marketType: 'Commodity' as const, icon: Sigma },
-  { name: 'Crude Oil (WTI)', value: '$80.15', change: '-0.58 (0.72%)', changeType: 'negative' as const, marketType: 'Commodity' as const, icon: Droplet },
-  { name: 'Natural Gas', value: '$2.85', change: '+0.03 (1.06%)', changeType: 'positive' as const, marketType: 'Commodity' as const, icon: Flame },
+  { name: 'Tata Motors', value: '₹985.50', change: '+12.30 (1.26%)', changeType: 'positive' as const, marketType: 'Stock' as const, icon: Briefcase },
+  { name: 'NTPC', value: '₹345.80', change: '+3.20 (0.93%)', changeType: 'positive' as const, marketType: 'Stock' as const, icon: Briefcase },
+  { name: 'ONGC', value: '₹245.60', change: '-2.10 (0.85%)', changeType: 'negative' as const, marketType: 'Stock' as const, icon: Briefcase },
+  { name: 'Zomato', value: '₹190.50', change: '+2.15 (1.14%)', changeType: 'positive' as const, marketType: 'Stock' as const, icon: Briefcase },
+  { name: 'Adani Ports', value: '₹1,450.70', change: '-25.10 (1.70%)', changeType: 'negative' as const, marketType: 'Stock' as const, icon: Briefcase },
+  { name: 'Wipro', value: '₹485.30', change: '+4.50 (0.94%)', changeType: 'positive' as const, marketType: 'Stock' as const, icon: Briefcase },
+  { name: 'Bharti Airtel', value: '₹1,345.20', change: '+8.90 (0.67%)', changeType: 'positive' as const, marketType: 'Stock' as const, icon: Briefcase },
 ];
 
-const categories = ['All', 'Stock', 'Crypto', 'Currency', 'Commodity', 'Top Gainers', 'Top Losers'];
+const categories = ['All', 'Stock', 'Index', 'Top Gainers', 'Top Losers'];
 
 export function MarketOverviewSection() {
   const [activeCategory, setActiveCategory] = React.useState('All');
@@ -144,9 +118,9 @@ const [hasMounted, setHasMounted] = React.useState(false);
     <section id="features" className="py-16 md:py-24 bg-card">
       <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-8">
-          <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl font-headline">Live Market Snapshots</h2>
+          <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl font-headline">Indian Stock Market Live</h2>
           <p className="mt-4 text-lg text-muted-foreground">
-            Real-time data from global markets at your fingertips.
+            Real-time data from NSE & BSE at your fingertips.
           </p>
         </div>
 
@@ -155,7 +129,7 @@ const [hasMounted, setHasMounted] = React.useState(false);
               <div className="relative w-full md:flex-1">
                   <Input
                       type="search"
-                      placeholder="Search assets..."
+                      placeholder="Search Indian stocks..."
                       className="w-full pl-10"
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}

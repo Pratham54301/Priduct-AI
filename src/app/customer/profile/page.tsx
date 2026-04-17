@@ -104,9 +104,7 @@ export default function CustomerProfilePage() {
   const fetchProfile = async () => {
     try {
       const response = await fetch('/api/customer/profile', {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
+        credentials: 'include',
       });
       if (response.ok) {
         const data = await response.json();
@@ -128,9 +126,7 @@ export default function CustomerProfilePage() {
   const fetchPredictions = async () => {
     try {
       const response = await fetch('/api/customer/predictions', {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
+        credentials: 'include',
       });
       if (response.ok) {
         const data = await response.json();
@@ -144,9 +140,7 @@ export default function CustomerProfilePage() {
   const fetchOffers = async () => {
     try {
       const response = await fetch('/api/customer/offers', {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
+        credentials: 'include',
       });
       if (response.ok) {
         const data = await response.json();
@@ -180,8 +174,8 @@ export default function CustomerProfilePage() {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
+        credentials: 'include',
         body: JSON.stringify(formData),
       });
 
@@ -227,9 +221,7 @@ export default function CustomerProfilePage() {
     try {
       const response = await fetch(`/api/customer/notifications/${notificationId}/read`, {
         method: 'PATCH',
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
+        credentials: 'include',
       });
       if (response.ok) {
         fetchProfile();
@@ -243,9 +235,7 @@ export default function CustomerProfilePage() {
     try {
       const response = await fetch(`/api/customer/notifications/${notificationId}`, {
         method: 'DELETE',
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
+        credentials: 'include',
       });
       if (response.ok) {
         fetchProfile();

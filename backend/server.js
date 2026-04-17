@@ -6,9 +6,11 @@ import cookieParser from 'cookie-parser';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 import path from 'path';
+import { validateEnv } from './config/validateEnv.js';
 
 // Load environment variables
 dotenv.config();
+validateEnv();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -33,14 +35,14 @@ import predictRoutes from './routes/predict.js';
 import historyRoutes from './routes/history.js';
 import searchHistoryRoutes from './routes/searchHistory.js';
 import customerRoutes from './routes/customer.js';
-import predictionRoutes from './routes/prediction.js';
+import adminRoutes from './routes/admin.js';
 
 app.use('/api/auth', authRoutes);
 app.use('/api/predict', predictRoutes);
 app.use('/api/history', historyRoutes);
 app.use('/api/search-history', searchHistoryRoutes);
 app.use('/api/customer', customerRoutes);
-app.use('/api', predictionRoutes);
+app.use('/api/admin', adminRoutes);
 
 // MongoDB connection
 mongoose.connect(process.env.MONGO_URI)

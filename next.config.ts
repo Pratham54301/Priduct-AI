@@ -34,6 +34,14 @@ const nextConfig: NextConfig = {
     },
   },
   webpack: (config, { isServer }) => {
+    config.ignoreWarnings = [
+      ...(config.ignoreWarnings || []),
+      {
+        module: /@genkit-ai\/core[\\/]node_modules[\\/]express[\\/]lib[\\/]view\.js/,
+        message: /Critical dependency: the request of a dependency is an expression/,
+      },
+    ];
+
     if (!isServer) {
       // Exclude server-only packages from client bundle
       config.resolve.fallback = {

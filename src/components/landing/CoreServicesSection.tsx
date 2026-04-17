@@ -5,12 +5,12 @@ const services = [
   {
     icon: BarChartBig,
     title: 'AI Prediction',
-    description: 'Leverage advanced algorithms for stock, crypto, commodity, and currency forecasts.',
+    description: 'Leverage advanced algorithms for Indian stock market forecasts (NSE & BSE).',
   },
   {
     icon: DatabaseZap,
     title: 'Market Intelligence',
-    description: 'Access real-time data, technical indicators, and global market insights.',
+    description: 'Access real-time data, technical indicators, and Indian stock market insights.',
   },
   {
     icon: GraduationCap,
@@ -39,9 +39,9 @@ export function CoreServicesSection() {
     <section id="services" className="py-16 md:py-24 bg-card">
       <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl font-headline">Complete Market Intelligence Suite</h2>
+          <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl font-headline">Indian Stock Market Intelligence Suite</h2>
           <p className="mt-4 text-lg text-muted-foreground">
-            Everything you need to make smarter investment decisions, all in one place.
+            Everything you need to make smarter investment decisions in the Indian stock market, all in one place.
           </p>
         </div>
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">

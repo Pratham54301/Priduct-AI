@@ -1,11 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { requireAuthorizationHeader } from '@/lib/serverAuth';
 
 const BACKEND_URL = process.env.BACKEND_URL || 'http://localhost:5000';
 
 export async function PATCH(request: NextRequest) {
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    const authHeader = requireAuthorizationHeader(request);
+    if (!authHeader) {
       return NextResponse.json({ error: 'No token provided' }, { status: 401 });
     }
 

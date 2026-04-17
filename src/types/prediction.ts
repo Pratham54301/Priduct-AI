@@ -9,8 +9,10 @@ export interface StockPrediction {
   sell_point?: number;
   target_1?: number;
   target_2?: number;
+  stop_loss?: number; // Stop loss price
   indicators_used: string[];
   prediction_accuracy: number;
+  confidence?: number; // Confidence level (0-100)
   rationale?: string;
   customer?: string; // customer ID
   createdAt?: string;

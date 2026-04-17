@@ -15,7 +15,7 @@ const SummarizeMarketNewsInputSchema = z.object({
   marketType: z
     .string()
     .describe(
-      'The type of market to summarize news for (e.g., stocks, crypto, commodities, currency).'
+      'The type of market to summarize news for (e.g., Indian stocks, NSE, BSE).'
     ),
 });
 export type SummarizeMarketNewsInput = z.infer<typeof SummarizeMarketNewsInputSchema>;

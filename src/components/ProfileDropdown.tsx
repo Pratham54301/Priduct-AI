@@ -8,7 +8,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { LogOut, User, Bell, Star, Settings, TrendingUp, CreditCard } from "lucide-react";
+import { LogOut, User, Bell, Settings, TrendingUp, CreditCard, Shield } from "lucide-react";
 
 export default function ProfileDropdown() {
   const { user, logout } = useAuth();
@@ -28,6 +28,8 @@ export default function ProfileDropdown() {
       .toUpperCase()
       .slice(0, 2);
   };
+
+  const isAdmin = String(user.role || '').toLowerCase() === 'admin';
 
   return (
     <DropdownMenu>
@@ -60,6 +62,11 @@ export default function ProfileDropdown() {
         <DropdownMenuItem onClick={() => router.push("/customer/profile?tab=security")}>
           <Settings className="mr-2 h-4 w-4" /> Security
         </DropdownMenuItem>
+        {isAdmin && (
+          <DropdownMenuItem onClick={() => router.push("/admin")}>
+            <Shield className="mr-2 h-4 w-4" /> Admin Panel
+          </DropdownMenuItem>
+        )}
         <DropdownMenuItem onClick={handleLogout}>
           <LogOut className="mr-2 h-4 w-4" /> Logout
         </DropdownMenuItem>

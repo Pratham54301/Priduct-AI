@@ -1,33 +1,58 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Search, Clock, Sparkles, Loader2, RefreshCw } from 'lucide-react';
+import { Search, Clock, Sparkles, Loader2 } from 'lucide-react';
 import StockSearchInput from '@/components/StockSearchInput';
 import TrendingWidget from '@/components/TrendingWidget';
 import PredictionCard from '@/components/PredictionCard';
 import { Stock } from '@/types/stock';
-import { StockPrediction, LivePriceData } from '@/types/prediction';
+import { StockPrediction } from '@/types/prediction';
 import { SearchHistoryItem } from '@/services/searchHistoryService';
 import searchHistoryService from '@/services/searchHistoryService';
 import { useAuth } from '@/context/AuthContext';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
-import { format } from 'date-fns';
 import { useToast } from '@/hooks/use-toast';
+import { Exchange } from '@/types/market';
+import { useRouter } from 'next/navigation';
+import { PremiumUpgradeModal } from '@/components/PremiumUpgradeModal';
+
+// New components
+import { ExchangeSelector } from './components/ExchangeSelector';
+import { LivePriceCard } from './components/LivePriceCard';
+import { SignalBox } from './components/SignalBox';
+import { CandleChart } from './components/CandleChart';
+
+const normalizePredictionErrorMessage = (rawMessage?: string) => {
+  const message = String(rawMessage || '').trim();
+  if (!message) return 'Unable to generate prediction right now. Please try again.';
+
+  const lower = message.toLowerCase();
+  if (
+    lower.includes('googlegenerativeai error') ||
+    lower.includes('quota exceeded') ||
+    lower.includes('too many requests') ||
+    lower.includes('retrydelay')
+  ) {
+    return 'AI service is temporarily busy. A fallback model will be used when available, or please retry in about 1 minute.';
+  }
+
+  return message.length > 220 ? `${message.slice(0, 220)}...` : message;
+};
 
 export default function DashboardPage() {
   const { user } = useAuth();
   const { toast } = useToast();
+  const router = useRouter();
   const [selectedStock, setSelectedStock] = useState<Stock | null>(null);
+  const [selectedExchange, setSelectedExchange] = useState<Exchange>('NSE');
   const [recentSearches, setRecentSearches] = useState<SearchHistoryItem[]>([]);
   const [prediction, setPrediction] = useState<StockPrediction | null>(null);
-  const [livePriceData, setLivePriceData] = useState<LivePriceData | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [isPriceLoading, setIsPriceLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
-  const priceTimerRef = useRef<number | null>(null);
+  const [showPremiumModal, setShowPremiumModal] = useState(false);
 
   useEffect(() => {
     if (user) {
@@ -46,35 +71,6 @@ export default function DashboardPage() {
 
   const handleStockSelect = (stock: Stock) => {
     setSelectedStock(stock);
-    // Fetch live price when stock is selected
-    if (stock) {
-      fetchLivePrice(stock.symbol, 'NSE');
-    }
-  };
-
-  const fetchLivePrice = async (symbol: string, exchange: string) => {
-    try {
-      setIsPriceLoading(true);
-      const res = await fetch(`/api/price?symbol=${symbol}&exchange=${exchange}`);
-
-      const json = await res.json();
-
-      if (!json.success) {
-        throw new Error(json.message || 'Failed to fetch live price');
-      }
-
-      setLivePriceData(json);
-    } catch (err: any) {
-      const errorMessage = err.message || 'Failed to fetch live price';
-      toast({
-        title: 'Error',
-        description: errorMessage,
-        variant: 'destructive',
-      });
-      setLivePriceData(null);
-    } finally {
-      setIsPriceLoading(false);
-    }
   };
 
   const handleGetPrediction = async () => {
@@ -101,59 +97,84 @@ export default function DashboardPage() {
     setPrediction(null);
 
     try {
-      const token = localStorage.getItem('token');
+      console.log('[Dashboard] Requesting prediction:', {
+        symbol: selectedStock.symbol,
+        exchange: selectedExchange,
+        timeframe: '1day'
+      });
+
       const response = await fetch('/api/predict', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
         },
+        credentials: 'include',
         body: JSON.stringify({ 
           symbol: selectedStock.symbol,
-          exchange: 'NSE',
+          exchange: selectedExchange,
           timeframe: '1day'
         }),
       });
 
-      const result = await response.json();
+      console.log('[Dashboard] Prediction response status:', response.status);
+
+      let result: any;
+      try {
+        const responseText = await response.text();
+        console.log('[Dashboard] Prediction response (first 500 chars):', responseText.substring(0, 500));
+        
+        try {
+          result = JSON.parse(responseText);
+        } catch (parseError) {
+          console.error('[Dashboard] Failed to parse prediction response:', parseError);
+          throw new Error('Invalid response from prediction API');
+        }
+      } catch (parseError: any) {
+        console.error('[Dashboard] Error reading prediction response:', parseError);
+        throw new Error(parseError.message || 'Failed to read prediction response');
+      }
 
       if (!response.ok) {
-        const errorMessage = result.message || result.error || 'Failed to generate prediction';
+        if (result.code === 'PREDICTION_LIMIT_REACHED') {
+          setShowPremiumModal(true);
+        }
+        const errorMessage = normalizePredictionErrorMessage(
+          result.message || result.error || `Failed to generate prediction (${response.status})`
+        );
         throw new Error(errorMessage);
       }
 
       if (result.success && result.prediction) {
+        console.log('[Dashboard] Prediction received successfully');
         setPrediction(result.prediction);
-        
-        // Add to recent searches
+        setError(null);
         await loadRecentSearches();
         
         toast({
           title: "Success",
-          description: "Prediction fetched successfully",
+          description: "Prediction generated successfully",
         });
-
-        // Fetch live price if prediction is successful
-        if (result.prediction.status === 'ok' && selectedStock) {
-          fetchLivePrice(selectedStock.symbol, result.prediction.exchange || 'NSE');
-          
-          // Optional: Auto-refresh every 10 seconds
-          if (priceTimerRef.current != null) {
-            clearInterval(priceTimerRef.current);
-          }
-          const id = window.setInterval(() => {
-            if (selectedStock) {
-              fetchLivePrice(selectedStock.symbol, result.prediction.exchange || 'NSE');
-            }
-          }, 10000); // Poll every 10 seconds
-          priceTimerRef.current = id;
-        }
+      } else if (result.success && result.data) {
+        // Handle case where backend returns 'data' instead of 'prediction'
+        console.log('[Dashboard] Prediction received in data field');
+        setPrediction(result.data);
+        setError(null);
+        await loadRecentSearches();
+        
+        toast({
+          title: "Success",
+          description: "Prediction generated successfully",
+        });
       } else {
-        throw new Error(result.message || 'Failed to generate prediction');
+        const errorMessage = normalizePredictionErrorMessage(result.message || 'Failed to generate prediction');
+        throw new Error(errorMessage);
       }
     } catch (err: any) {
-      const errorMessage = err.message || 'An unexpected error occurred';
+      const errorMessage = normalizePredictionErrorMessage(
+        err?.message || 'An unexpected error occurred while generating prediction'
+      );
       setError(errorMessage);
+      setPrediction(null);
       toast({
         title: "Error",
         description: errorMessage,
@@ -165,30 +186,11 @@ export default function DashboardPage() {
   };
 
   const handlePredictionRequest = async (stock: Stock) => {
-    // Set stock first, then get prediction
     setSelectedStock(stock);
-    
-    // Small delay to ensure state is set
     setTimeout(() => {
       handleGetPrediction();
     }, 100);
   };
-
-  // Cleanup interval on component unmount or when stock changes
-  useEffect(() => {
-    return () => {
-      if (priceTimerRef.current != null) {
-        clearInterval(priceTimerRef.current);
-        priceTimerRef.current = null;
-      }
-    };
-  }, [selectedStock]); // Cleanup when stock changes or component unmounts
-
-  useEffect(() => {
-    // Re-verify login/signup redirects to the home page.
-    // This logic is primarily handled in AuthContext and AiPredictionMachineSection.
-    // No specific changes needed here for this task, but keeping the comment for verification.
-  }, [user]);
 
   if (!user) {
     return (
@@ -202,17 +204,25 @@ export default function DashboardPage() {
     );
   }
 
+  const currentSymbol = selectedStock?.symbol || '';
+
   return (
     <div className="flex flex-col min-h-screen bg-background">
       <Header />
       <main className="flex-grow container mx-auto px-4 py-8 space-y-6">
-        <div>
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
-            Dashboard
-          </h1>
-          <p className="text-gray-600 dark:text-gray-400 mt-1">
-            Search stocks, view predictions, and track trends
-          </p>
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+              Indian Stock Market Dashboard
+            </h1>
+            <p className="text-gray-600 dark:text-gray-400 mt-1">
+              Real-time NSE & BSE data, charts, and AI-powered signals
+            </p>
+          </div>
+          <ExchangeSelector 
+            value={selectedExchange} 
+            onChange={setSelectedExchange}
+          />
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -220,13 +230,14 @@ export default function DashboardPage() {
             <CardHeader>
               <CardTitle className="flex items-center">
                 <Search className="h-5 w-5 mr-2 text-blue-500" />
-                Stock Search & Predictions
+                Indian Stock Search & Predictions
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <StockSearchInput
                 onStockSelect={setSelectedStock}
-                placeholder="Search for stocks to analyze..."
+                exchange={selectedExchange}
+                placeholder="Search Indian stocks (NSE/BSE)..."
                 className="w-full"
                 showSectorFilter={true}
                 trackSearchHistory={true}
@@ -300,7 +311,52 @@ export default function DashboardPage() {
           </Card>
         </div>
 
-        {prediction && (
+        {/* Live Price & Signal Row */}
+        {currentSymbol && (
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <LivePriceCard 
+              symbol={currentSymbol}
+              exchange={selectedExchange}
+              onExchangeSwitch={(newExchange) => {
+                setSelectedExchange(newExchange as Exchange);
+                toast({
+                  title: "Exchange Auto-Switched",
+                  description: `Data not available on ${selectedExchange}. Switched to ${newExchange} automatically.`,
+                });
+              }}
+              className="lg:col-span-2"
+            />
+            <SignalBox 
+              symbol={currentSymbol}
+              exchange={selectedExchange}
+              onExchangeSwitch={(newExchange) => {
+                setSelectedExchange(newExchange as Exchange);
+                toast({
+                  title: "Exchange Auto-Switched",
+                  description: `Data not available on ${selectedExchange}. Switched to ${newExchange} automatically.`,
+                });
+              }}
+            />
+          </div>
+        )}
+
+        {/* Candlestick Chart */}
+        {currentSymbol && (
+          <CandleChart 
+            symbol={currentSymbol}
+            exchange={selectedExchange}
+            onExchangeSwitch={(newExchange) => {
+              setSelectedExchange(newExchange as Exchange);
+              toast({
+                title: "Exchange Auto-Switched",
+                description: `Data not available on ${selectedExchange}. Switched to ${newExchange} automatically.`,
+              });
+            }}
+          />
+        )}
+
+        {/* Prediction Card */}
+        {(prediction || isLoading || error) && (
           <PredictionCard
             prediction={prediction}
             onRerunPrediction={handleGetPrediction}
@@ -309,69 +365,18 @@ export default function DashboardPage() {
           />
         )}
 
-        {/* Live Price Display */}
-        {selectedStock && (
-          <Card className="w-full max-w-2xl mx-auto shadow-lg">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="flex items-center gap-2">
-                Live Price - {selectedStock.symbol}
-              </CardTitle>
-              <Button
-                onClick={() => fetchLivePrice(selectedStock.symbol, 'NSE')}
-                disabled={isPriceLoading}
-                variant="outline"
-                size="sm"
-                className="flex items-center gap-2"
-              >
-                {isPriceLoading ? (
-                  <Loader2 className="h-4 w-4 animate-spin" />
-                ) : (
-                  <RefreshCw className="h-4 w-4" />
-                )}
-                Refresh Price
-              </Button>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              {isPriceLoading && !livePriceData ? (
-                <div className="flex items-center justify-center py-8">
-                  <Loader2 className="h-6 w-6 animate-spin text-primary" />
-                  <span className="ml-2 text-muted-foreground">Loading live price...</span>
-                </div>
-              ) : livePriceData && livePriceData.success ? (
-                <>
-                  <div className="space-y-2">
-                    <div className="flex items-baseline justify-between">
-                      <span className="text-muted-foreground">Price:</span>
-                      <span className="text-2xl font-semibold">
-                        ₹{livePriceData.price.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                      </span>
-                    </div>
-                    <div className="flex items-baseline justify-between">
-                      <span className="text-muted-foreground">Change:</span>
-                      <span className={`text-lg font-medium ${livePriceData.change >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                        {livePriceData.change >= 0 ? '+' : ''}{livePriceData.change.toFixed(2)} ({livePriceData.percent >= 0 ? '+' : ''}{livePriceData.percent.toFixed(2)}%)
-                      </span>
-                    </div>
-                    <div className="flex items-center justify-between text-xs text-muted-foreground pt-2 border-t">
-                      <span>Last updated:</span>
-                      <span>
-                        {livePriceData.timestamp ? format(new Date(livePriceData.timestamp), 'PPpp') : 'N/A'}
-                      </span>
-                    </div>
-                  </div>
-                </>
-              ) : (
-                <div className="text-center py-8 text-muted-foreground">
-                  {selectedStock ? 'Click "Refresh Price" to fetch live price data' : 'Select a stock to view live price'}
-                </div>
-              )}
-            </CardContent>
-          </Card>
-        )}
-
         <TrendingWidget className="w-full" />
       </main>
       <Footer />
+      <PremiumUpgradeModal
+        open={showPremiumModal}
+        onOpenChange={setShowPremiumModal}
+        onUpgrade={() => {
+          setShowPremiumModal(false);
+          router.push('/customer/profile');
+        }}
+      />
     </div>
   );
 }
+

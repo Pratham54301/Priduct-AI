@@ -10,9 +10,11 @@ import { Stock } from '@/types/stock';
 import searchHistoryService from '@/services/searchHistoryService';
 import { useAuth } from '@/context/AuthContext';
 import { useRouter } from 'next/navigation';
+import { PremiumUpgradeModal } from '@/components/PremiumUpgradeModal';
 
 interface StockSearchInputProps {
   onStockSelect: (stock: Stock) => void;
+  exchange?: 'NSE' | 'BSE';
   placeholder?: string;
   className?: string;
   showSectorFilter?: boolean;
@@ -21,6 +23,7 @@ interface StockSearchInputProps {
 
 export default function StockSearchInput({
   onStockSelect,
+  exchange = 'NSE',
   placeholder = "Search for stocks...",
   className = "",
   showSectorFilter = true,
@@ -38,6 +41,7 @@ export default function StockSearchInput({
   const [isTrackingSearch, setIsTrackingSearch] = useState(false);
   const [isLoadingPrediction, setIsLoadingPrediction] = useState(false);
   const [predictionError, setPredictionError] = useState<string | null>(null);
+  const [showPremiumModal, setShowPremiumModal] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const suggestionsRef = useRef<HTMLDivElement>(null);
 
@@ -102,7 +106,12 @@ export default function StockSearchInput({
     try {
       setIsTrackingSearch(true);
       await searchHistoryService.trackSearch(searchTerm, stock, searchType);
-    } catch (error) {
+    } catch (error: any) {
+      // Silently fail if authentication is required (optional feature)
+      if (error.message?.includes('Authentication required') || error.message?.includes('Session expired')) {
+        // Don't log these - they're expected when user is not logged in
+        return;
+      }
       console.error('Failed to track search:', error);
     } finally {
       setIsTrackingSearch(false);
@@ -248,18 +257,21 @@ export default function StockSearchInput({
     setPredictionError(null);
 
     try {
-      const response = await fetch('/api/predictions', {
+      const response = await fetch('/api/predict', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`,
         },
-        body: JSON.stringify({ symbol: selectedStock.symbol, exchange: 'NSE', timeframe: '1day' }),
+        credentials: 'include',
+        body: JSON.stringify({ symbol: selectedStock.symbol, exchange, timeframe: '1day' }),
       });
 
       const result = await response.json();
       
       if (!response.ok) {
+        if (result.code === 'PREDICTION_LIMIT_REACHED') {
+          setShowPremiumModal(true);
+        }
         // Handle error response
         const errorMessage = result.message || result.error || 'Failed to generate prediction.';
         throw new Error(errorMessage);
@@ -272,6 +284,11 @@ export default function StockSearchInput({
       router.push(`/dashboard?symbol=${selectedStock.symbol}`);
     } catch (err: any) {
       console.error('Error generating prediction:', err);
+      
+      if (err.message?.includes('Token is not valid') || err.message?.includes('Authentication required')) {
+        router.push('/login');
+        return;
+      }
       
       // Extract error message from various error types
       let errorMessage = 'An unexpected error occurred. Please try again.';
@@ -445,6 +462,14 @@ export default function StockSearchInput({
           {predictionError}
         </div>
       )}
+      <PremiumUpgradeModal
+        open={showPremiumModal}
+        onOpenChange={setShowPremiumModal}
+        onUpgrade={() => {
+          setShowPremiumModal(false);
+          router.push('/customer/profile');
+        }}
+      />
 
       {/* Loading State */}
       {loading && (

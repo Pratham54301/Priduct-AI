@@ -69,6 +69,12 @@ const PredictionCard: React.FC<PredictionCardProps> = ({
 
   const isStale = prediction.status === 'stale_data';
   const isInsufficient = prediction.status === 'insufficient_data';
+  const hasTradeLevels =
+    prediction.entry_point ||
+    prediction.sell_point ||
+    prediction.target_1 ||
+    prediction.target_2 ||
+    prediction.stop_loss;
 
   return (
     <Card className="w-full max-w-2xl mx-auto shadow-lg">
@@ -88,7 +94,7 @@ const PredictionCard: React.FC<PredictionCardProps> = ({
           </p>
         </div>
 
-        {!isInsufficient && !isStale && (
+        {!isInsufficient && hasTradeLevels && (
           <div className="grid grid-cols-2 gap-4 text-sm">
             <div>
               <p className="text-muted-foreground">Entry Point:</p>
@@ -115,6 +121,18 @@ const PredictionCard: React.FC<PredictionCardProps> = ({
               </p>
             </div>
             <div>
+              <p className="text-muted-foreground">Stop Loss:</p>
+              <p className="font-medium text-red-600 dark:text-red-400">
+                {prediction.stop_loss?.toLocaleString('en-IN', { style: 'currency', currency: 'INR' }) || 'N/A'}
+              </p>
+            </div>
+            <div>
+              <p className="text-muted-foreground">Confidence:</p>
+              <p className="font-medium">
+                {prediction.confidence ? `${prediction.confidence}%` : `${(prediction.prediction_accuracy * 100).toFixed(0)}%`}
+              </p>
+            </div>
+            <div>
               <p className="text-muted-foreground">Accuracy:</p>
               <p className="font-medium">{(prediction.prediction_accuracy * 100).toFixed(0)}%</p>
             </div>
@@ -127,6 +145,12 @@ const PredictionCard: React.FC<PredictionCardProps> = ({
               <p className="font-normal text-sm italic">{prediction.rationale}</p>
             </div>
           </div>
+        )}
+
+        {isStale && hasTradeLevels && (
+          <p className="text-xs text-amber-600 dark:text-amber-400 -mt-2">
+            Data timestamp is stale, but trade targets are shown from the latest available snapshot.
+          </p>
         )}
 
         <div className="text-xs text-muted-foreground mt-2">

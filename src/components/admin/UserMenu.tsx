@@ -4,6 +4,7 @@ import {
     CircleUser,
   } from 'lucide-react';
   import { useRouter } from 'next/navigation';
+import { useAuth } from '@/context/AuthContext';
   
   import { Button } from '@/components/ui/button';
   import {
@@ -17,10 +18,10 @@ import {
 
 export function UserMenu() {
     const router = useRouter();
+    const { logout } = useAuth();
 
     const handleLogout = () => {
-        // In a real app, you would clear the session/token here.
-        sessionStorage.removeItem('isAdmin');
+        logout();
         router.push('/login');
     }
 

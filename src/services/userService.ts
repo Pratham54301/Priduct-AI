@@ -1,11 +1,6 @@
-
-'use server';
-
 import { db } from '@/lib/firebase';
 import { User } from '@/models/types';
 import { collection, addDoc, getDocs, doc, updateDoc, deleteDoc, query, where } from 'firebase/firestore';
-
-const usersCollection = collection(db, 'users');
 
 /**
  * Adds a new user to the Firestore 'users' collection.
@@ -14,6 +9,7 @@ const usersCollection = collection(db, 'users');
  */
 export async function addUser(userData: Omit<User, 'id'>): Promise<string> {
   if (!db) throw new Error("Firebase is not initialized.");
+  const usersCollection = collection(db, 'users');
   const docRef = await addDoc(usersCollection, userData);
   return docRef.id;
 }
@@ -24,6 +20,7 @@ export async function addUser(userData: Omit<User, 'id'>): Promise<string> {
  */
 export async function getUsers(): Promise<User[]> {
   if (!db) throw new Error("Firebase is not initialized.");
+  const usersCollection = collection(db, 'users');
   const snapshot = await getDocs(usersCollection);
   return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as User));
 }
@@ -56,6 +53,7 @@ export async function deleteUser(userId: string): Promise<void> {
  */
 export async function findUserByEmail(email: string): Promise<(User & { id: string }) | null> {
     if (!db) throw new Error("Firebase is not initialized.");
+    const usersCollection = collection(db, 'users');
     const q = query(usersCollection, where("email", "==", email));
     const snapshot = await getDocs(q);
     if (snapshot.empty) {

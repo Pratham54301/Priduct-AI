@@ -38,6 +38,9 @@ const predictionSchema = new mongoose.Schema({
   target_2: {
     type: Number,
   },
+  stop_loss: {
+    type: Number,
+  },
   indicators_used: [
     {
       type: String,
@@ -46,10 +49,20 @@ const predictionSchema = new mongoose.Schema({
   prediction_accuracy: {
     type: Number,
     min: 0.70,
-    max: 0.80,
+    max: 0.95,
+  },
+  confidence: {
+    type: Number,
+    min: 0,
+    max: 100,
   },
   rationale: {
     type: String,
+  },
+  market_sentiment: {
+    type: String,
+    enum: ['bullish', 'bearish', 'neutral', 'sideways', 'uptrend', 'downtrend'],
+    default: 'neutral',
   },
   // Link to Customer if authenticated
   customer: {

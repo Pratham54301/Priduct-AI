@@ -1,11 +1,6 @@
-
-'use server';
-
 import { db } from '@/lib/firebase';
 import { Payment } from '@/models/types';
 import { collection, addDoc, getDocs } from 'firebase/firestore';
-
-const paymentsCollection = collection(db, 'payments');
 
 /**
  * Adds a new payment record to the Firestore 'payments' collection.
@@ -14,6 +9,7 @@ const paymentsCollection = collection(db, 'payments');
  */
 export async function addPayment(paymentData: Omit<Payment, 'id'>): Promise<string> {
     if (!db) throw new Error("Firebase is not initialized.");
+    const paymentsCollection = collection(db, 'payments');
     const docRef = await addDoc(paymentsCollection, paymentData);
     return docRef.id;
 }
@@ -24,6 +20,7 @@ export async function addPayment(paymentData: Omit<Payment, 'id'>): Promise<stri
  */
 export async function getPayments(): Promise<Payment[]> {
     if (!db) throw new Error("Firebase is not initialized.");
+    const paymentsCollection = collection(db, 'payments');
     const snapshot = await getDocs(paymentsCollection);
     return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Payment));
 }

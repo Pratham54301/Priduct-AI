@@ -39,6 +39,10 @@ const userSchema = new mongoose.Schema({
     enum: ['user', 'admin'],
     default: 'user'
   },
+  isActive: {
+    type: Boolean,
+    default: true,
+  },
   gender: {
     type: String,
     enum: ['male', 'female', 'Male', 'Female', 'Other', 'Prefer not to say'],
@@ -54,8 +58,8 @@ const userSchema = new mongoose.Schema({
   },
   membership: {
     type: String,
-    enum: ['Free', 'Premium', 'Lifetime'],
-    default: 'Free'
+    enum: ['free', 'premium', 'lifetime'],
+    default: 'free'
   },
   isProfileComplete: {
     type: Boolean,

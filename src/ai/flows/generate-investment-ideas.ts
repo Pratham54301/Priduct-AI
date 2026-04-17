@@ -30,7 +30,7 @@ export type InvestmentIdeaInput = z.infer<typeof InvestmentIdeaInputSchema>;
 const InvestmentIdeaOutputSchema = z.object({
   ideas: z.array(
     z.object({
-      asset: z.string().describe('The asset to invest in, e.g., stock ticker, crypto.'),
+      asset: z.string().describe('The Indian stock ticker to invest in (NSE or BSE symbol).'),
       description: z.string().describe('A brief description of the investment idea.'),
       rationale: z
         .string()

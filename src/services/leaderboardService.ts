@@ -1,6 +1,3 @@
-
-'use server';
-
 import { db } from '@/lib/firebase';
 import { LeaderboardEntry } from '@/models/types';
 import { collection, getDocs, writeBatch } from 'firebase/firestore';

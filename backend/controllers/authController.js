@@ -13,9 +13,50 @@ const validatePhone = (phone) => {
   return phoneRegex.test(phone);
 };
 
+const normalizeMembership = (membership) => {
+  if (!membership) return 'free';
+  const value = String(membership).toLowerCase();
+  if (value === 'premium') return 'premium';
+  if (value === 'lifetime') return 'lifetime';
+  return 'free';
+};
+
+const normalizeRole = (role) => {
+  const value = String(role || 'user').toLowerCase();
+  return value === 'admin' ? 'admin' : 'user';
+};
+
+const syncDefaultAdminFromEnv = async (email) => {
+  const normalizedEmail = String(email || '').toLowerCase().trim();
+  const adminEmail = String(process.env.ADMIN_EMAIL || '').toLowerCase().trim();
+  const adminPassword = String(process.env.ADMIN_PASSWORD || '').trim();
+
+  if (!adminEmail || !adminPassword || normalizedEmail !== adminEmail) {
+    return;
+  }
+
+  const hashedPassword = await bcrypt.hash(adminPassword, 10);
+  await User.findOneAndUpdate(
+    { email: adminEmail },
+    {
+      $set: {
+        fullName: 'Admin',
+        name: 'Admin',
+        email: adminEmail,
+        password: hashedPassword,
+        role: 'admin',
+        membership: 'lifetime',
+        isProfileComplete: true,
+      },
+      $setOnInsert: { createdAt: new Date() },
+    },
+    { upsert: true, new: true }
+  );
+};
+
 export const register = async (req, res) => {
   try {
-    const { fullName, email, password, phoneNumber, address, gender, role } = req.body;
+    const { fullName, email, password, phoneNumber, address, gender } = req.body;
 
     // Validate all fields are provided
     if (!fullName || !email || !password || !phoneNumber || !address || !gender) {
@@ -78,9 +119,6 @@ export const register = async (req, res) => {
     // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Determine user role (default to 'user', only allow 'admin' if explicitly set and validated)
-    const userRole = role === 'admin' ? 'admin' : 'user';
-
     // Create new user
     const user = new User({
       fullName: fullName.trim(),
@@ -91,7 +129,8 @@ export const register = async (req, res) => {
       phone: phoneNumber.trim(), // Keep phone for backward compatibility
       address: address.trim(),
       gender: gender.toLowerCase(),
-      role: userRole,
+      role: 'user',
+      membership: 'free',
       isProfileComplete: true
     });
 
@@ -152,8 +191,13 @@ export const login = async (req, res) => {
       });
     }
 
+    const normalizedEmail = email.toLowerCase().trim();
+
+    // Keep default admin in sync with .env credentials.
+    await syncDefaultAdminFromEnv(normalizedEmail);
+
     // Find user by email
-    const user = await User.findOne({ email: email.toLowerCase().trim() });
+    const user = await User.findOne({ email: normalizedEmail });
     
     // If user not found, return generic error (for security)
     if (!user) {
@@ -174,6 +218,13 @@ export const login = async (req, res) => {
       });
     }
 
+    if (user.isActive === false) {
+      return res.status(403).json({
+        success: false,
+        message: 'Your account is disabled. Please contact support.',
+      });
+    }
+
     // Generate JWT token
     const token = jwt.sign(
       { userId: user._id },
@@ -191,12 +242,14 @@ export const login = async (req, res) => {
       phone: user.phone,
       address: user.address,
       avatar: user.avatar,
-      role: user.role || 'user',
+      role: normalizeRole(user.role),
+      membership: normalizeMembership(user.membership),
+      isActive: user.isActive !== false,
       isProfileComplete: user.isProfileComplete || false
     };
 
     // Determine redirect path based on role
-    const redirectTo = user.role === 'admin' ? '/admin/dashboard' : '/dashboard';
+    const redirectTo = normalizeRole(user.role) === 'admin' ? '/admin' : '/dashboard';
 
     // Set HTTP-only cookie with JWT token
     res.cookie('token', token, {
@@ -252,7 +305,9 @@ export const verifyToken = async (req, res) => {
         phone: user.phone,
         address: user.address,
         avatar: user.avatar,
-        role: user.role || 'user',
+        role: normalizeRole(user.role),
+        membership: normalizeMembership(user.membership),
+        isActive: user.isActive !== false,
         isProfileComplete
       }
     });
@@ -289,7 +344,9 @@ export const getProfile = async (req, res) => {
         phone: user.phone,
         address: user.address,
         avatar: user.avatar,
-        role: user.role || 'user',
+        role: normalizeRole(user.role),
+        membership: normalizeMembership(user.membership),
+        isActive: user.isActive !== false,
         isProfileComplete
       }
     });
@@ -355,7 +412,9 @@ export const updateProfile = async (req, res) => {
         phone: user.phone,
         address: user.address,
         avatar: user.avatar,
-        role: user.role || 'user',
+        role: normalizeRole(user.role),
+        membership: normalizeMembership(user.membership),
+        isActive: user.isActive !== false,
         isProfileComplete
       }
     });

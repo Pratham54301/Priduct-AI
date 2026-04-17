@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { requireAuthorizationHeader } from '@/lib/serverAuth';
 
 export async function GET(request: NextRequest) {
   try {
-    const authHeader = request.headers.get('authorization');
-    
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    const authHeader = requireAuthorizationHeader(request);
+    if (!authHeader) {
       return NextResponse.json(
         { 
           success: false,
@@ -13,14 +13,12 @@ export async function GET(request: NextRequest) {
         { status: 401 }
       );
     }
-
-    const token = authHeader.substring(7);
     
     const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5000';
     const response = await fetch(`${backendUrl}/api/auth/verify`, {
       method: 'GET',
       headers: {
-        'Authorization': `Bearer ${token}`,
+        Authorization: authHeader,
       },
     });
 

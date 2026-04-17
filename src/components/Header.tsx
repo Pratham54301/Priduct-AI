@@ -21,6 +21,7 @@ const navItems = [
 
 export function Header() {
   const { user, loading } = useAuth();
+  const isAdmin = String(user?.role || '').toLowerCase() === 'admin';
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -48,7 +49,14 @@ export function Header() {
           {loading ? (
             <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
           ) : user ? (
-            <ProfileDropdown />
+            <>
+              {isAdmin && (
+                <Button asChild variant="outline" className="hidden md:inline-flex">
+                  <Link href="/admin">Admin Panel</Link>
+                </Button>
+              )}
+              <ProfileDropdown />
+            </>
           ) : (
             <>
               <Button asChild variant="outline" className="hidden md:inline-flex">
@@ -88,6 +96,11 @@ export function Header() {
                   </div>
                 ) : user ? (
                   <div className="pt-4 border-t border-border/40">
+                    {isAdmin && (
+                      <Button asChild variant="outline" className="w-full mb-2">
+                        <Link href="/admin">Admin Panel</Link>
+                      </Button>
+                    )}
                     <ProfileDropdown />
                   </div>
                 ) : (

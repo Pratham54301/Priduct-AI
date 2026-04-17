@@ -72,8 +72,8 @@ export function ChangePasswordForm() {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
+        credentials: 'include',
         body: JSON.stringify({
           currentPassword: formData.currentPassword,
           newPassword: formData.newPassword

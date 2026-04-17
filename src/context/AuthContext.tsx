@@ -11,7 +11,8 @@ interface User {
   phone?: string;
   address?: string;
   avatar?: string;
-  role?: string;
+  role?: 'user' | 'admin' | string;
+  membership?: 'free' | 'premium' | 'lifetime';
   isProfileComplete: boolean;
 }
 
@@ -28,6 +29,8 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | null>(null);
 
+const normalizeRole = (role?: string) => (String(role || 'user').toLowerCase() === 'admin' ? 'admin' : 'user');
+
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [token, setToken] = useState<string | null>(null);
@@ -35,46 +38,42 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
 
   const checkAuth = async () => {
+    let timeoutId: ReturnType<typeof setTimeout> | null = null;
     try {
-      const storedToken = localStorage.getItem("token");
-      if (!storedToken) {
-        setLoading(false);
-        return;
-      }
-
-      // Verify token with backend with timeout
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 5000); // 5 second timeout
+      timeoutId = setTimeout(() => controller.abort('auth_verify_timeout'), 10000); // 10 second timeout
 
       const response = await fetch("/api/auth/verify", {
-        headers: {
-          Authorization: `Bearer ${storedToken}`,
-        },
+        credentials: 'include',
         signal: controller.signal,
       });
 
-      clearTimeout(timeoutId);
+      if (timeoutId) clearTimeout(timeoutId);
 
       if (response.ok) {
         const result = await response.json();
         if (result.success && result.data) {
-          setUser(result.data);
-          setToken(storedToken);
+          setUser({
+            ...result.data,
+            role: normalizeRole(result.data.role),
+          });
+          setToken(null);
         } else {
           throw new Error('Invalid response');
         }
       } else {
-        // Token is invalid, clear storage
-        localStorage.removeItem("token");
         setUser(null);
         setToken(null);
       }
-    } catch (error) {
-      console.error("Auth check failed:", error);
-      localStorage.removeItem("token");
+    } catch (error: any) {
+      // Timeout aborts are expected occasionally on slow startup/network.
+      if (error?.name !== 'AbortError') {
+        console.error("Auth check failed:", error);
+      }
       setUser(null);
       setToken(null);
     } finally {
+      if (timeoutId) clearTimeout(timeoutId);
       setLoading(false);
     }
   };
@@ -87,6 +86,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         headers: {
           "Content-Type": "application/json",
         },
+        credentials: 'include',
         body: JSON.stringify({ email, password }),
       });
 
@@ -94,13 +94,13 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
       if (response.ok && data.success && data.data) {
         const { token, user, redirectTo } = data.data;
-        setUser(user);
+        const normalizedUser = { ...user, role: normalizeRole(user.role) };
+        setUser(normalizedUser);
         setToken(token);
-        localStorage.setItem("token", token);
         return { 
           success: true, 
           message: data.message || "Login successful",
-          redirectTo: redirectTo || (user.role === 'admin' ? '/admin/dashboard' : '/dashboard')
+          redirectTo: redirectTo || (normalizeRole(user.role) === 'admin' ? '/admin' : '/dashboard')
         };
       } else {
         return { 
@@ -126,6 +126,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         headers: {
           "Content-Type": "application/json",
         },
+        credentials: 'include',
         body: JSON.stringify({ 
           fullName, 
           email, 
@@ -163,7 +164,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const updateProfile = async (data: Partial<User>): Promise<{ success: boolean; message: string }> => {
     try {
-      if (!token) {
+      if (!user) {
         return { success: false, message: "Not authenticated" };
       }
 
@@ -171,8 +172,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
         },
+        credentials: 'include',
         body: JSON.stringify(data),
       });
 
@@ -192,7 +193,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const logout = () => {
-    localStorage.removeItem("token");
     setUser(null);
     setToken(null);
     router.push("/");

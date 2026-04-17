@@ -17,21 +17,20 @@ interface MarketItem {
   type: 'Stock' | 'Commodity' | 'Crypto' | 'Currency';
 }
 
+// Indian Stock Market Items Only (NSE + BSE)
 const marketItems: MarketItem[] = [
+  { name: 'Reliance', logo: 'RELIANCE', type: 'Stock', dataAiHint: 'reliance industries logo' },
   { name: 'Infosys', logo: 'INFY', type: 'Stock', dataAiHint: 'infosys logo' },
   { name: 'HDFC Bank', logo: 'HDFC', type: 'Stock', dataAiHint: 'hdfc bank logo' },
-  { name: 'Apple', logo: 'AAPL', type: 'Stock', dataAiHint: 'apple inc logo' },
-  { name: 'Tesla', logo: 'TSLA', type: 'Stock', dataAiHint: 'tesla logo' },
-  { name: 'Microsoft', logo: 'MSFT', type: 'Stock', dataAiHint: 'microsoft logo' },
-  { name: 'Amazon', logo: 'AMZN', type: 'Stock', dataAiHint: 'amazon logo' },
-  { name: 'Gold', logo: Gem, type: 'Commodity', dataAiHint: 'gold bar' },
-  { name: 'Crude Oil', logo: Droplet, type: 'Commodity', dataAiHint: 'oil barrel' },
-  { name: 'Silver', logo: Sigma, type: 'Commodity', dataAiHint: 'silver nugget' },
-  { name: 'Bitcoin', logo: Bitcoin, type: 'Crypto', dataAiHint: 'bitcoin logo orange' },
-  { name: 'Ethereum', logo: Gem, type: 'Crypto', dataAiHint: 'ethereum logo diamond' },
-  { name: 'Solana', logo: 'SOL', type: 'Crypto', dataAiHint: 'solana logo purple' },
-  { name: 'USD/INR', logo: () => <div className="flex items-center justify-center text-sm"><DollarSign size={16} /><span className="mx-0.5">/</span>₹</div>, type: 'Currency', dataAiHint: 'dollar rupee currency' },
-  { name: 'EUR/USD', logo: () => <div className="flex items-center justify-center text-sm"><Euro size={16} /><span className="mx-0.5">/</span><DollarSign size={16}/></div>, type: 'Currency', dataAiHint: 'euro dollar currency' },
+  { name: 'TCS', logo: 'TCS', type: 'Stock', dataAiHint: 'tata consultancy services logo' },
+  { name: 'ICICI Bank', logo: 'ICICIBANK', type: 'Stock', dataAiHint: 'icici bank logo' },
+  { name: 'SBI', logo: 'SBIN', type: 'Stock', dataAiHint: 'state bank of india logo' },
+  { name: 'Tata Motors', logo: 'TATAMOTORS', type: 'Stock', dataAiHint: 'tata motors logo' },
+  { name: 'L&T', logo: 'LT', type: 'Stock', dataAiHint: 'larsen and toubro logo' },
+  { name: 'NTPC', logo: 'NTPC', type: 'Stock', dataAiHint: 'ntpc logo' },
+  { name: 'ONGC', logo: 'ONGC', type: 'Stock', dataAiHint: 'ongc logo' },
+  { name: 'Axis Bank', logo: 'AXISBANK', type: 'Stock', dataAiHint: 'axis bank logo' },
+  { name: 'Bharti Airtel', logo: 'BHARTIARTL', type: 'Stock', dataAiHint: 'bharti airtel logo' },
 ];
 
 const ItemLogoButton: React.FC<{ item: MarketItem, onClick: (ticker: string) => void }> = ({ item, onClick }) => {
